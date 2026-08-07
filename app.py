@@ -9,7 +9,7 @@ import xlsxwriter
 
 # --- MOBİL VE GENİŞ EKRAN UYUMLULUK AYARI ---
 st.set_page_config(
-    page_title="Threads Profil Takipçi Sistemi",
+    page_title="Threads Profil Analizörü",
     page_icon="🎯",
     layout="centered",
     initial_sidebar_state="collapsed"
@@ -34,7 +34,15 @@ DIL_PAKETI = {
         "no_ghosts": "🛡️ [TEMİZ PROFİL]: Profilinizde hayalet veya bot hesap algılanmadı.",
         "download_excel": "📥 Excel Analiz Raporunu İndir",
         "summary_title": "📊 PROFİL SAĞLIK ÖZETİ",
-        "health_score": "Sağlık Skoru"
+        "health_score": "Sağlık Skoru",
+        "guide_title": "📖 Threads Verileri Nasıl İndirilir? (Kullanım Kılavuzu)",
+        "guide_step1": "1️⃣ **Instagram/Threads** uygulamasını açın ve **Ayarlar -> Hesaplar Merkezi** bölümüne girin.",
+        "guide_step2": "2️⃣ **Bilgilerin ve İzinlerin -> Bilgilerini İndir** adımlarını takip edin.",
+        "guide_step3": "3️⃣ **İndirme Talep Et** butonuna basın ve sadece **Threads** seçeneğini işaretleyin.",
+        "guide_step4": "4️⃣ Dosya formatını **JSON**, medya kalitesini **Düşük** (hızlı inmesi için) seçip talebi onaylayın.",
+        "guide_step5": "5️⃣ Birkaç saat içinde e-postanıza gelen `.zip` dosyasını bilgisayara/telefona indirin ve klasöre çıkartın.",
+        "guide_step6": "6️⃣ Klasörün içindeki `connections/followers_and_following` yoluna giderek **`followers.json`** ve **`following.json`** dosyalarını aşağıdaki panellere yükleyin.",
+        "contact_btn": "💬 YAPIMCI İLE İLETİŞİME GEÇ (@muratsenr)"
     },
     "EN": {
         "main_title": "THREADS GLOBAL",
@@ -54,7 +62,15 @@ DIL_PAKETI = {
         "no_ghosts": "🛡️ [CLEAN PROFILE]: No ghost or bot accounts detected on your profile.",
         "download_excel": "📥 Download Excel Analysis Report",
         "summary_title": "📊 PROFILE HEALTH SUMMARY",
-        "health_score": "Health Score"
+        "health_score": "Health Score",
+        "guide_title": "📖 How to Download Threads Data? (User Guide)",
+        "guide_step1": "1️⃣ Open **Instagram/Threads**, go to **Settings -> Accounts Center**.",
+        "guide_step2": "2️⃣ Follow **Your Information and Permissions -> Download Your Information**.",
+        "guide_step3": "3️⃣ Click **Request a Download** and select only **Threads**.",
+        "guide_step4": "4️⃣ Choose format as **JSON**, media quality as **Low** (for fast download) and submit.",
+        "guide_step5": "5️⃣ In a few hours, download the `.zip` file from your email and extract it.",
+        "guide_step6": "6️⃣ Go to `connections/followers_and_following` folder and upload **`followers.json`** and **`following.json`** below.",
+        "contact_btn": "💬 CONTACT DEVELOPER (@muratsenr)"
     },
     "DE": {
         "main_title": "THREADS GLOBAL",
@@ -74,7 +90,15 @@ DIL_PAKETI = {
         "no_ghosts": "🛡️ [SAUBERES PROFIL]: Keine Geister- oder Bot-Konten auf Ihrem Profil erkannt.",
         "download_excel": "📥 Excel-Analysebericht herunterladen",
         "summary_title": "📊 PROFIL-GESUNDHEITSÜBERSICHT",
-        "health_score": "Gesundheitsscore"
+        "health_score": "Gesundheitsscore",
+        "guide_title": "📖 Wie lade ich Threads-Daten herunter? (Benutzerhandbuch)",
+        "guide_step1": "1️⃣ Öffnen Sie **Instagram/Threads**, gehen Sie zu **Einstellungen -> Kontenübersicht**.",
+        "guide_step2": "2️⃣ Folgen Sie **Deine Informationen und Berechtigungen -> Deine Informationen herunterladen**.",
+        "guide_step3": "3️⃣ Klicken Sie auf **Download anfordern** und wählen Sie nur **Threads** aus.",
+        "guide_step4": "4️⃣ Wählen Sie das Format **JSON** und die Medienqualität **Niedrig** und senden Sie es ab.",
+        "guide_step5": "5️⃣ Laden Sie die `.zip`-Datei in wenigen Stunden aus Ihrer E-Mail herunter und entpacken Sie sie.",
+        "guide_step6": "6️⃣ Gehen Sie zum Ordner `connections/followers_and_following` und laden Sie **`followers.json`** und **`following.json`** unten hoch.",
+        "contact_btn": "💬 ENTWICKLER KONTAKTIEREN (@muratsenr)"
     }
 }
 class AnalizMotoru:
@@ -126,9 +150,9 @@ class AnalizMotoru:
                 return True
         return False
 # --- MOBİL ARAYÜZ YAPILANDIRMASI VE DİL SEÇİMİ ---
-st.title("🎯 Threads Profil Takipçi Sistemi")
+st.title("🎯 Threads Profil Takip Analiz")
 
-col_lang, col_hashtag = st.columns([1, 2])
+col_lang, col_hashtag = st.columns()
 with col_lang:
     aktif_dil = st.selectbox("🌐 Language / Dil", ["TR", "EN", "DE"])
 
@@ -138,6 +162,18 @@ with col_hashtag:
 st.markdown(f"### {DIL_PAKETI[aktif_dil]['main_title']}")
 st.caption(DIL_PAKETI[aktif_dil]['main_sub'])
 st.divider()
+
+# --- 📖 RESİMLİ / ADIM ADIM KULLANIM KILAVUZU PANELİ ---
+with st.expander(DIL_PAKETI[aktif_dil]['guide_title'], expanded=False):
+    st.markdown(DIL_PAKETI[aktif_dil]['guide_step1'])
+    st.markdown(DIL_PAKETI[aktif_dil]['guide_step2'])
+    st.markdown(DIL_PAKETI[aktif_dil]['guide_step3'])
+    st.markdown(DIL_PAKETI[aktif_dil]['guide_step4'])
+    st.markdown(DIL_PAKETI[aktif_dil]['guide_step5'])
+    st.markdown(DIL_PAKETI[aktif_dil]['guide_step6'])
+    st.info("ℹ️ Raporlar tamamen sizin cihazınızda işlenir, verileriniz asla sunucuya kaydedilmez.")
+
+st.write("") # Küçük boşluk
 
 # --- MOBİL UYUMLU DOSYA YÜKLEME ALANLARI ---
 uploaded_following = st.file_uploader(DIL_PAKETI[aktif_dil]['load_following'], type=["json"])
@@ -194,19 +230,13 @@ if btn_trigger:
                 header_format = workbook.add_format({'bold': True, 'font_color': 'white', 'bg_color': '#1F4E78', 'border': 1, 'align': 'center'})
                 link_format = workbook.add_format({'font_color': 'blue', 'underline': True})
                 text_format = workbook.add_format({'align': 'left'})
-                
-                # Sekme Metin Havuzları
-                unf_list_str = []
-                fans_list_str = []
-                ghosts_list_str = []
                 # 1. Sayfa: Beni Takip Etmeyenler
                 sheet_unf = workbook.add_worksheet("Beni Takip Etmeyenler")
                 sheet_unf.write_row('A1', ['No', 'Kullanıcı Adı', 'Profil Linki', 'Süre'], header_format)
                 sorted_unf = sorted(unfollowers, key=lambda u: global_following_map.get(u, 0))
                 for idx, user in enumerate(sorted_unf, 1):
                     süre = AnalizMotoru.zaman_metnine_cevir(global_following_map.get(user, 0))
-                    p_url = f"https://threads.com/@{user}"
-                    unf_list_str.append(f"[{idx:03d}] @{user:<20} ⌛ {süre}")
+                    p_url = f"https://threads.com@{user}"
                     sheet_unf.write(idx, 0, idx)
                     sheet_unf.write(idx, 1, f"@{user}", text_format)
                     sheet_unf.write_url(idx, 2, p_url, link_format, string=p_url)
@@ -219,21 +249,20 @@ if btn_trigger:
                 sorted_fans = sorted(fans, key=lambda f: global_followers_map.get(f, 0))
                 for idx, user in enumerate(sorted_fans, 1):
                     süre = AnalizMotoru.zaman_metnine_cevir(global_followers_map.get(user, 0))
-                    p_url = f"https://threads.com/@{user}"
-                    fans_list_str.append(f"[{idx:03d}] @{user:<20} ⌛ {süre}")
+                    p_url = f"https://threads.com@{user}"
                     sheet_fans.write(idx, 0, idx)
                     sheet_fans.write(idx, 1, f"@{user}", text_format)
                     sheet_fans.write_url(idx, 2, p_url, link_format, string=p_url)
                     sheet_fans.write(idx, 3, süre, text_format)
                 sheet_fans.set_column('A:A', 5); sheet_fans.set_column('B:B', 20); sheet_fans.set_column('C:C', 45); sheet_fans.set_column('D:D', 20)
+
                 # 3. Sayfa: Hayalet Hesaplar
                 sheet_gh = workbook.add_worksheet("Hayalet Hesaplar")
                 sheet_gh.write_row('A1', ['No', 'Kullanıcı Adı', 'Profil Linki', 'Süre'], header_format)
                 sorted_gh = sorted(ghosts, key=lambda g: global_followers_map.get(g, 0))
                 for idx, user in enumerate(sorted_gh, 1):
                     süre = AnalizMotoru.zaman_metnine_cevir(global_followers_map.get(user, 0))
-                    p_url = f"https://threads.com/@{user}"
-                    ghosts_list_str.append(f"[{idx:03d}] @{user:<20} ⌛ {süre}")
+                    p_url = f"https://threads.com@{user}"
                     sheet_gh.write(idx, 0, idx)
                     sheet_gh.write(idx, 1, f"@{user}", text_format)
                     sheet_gh.write_url(idx, 2, p_url, link_format, string=p_url)
@@ -242,7 +271,6 @@ if btn_trigger:
                 
                 workbook.close()
                 output_excel.seek(0)
-                
                 # --- EXCEL İNDİRME BUTONU ---
                 st.download_button(
                     label=DIL_PAKETI[aktif_dil]['download_excel'],
@@ -252,7 +280,7 @@ if btn_trigger:
                     use_container_width=True
                 )
                 
-                               # --- WEB SEKME GÖRÜNÜMLERİ ---
+                # --- WEB SEKME GÖRÜNÜMLERİ (Tıklanabilir Mavi Linkler) ---
                 t1, t2, t3 = st.tabs([DIL_PAKETI[aktif_dil]['tab_unfollowers'], DIL_PAKETI[aktif_dil]['tab_fans'], DIL_PAKETI[aktif_dil]['tab_ghosts']])
                 
                 with t1:
@@ -260,7 +288,6 @@ if btn_trigger:
                         for index, user in enumerate(sorted_unf, 1):
                             süre = AnalizMotoru.zaman_metnine_cevir(global_following_map.get(user, 0))
                             p_url = f"https://threads.com/@{user}"
-                            # Her satırı tıklanabilir mavi bir link haline getiriyoruz
                             st.markdown(f"[{index:03d}] 🔗 [@{user}]({p_url}) &nbsp;&nbsp;&nbsp;&nbsp; ⌛ {süre}")
                     else:
                         st.info(DIL_PAKETI[aktif_dil]['perfect_sync'])
@@ -286,7 +313,11 @@ if btn_trigger:
         except Exception as e:
             st.error(f"Sistem Hatası: {str(e)}")
 
-if __name__ == "__main__":
-    # Streamlit uygulamalarında ana döngü otomatik tetiklendiği için bu kısım boş kalabilir veya kaldırılabilir.
-    pass
-
+# --- 💬 SABİT İLETİŞİM & YAPIMCI BUTONU (SAYFA ALTI) ---
+st.write("")
+st.divider()
+st.link_button(
+    label=DIL_PAKETI[aktif_dil]['contact_btn'],
+    url="https://threads.com/@muratsenr",
+    use_container_width=True
+)
