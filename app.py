@@ -17,7 +17,7 @@ st.set_page_config(
 # --- ÇOKLU DİL SÖZLÜĞÜ (TR / EN / DE) ---
 DIL_PAKETI = {
     "TR": {
-        "main_title": "THREADS TÜRKİYE / @muratsenr",
+        "main_title": "THREADS TÜRKİYE",
         "main_sub": "YEREL VE GÜVENLİ ÇİFT YÖNLÜ PROFİL TAKİPÇİ SİSTEMİ",
         "main_hashtag": "#bendeğilbizyaptık",
         "load_following": "Takip Ettiklerinizi Yükleyin (following.json)",
@@ -38,7 +38,7 @@ DIL_PAKETI = {
         "guide_title": "📖 Threads Verileri Nasıl İndirilir? (Kullanım Kılavuzu)",
         "guide_step1": "1️⃣ **Instagram/Threads** uygulamasını açın ve **Ayarlar -> Hesaplar Merkezi** bölümüne girin.",
         "guide_step2": "2️⃣ **Bilgilerin ve İzinlerin -> Bilgilerini İndir** adımlarını takip edin.",
-        "guide_step3": "3️⃣ **İndirme Talep Et** butonuna basın ve sadece **Threads** seçeneğini işaretleyin.",
+        "guide_step3": "3️⃣ **Indirme Talep Et** butonuna basın ve sadece **Threads** seçeneğini işaretleyin.",
         "guide_step4": "4️⃣ Dosya formatını **JSON**, medya kalitesini **Düşük** (hızlı inmesi için) seçip talebi onaylayın.",
         "guide_step5": "5️⃣ Birkaç saat içinde e-postanıza gelen `.zip` dosyasını bilgisayara/telefona indirin ve klasöre çıkartın.",
         "guide_step6": "6️⃣ Klasörün içindeki `connections/followers_and_following` yoluna giderek **`followers.json`** ve **`following.json`** dosyalarını aşağıdaki panellere yükleyin.",
@@ -150,9 +150,9 @@ class AnalizMotoru:
                 return True
         return False
 # --- MOBİL ARAYÜZ YAPILANDIRMASI VE DİL SEÇİMİ ---
-st.title("🎯 Threads Profil Takip Analiz")
+st.title("🎯 Threads Profil Analizörü")
 
-col_lang, col_hashtag = st.columns()
+col_lang, col_hashtag = st.columns(2)
 with col_lang:
     aktif_dil = st.selectbox("🌐 Language / Dil", ["TR", "EN", "DE"])
 
@@ -173,7 +173,7 @@ with st.expander(DIL_PAKETI[aktif_dil]['guide_title'], expanded=False):
     st.markdown(DIL_PAKETI[aktif_dil]['guide_step6'])
     st.info("ℹ️ Raporlar tamamen sizin cihazınızda işlenir, verileriniz asla sunucuya kaydedilmez.")
 
-st.write("") # Küçük boşluk
+st.write("") 
 
 # --- MOBİL UYUMLU DOSYA YÜKLEME ALANLARI ---
 uploaded_following = st.file_uploader(DIL_PAKETI[aktif_dil]['load_following'], type=["json"])
@@ -185,7 +185,6 @@ if btn_trigger:
         st.warning(DIL_PAKETI[aktif_dil]['input_error_msg'])
     else:
         try:
-            # Belleğe yüklenen dosyaları okuma
             following_raw = json.loads(uploaded_following.read().decode("utf-8"))
             global_following_map = AnalizMotoru.akilli_süre_ayristir(following_raw)
             
@@ -203,7 +202,6 @@ if btn_trigger:
                 unfollowers = following_set - followers_set
                 fans = followers_set - following_set
                 ghosts = {u for u, ts in global_followers_map.items() if AnalizMotoru.bot_ve_pasiflik_kontrolü(u, ts)}
-                # Sağlık Skoru Hesaplama Mantığı
                 toplam_bağ = len(following_set) + len(followers_set)
                 if toplam_bağ > 0:
                     ceza_puanı = (len(unfollowers) / len(following_set)) * 40 if len(following_set) > 0 else 0
@@ -215,7 +213,6 @@ if btn_trigger:
                 
                 durum_str = "MÜKEMMEL" if health_score > 85 else "STABİL" if health_score > 60 else "RİSKLİ"
                 
-                # --- MOBİL PANEL ÖZET KARTLARI ---
                 st.success(DIL_PAKETI[aktif_dil]['success_msg'])
                 st.subheader(DIL_PAKETI[aktif_dil]['summary_title'])
                 
@@ -230,7 +227,7 @@ if btn_trigger:
                 header_format = workbook.add_format({'bold': True, 'font_color': 'white', 'bg_color': '#1F4E78', 'border': 1, 'align': 'center'})
                 link_format = workbook.add_format({'font_color': 'blue', 'underline': True})
                 text_format = workbook.add_format({'align': 'left'})
-                                # 1. Sayfa: Beni Takip Etmeyenler
+                # 1. Sayfa: Beni Takip Etmeyenler
                 sheet_unf = workbook.add_worksheet("Beni Takip Etmeyenler")
                 sheet_unf.write_row('A1', ['No', 'Kullanıcı Adı', 'Profil Linki', 'Süre'], header_format)
                 sorted_unf = sorted(unfollowers, key=lambda x: global_following_map.get(x, 0))
@@ -271,7 +268,6 @@ if btn_trigger:
                 
                 workbook.close()
                 output_excel.seek(0)
-
                 # --- EXCEL İNDİRME BUTONU ---
                 st.download_button(
                     label=DIL_PAKETI[aktif_dil]['download_excel'],
