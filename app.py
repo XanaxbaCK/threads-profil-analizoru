@@ -9,7 +9,7 @@ import xlsxwriter
 
 # --- MOBİL VE GENİŞ EKRAN UYUMLULUK AYARI ---
 st.set_page_config(
-    page_title="Threads Profil Analizörü",
+    page_title="Threads Profil Takipçi Sistemi",
     page_icon="🎯",
     layout="centered",
     initial_sidebar_state="collapsed"
@@ -17,7 +17,7 @@ st.set_page_config(
 # --- ÇOKLU DİL SÖZLÜĞÜ (TR / EN / DE) ---
 DIL_PAKETI = {
     "TR": {
-        "main_title": "THREADS TÜRKİYE",
+        "main_title": "THREADS TÜRKİYE / @muratsenr",
         "main_sub": "YEREL VE GÜVENLİ ÇİFT YÖNLÜ PROFİL TAKİPÇİ SİSTEMİ",
         "main_hashtag": "#bendeğilbizyaptık",
         "load_following": "Takip Ettiklerinizi Yükleyin (following.json)",
@@ -126,7 +126,7 @@ class AnalizMotoru:
                 return True
         return False
 # --- MOBİL ARAYÜZ YAPILANDIRMASI VE DİL SEÇİMİ ---
-st.title("🎯 Threads Profil Analizörü")
+st.title("🎯 Threads Profil Takipçi Sistemi")
 
 col_lang, col_hashtag = st.columns([1, 2])
 with col_lang:
