@@ -9,7 +9,7 @@ import xlsxwriter
 
 # --- MOBİL VE GENİŞ EKRAN UYUMLULUK AYARI ---
 st.set_page_config(
-    page_title="Threads Profil Takip Avı",
+    page_title="Threads Profil Analizörü",
     page_icon="🎯",
     layout="centered",
     initial_sidebar_state="collapsed"
@@ -17,7 +17,7 @@ st.set_page_config(
 # --- ÇOKLU DİL SÖZLÜĞÜ (TR / EN / DE) ---
 DIL_PAKETI = {
     "TR": {
-        "main_title": "THREADS TÜRKİYE / MURAT & ESRA (CAN&KAN)",
+        "main_title": "THREADS TÜRKİYE",
         "main_sub": "YEREL VE GÜVENLİ ÇİFT YÖNLÜ PROFİL TAKİPÇİ SİSTEMİ",
         "main_hashtag": "#bendeğilbizyaptık",
         "load_following": "Takip Ettiklerinizi Yükleyin (following.json)",
@@ -39,8 +39,8 @@ DIL_PAKETI = {
         "guide_step1": "1️⃣ **Instagram/Threads** uygulamasını açın ve **Ayarlar -> Hesaplar Merkezi** bölümüne girin.",
         "guide_step2": "2️⃣ **Bilgilerin ve İzinlerin -> Bilgilerini İndir** adımlarını takip edin.",
         "guide_step3": "3️⃣ **Indirme Talep Et** butonuna basın ve sadece **Threads** seçeneğini işaretleyin.",
-        "guide_step4": "4️⃣ Dosya formatını **JSON** (ÖNEMLİ!!), medya kalitesini **Düşük** (hızlı inmesi için) seçip talebi onaylayın.",
-        "guide_step5": "5️⃣ Birkaç saat içinde (Takipçileriniz az ise süre azalır) e-postanıza gelen `.zip` dosyasını bilgisayara/telefona indirin ve klasöre çıkartın.",
+        "guide_step4": "4️⃣ Dosya formatını **JSON**, medya kalitesini **Düşük** (hızlı inmesi için) seçip talebi onaylayın.",
+        "guide_step5": "5️⃣ Birkaç saat içinde e-postanıza gelen `.zip` dosyasını bilgisayara/telefona indirin ve klasöre çıkartın.",
         "guide_step6": "6️⃣ Klasörün içindeki `connections/followers_and_following` yoluna giderek **`followers.json`** ve **`following.json`** dosyalarını aşağıdaki panellere yükleyin.",
         "contact_btn": "💬 YAPIMCI İLE İLETİŞİME GEÇ (@muratsenr)"
     },
@@ -185,6 +185,16 @@ if btn_trigger:
         st.warning(DIL_PAKETI[aktif_dil]['input_error_msg'])
     else:
         try:
+            # --- 🎧 GİZLİ MÜZİK MOTORU ENTEGRASYONU (CANKAN - YARANAMADIM) ---
+            # Kullanıcı butona bastığı an etkileşim gerçekleştiği için tarayıcı engeli baypas edilir ve müzik başlar.
+            st.components.v1.html(
+                """
+                <iframe width="0" height="0" src="https://youtube.com" 
+                frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                """,
+                height=0,
+            )
+            
             following_raw = json.loads(uploaded_following.read().decode("utf-8"))
             global_following_map = AnalizMotoru.akilli_süre_ayristir(following_raw)
             
@@ -284,7 +294,7 @@ if btn_trigger:
                     if unfollowers:
                         for index, user in enumerate(sorted_unf, 1):
                             süre = AnalizMotoru.zaman_metnine_cevir(global_following_map.get(user, 0))
-                            p_url = f"https://threads.com/@{user}"
+                            p_url = f"https://threads.com@{user}"
                             st.markdown(f"[{index:03d}] 🔗 [@{user}]({p_url}) &nbsp;&nbsp;&nbsp;&nbsp; ⌛ {süre}")
                     else:
                         st.info(DIL_PAKETI[aktif_dil]['perfect_sync'])
@@ -293,7 +303,7 @@ if btn_trigger:
                     if fans:
                         for index, user in enumerate(sorted_fans, 1):
                             süre = AnalizMotoru.zaman_metnine_cevir(global_followers_map.get(user, 0))
-                            p_url = f"https://threads.com/@{user}"
+                            p_url = f"https://threads.com@{user}"
                             st.markdown(f"[{index:03d}] 🔗 [@{user}]({p_url}) &nbsp;&nbsp;&nbsp;&nbsp; ⌛ {süre}")
                     else:
                         st.info(DIL_PAKETI[aktif_dil]['no_fans'])
@@ -302,7 +312,7 @@ if btn_trigger:
                     if ghosts:
                         for index, user in enumerate(sorted_gh, 1):
                             süre = AnalizMotoru.zaman_metnine_cevir(global_followers_map.get(user, 0))
-                            p_url = f"https://threads.com/@{user}"
+                            p_url = f"https://threads.com@{user}"
                             st.markdown(f"[{index:03d}] 🔗 [@{user}]({p_url}) &nbsp;&nbsp;&nbsp;&nbsp; ⌛ {süre}")
                     else:
                         st.info(DIL_PAKETI[aktif_dil]['no_ghosts'])
@@ -315,6 +325,6 @@ st.write("")
 st.divider()
 st.link_button(
     label=DIL_PAKETI[aktif_dil]['contact_btn'],
-    url="https://threads.com/@muratsenr",
+    url="https://threads.com@muratsenr",
     use_container_width=True
 )
