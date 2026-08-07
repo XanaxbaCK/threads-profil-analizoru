@@ -166,23 +166,8 @@ st.markdown(f"### {DIL_PAKETI[aktif_dil]['main_title']}")
 st.caption(DIL_PAKETI[aktif_dil]['main_sub'])
 st.divider()
 
-# --- MOBİL ARAYÜZ YAPILANDIRMASI VE DİL SEÇİMİ ---
-st.title("🎯 Threads Profil Analizörü")
-
-col_lang, col_hashtag = st.columns(2)
-with col_lang:
-    aktif_dil = st.selectbox("🌐 Language / Dil", ["TR", "EN", "DE"])
-
-with col_hashtag:
-    st.markdown(f"<h4 style='text-align: right; color: #3a7ebf; margin-top: 5px;'>{DIL_PAKETI[aktif_dil]['main_hashtag']}</h4>", unsafe_allow_html=True)
-
-st.markdown(f"### {DIL_PAKETI[aktif_dil]['main_title']}")
-st.caption(DIL_PAKETI[aktif_dil]['main_sub'])
-st.divider()
-
-# --- 🎛️ PREMIUM VİDEO & MÜZİK KUTUSU ENTEGRASYONU ---
+# --- 🎛️ VİDEO OYNATICI MODÜLÜ ---
 st.caption(DIL_PAKETI[aktif_dil]['player_title'])
-# Tarayıcı engellerine takılmayan, yerleşik resmi YouTube oynatıcı motoru
 st.video("https://youtube.com")
 
 # --- 📖 RESİMLİ / ADIM ADIM KULLANIM KILAVUZU PANELİ ---
@@ -196,19 +181,6 @@ with st.expander(DIL_PAKETI[aktif_dil]['guide_title'], expanded=False):
     st.info("ℹ️ Raporlar tamamen sizin cihazınızda işlenir, verileriniz asla sunucuya kaydedilmez.")
 
 st.write("") 
-
-# --- MOBİL UYUMLU DOSYA YÜKLEME ALANLARI ---
-uploaded_following = st.file_uploader(DIL_PAKETI[aktif_dil]['load_following'], type=["json"])
-uploaded_followers = st.file_uploader(DIL_PAKETI[aktif_dil]['load_followers'], type=["json"], accept_multiple_files=True)
-
-btn_trigger = st.button(DIL_PAKETI[aktif_dil]['btn_analyze'], use_container_width=True, type="primary")
-
-
-# --- MOBİL UYUMLU DOSYA YÜKLEME ALANLARI ---
-uploaded_following = st.file_uploader(DIL_PAKETI[aktif_dil]['load_following'], type=["json"])
-uploaded_followers = st.file_uploader(DIL_PAKETI[aktif_dil]['load_followers'], type=["json"], accept_multiple_files=True)
-
-btn_trigger = st.button(DIL_PAKETI[aktif_dil]['btn_analyze'], use_container_width=True, type="primary")
 
 # --- MOBİL UYUMLU DOSYA YÜKLEME ALANLARI ---
 uploaded_following = st.file_uploader(DIL_PAKETI[aktif_dil]['load_following'], type=["json"])
@@ -237,6 +209,7 @@ if btn_trigger:
                 unfollowers = following_set - followers_set
                 fans = followers_set - following_set
                 ghosts = {u for u, ts in global_followers_map.items() if AnalizMotoru.bot_ve_pasiflik_kontrolü(u, ts)}
+
                 toplam_bağ = len(following_set) + len(followers_set)
                 if toplam_bağ > 0:
                     ceza_puanı = (len(unfollowers) / len(following_set)) * 40 if len(following_set) > 0 else 0
@@ -262,6 +235,7 @@ if btn_trigger:
                 header_format = workbook.add_format({'bold': True, 'font_color': 'white', 'bg_color': '#1F4E78', 'border': 1, 'align': 'center'})
                 link_format = workbook.add_format({'font_color': 'blue', 'underline': True})
                 text_format = workbook.add_format({'align': 'left'})
+                
                 # 1. Sayfa: Beni Takip Etmeyenler
                 sheet_unf = workbook.add_worksheet("Beni Takip Etmeyenler")
                 sheet_unf.write_row('A1', ['No', 'Kullanıcı Adı', 'Profil Linki', 'Süre'], header_format)
