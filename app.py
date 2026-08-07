@@ -166,10 +166,24 @@ st.markdown(f"### {DIL_PAKETI[aktif_dil]['main_title']}")
 st.caption(DIL_PAKETI[aktif_dil]['main_sub'])
 st.divider()
 
-# --- 🎛️ YEREL MODERM MÜZİK ÇALAR PANELİ (HIZLI BULUT LINKI) ---
+# --- MOBİL ARAYÜZ YAPILANDIRMASI VE DİL SEÇİMİ ---
+st.title("🎯 Threads Profil Analizörü")
+
+col_lang, col_hashtag = st.columns(2)
+with col_lang:
+    aktif_dil = st.selectbox("🌐 Language / Dil", ["TR", "EN", "DE"])
+
+with col_hashtag:
+    st.markdown(f"<h4 style='text-align: right; color: #3a7ebf; margin-top: 5px;'>{DIL_PAKETI[aktif_dil]['main_hashtag']}</h4>", unsafe_allow_html=True)
+
+st.markdown(f"### {DIL_PAKETI[aktif_dil]['main_title']}")
+st.caption(DIL_PAKETI[aktif_dil]['main_sub'])
+st.divider()
+
+# --- 🎛️ PREMIUM VİDEO & MÜZİK KUTUSU ENTEGRASYONU ---
 st.caption(DIL_PAKETI[aktif_dil]['player_title'])
-# Global ve yüksek hızlı alternatif müzik sunucusu linki
-st.audio("https://soundhelix.com", format="audio/mp3")
+# Tarayıcı engellerine takılmayan, yerleşik resmi YouTube oynatıcı motoru
+st.video("https://youtube.com")
 
 # --- 📖 RESİMLİ / ADIM ADIM KULLANIM KILAVUZU PANELİ ---
 with st.expander(DIL_PAKETI[aktif_dil]['guide_title'], expanded=False):
@@ -182,6 +196,13 @@ with st.expander(DIL_PAKETI[aktif_dil]['guide_title'], expanded=False):
     st.info("ℹ️ Raporlar tamamen sizin cihazınızda işlenir, verileriniz asla sunucuya kaydedilmez.")
 
 st.write("") 
+
+# --- MOBİL UYUMLU DOSYA YÜKLEME ALANLARI ---
+uploaded_following = st.file_uploader(DIL_PAKETI[aktif_dil]['load_following'], type=["json"])
+uploaded_followers = st.file_uploader(DIL_PAKETI[aktif_dil]['load_followers'], type=["json"], accept_multiple_files=True)
+
+btn_trigger = st.button(DIL_PAKETI[aktif_dil]['btn_analyze'], use_container_width=True, type="primary")
+
 
 # --- MOBİL UYUMLU DOSYA YÜKLEME ALANLARI ---
 uploaded_following = st.file_uploader(DIL_PAKETI[aktif_dil]['load_following'], type=["json"])
