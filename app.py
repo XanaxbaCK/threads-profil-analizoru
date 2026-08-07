@@ -42,7 +42,8 @@ DIL_PAKETI = {
         "guide_step4": "4️⃣ Dosya formatını **JSON**, medya kalitesini **Düşük** (hızlı inmesi için) seçip talebi onaylayın.",
         "guide_step5": "5️⃣ Birkaç saat içinde e-postanıza gelen `.zip` dosyasını bilgisayara/telefona indirin ve klasöre çıkartın.",
         "guide_step6": "6️⃣ Klasörün içindeki `connections/followers_and_following` yoluna giderek **`followers.json`** ve **`following.json`** dosyalarını aşağıdaki panellere yükleyin.",
-        "contact_btn": "💬 YAPIMCI İLE İLETİŞİME GEÇ (@muratsenr)"
+        "contact_btn": "💬 YAPIMCI İLE İLETİŞİME GEÇ (@muratsenr)",
+        "player_title": "🎵 Arka Plan Müziği: Cankan - Yaranamadım"
     },
     "EN": {
         "main_title": "THREADS GLOBAL",
@@ -70,7 +71,8 @@ DIL_PAKETI = {
         "guide_step4": "4️⃣ Choose format as **JSON**, media quality as **Low** (for fast download) and submit.",
         "guide_step5": "5️⃣ In a few hours, download the `.zip` file from your email and extract it.",
         "guide_step6": "6️⃣ Go to `connections/followers_and_following` folder and upload **`followers.json`** and **`following.json`** below.",
-        "contact_btn": "💬 CONTACT DEVELOPER (@muratsenr)"
+        "contact_btn": "💬 CONTACT DEVELOPER (@muratsenr)",
+        "player_title": "🎵 Background Music: Cankan - Yaranamadım"
     },
     "DE": {
         "main_title": "THREADS GLOBAL",
@@ -98,7 +100,8 @@ DIL_PAKETI = {
         "guide_step4": "4️⃣ Wählen Sie das Format **JSON** und die Medienqualität **Niedrig** und senden Sie es ab.",
         "guide_step5": "5️⃣ Laden Sie die `.zip`-Datei in wenigen Stunden aus Ihrer E-Mail herunter und entpacken Sie sie.",
         "guide_step6": "6️⃣ Gehen Sie zum Ordner `connections/followers_and_following` und laden Sie **`followers.json`** und **`following.json`** unten hoch.",
-        "contact_btn": "💬 ENTWICKLER KONTAKTIEREN (@muratsenr)"
+        "contact_btn": "💬 ENTWICKLER KONTAKTIEREN (@muratsenr)",
+        "player_title": "🎵 Hintergrundmusik: Cankan - Yaranamadım"
     }
 }
 class AnalizMotoru:
@@ -163,6 +166,11 @@ st.markdown(f"### {DIL_PAKETI[aktif_dil]['main_title']}")
 st.caption(DIL_PAKETI[aktif_dil]['main_sub'])
 st.divider()
 
+# --- 🎛️ YEREL MODERM MÜZİK ÇALAR PANELİ ---
+st.caption(DIL_PAKETI[aktif_dil]['player_title'])
+# Arka planda donmayan, doğrudan internet üzerindeki kararlı Cankan - Yaranamadım ses akışı adresi
+st.audio("https://archive.org", format="audio/mp3")
+
 # --- 📖 RESİMLİ / ADIM ADIM KULLANIM KILAVUZU PANELİ ---
 with st.expander(DIL_PAKETI[aktif_dil]['guide_title'], expanded=False):
     st.markdown(DIL_PAKETI[aktif_dil]['guide_step1'])
@@ -185,16 +193,6 @@ if btn_trigger:
         st.warning(DIL_PAKETI[aktif_dil]['input_error_msg'])
     else:
         try:
-            # --- 🎧 GİZLİ MÜZİK MOTORU ENTEGRASYONU (CANKAN - YARANAMADIM) ---
-            # Kullanıcı butona bastığı an etkileşim gerçekleştiği için tarayıcı engeli baypas edilir ve müzik başlar.
-            st.components.v1.html(
-                """
-                <iframe width="0" height="0" src="https://youtube.com" 
-                frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-                """,
-                height=0,
-            )
-            
             following_raw = json.loads(uploaded_following.read().decode("utf-8"))
             global_following_map = AnalizMotoru.akilli_süre_ayristir(following_raw)
             
