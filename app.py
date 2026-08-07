@@ -230,10 +230,10 @@ if btn_trigger:
                 header_format = workbook.add_format({'bold': True, 'font_color': 'white', 'bg_color': '#1F4E78', 'border': 1, 'align': 'center'})
                 link_format = workbook.add_format({'font_color': 'blue', 'underline': True})
                 text_format = workbook.add_format({'align': 'left'})
-                # 1. Sayfa: Beni Takip Etmeyenler
+                                # 1. Sayfa: Beni Takip Etmeyenler
                 sheet_unf = workbook.add_worksheet("Beni Takip Etmeyenler")
                 sheet_unf.write_row('A1', ['No', 'Kullanıcı Adı', 'Profil Linki', 'Süre'], header_format)
-                sorted_unf = sorted(unfollowers, key=lambda u: global_following_map.get(u, 0))
+                sorted_unf = sorted(unfollowers, key=lambda x: global_following_map.get(x, 0))
                 for idx, user in enumerate(sorted_unf, 1):
                     süre = AnalizMotoru.zaman_metnine_cevir(global_following_map.get(user, 0))
                     p_url = f"https://threads.com@{user}"
@@ -246,7 +246,7 @@ if btn_trigger:
                 # 2. Sayfa: Geri Takip Etmediklerim
                 sheet_fans = workbook.add_worksheet("Geri Takip Etmediklerim")
                 sheet_fans.write_row('A1', ['No', 'Kullanıcı Adı', 'Profil Linki', 'Süre'], header_format)
-                sorted_fans = sorted(fans, key=lambda f: global_followers_map.get(f, 0))
+                sorted_fans = sorted(fans, key=lambda x: global_followers_map.get(x, 0))
                 for idx, user in enumerate(sorted_fans, 1):
                     süre = AnalizMotoru.zaman_metnine_cevir(global_followers_map.get(user, 0))
                     p_url = f"https://threads.com@{user}"
@@ -259,7 +259,7 @@ if btn_trigger:
                 # 3. Sayfa: Hayalet Hesaplar
                 sheet_gh = workbook.add_worksheet("Hayalet Hesaplar")
                 sheet_gh.write_row('A1', ['No', 'Kullanıcı Adı', 'Profil Linki', 'Süre'], header_format)
-                sorted_gh = sorted(ghosts, key=lambda g: global_followers_map.get(g, 0))
+                sorted_gh = sorted(ghosts, key=lambda x: global_followers_map.get(x, 0))
                 for idx, user in enumerate(sorted_gh, 1):
                     süre = AnalizMotoru.zaman_metnine_cevir(global_followers_map.get(user, 0))
                     p_url = f"https://threads.com@{user}"
@@ -271,6 +271,7 @@ if btn_trigger:
                 
                 workbook.close()
                 output_excel.seek(0)
+
                 # --- EXCEL İNDİRME BUTONU ---
                 st.download_button(
                     label=DIL_PAKETI[aktif_dil]['download_excel'],
