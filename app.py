@@ -9,7 +9,7 @@ import xlsxwriter
 
 # --- MOBİL VE GENİŞ EKRAN UYUMLULUK AYARI ---
 st.set_page_config(
-    page_title="Threads Profil Analizörü",
+    page_title="Threads Profil Takip Avı",
     page_icon="🎯",
     layout="centered",
     initial_sidebar_state="collapsed"
@@ -17,7 +17,7 @@ st.set_page_config(
 # --- ÇOKLU DİL SÖZLÜĞÜ (TR / EN / DE) ---
 DIL_PAKETI = {
     "TR": {
-        "main_title": "THREADS TÜRKİYE",
+        "main_title": "THREADS TÜRKİYE / @muratsener",
         "main_sub": "YEREL VE GÜVENLİ ÇİFT YÖNLÜ PROFİL TAKİPÇİ SİSTEMİ",
         "main_hashtag": "#bendeğilbizyaptık",
         "load_following": "Takip Ettiklerinizi Yükleyin (following.json)",
@@ -39,8 +39,8 @@ DIL_PAKETI = {
         "guide_step1": "1️⃣ **Instagram/Threads** uygulamasını açın ve **Ayarlar -> Hesaplar Merkezi** bölümüne girin.",
         "guide_step2": "2️⃣ **Bilgilerin ve İzinlerin -> Bilgilerini İndir** adımlarını takip edin.",
         "guide_step3": "3️⃣ **Indirme Talep Et** butonuna basın ve sadece **Threads** seçeneğini işaretleyin.",
-        "guide_step4": "4️⃣ Dosya formatını **JSON**, medya kalitesini **Düşük** (hızlı inmesi için) seçip talebi onaylayın.",
-        "guide_step5": "5️⃣ Birkaç saat içinde e-postanıza gelen `.zip` dosyasını bilgisayara/telefona indirin ve klasöre çıkartın.",
+        "guide_step4": "4️⃣ Dosya formatını **JSON** (ÖNEMLİ!!), medya kalitesini **Düşük** (hızlı inmesi için) seçip talebi onaylayın.",
+        "guide_step5": "5️⃣ Birkaç saat içinde (Takipçileriniz az ise süre azalır) e-postanıza gelen `.zip` dosyasını bilgisayara/telefona indirin ve klasöre çıkartın.",
         "guide_step6": "6️⃣ Klasörün içindeki `connections/followers_and_following` yoluna giderek **`followers.json`** ve **`following.json`** dosyalarını aşağıdaki panellere yükleyin.",
         "contact_btn": "💬 YAPIMCI İLE İLETİŞİME GEÇ (@muratsenr)"
     },
