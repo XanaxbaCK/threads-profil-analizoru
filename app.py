@@ -8,140 +8,107 @@ from datetime import datetime
 import streamlit as st
 import xlsxwriter
 
-# --- PREMIUM SİBER GECE MODU VE GENİŞ EKRAN AYARI ---
+# --- MOBİL VE GENİŞ EKRAN UYUMLULUK AYARI ---
 st.set_page_config(
-    page_title="Threads Cyber Tracking System",
-    page_icon="⚡",
+    page_title="Threads Profil Takip Sistemi",
+    page_icon="🎯",
     layout="centered",
     initial_sidebar_state="collapsed"
 )
-
-# --- SİBER NEON CSS ENJEKSİYONU ---
-st.markdown("""
-    <style>
-    .stApp {
-        background-color: #030712 !important;
-    }
-    h1, h2, h3, h4, h5, h6, label, p, span {
-        color: #00ff66 !important;
-        font-family: 'Consolas', monospace !important;
-        text-shadow: 0 0 5px #00ff66, 0 0 10px #00ff66 !important;
-    }
-    .stButton>button {
-        background-color: #111827 !important;
-        color: #00ff66 !important;
-        border: 2px solid #00ff66 !important;
-        box-shadow: 0 0 10px #00ff66 !important;
-        font-family: 'Consolas', monospace !important;
-        font-weight: bold !important;
-    }
-    .stButton>button:hover {
-        background-color: #00ff66 !important;
-        color: #030712 !important;
-        box-shadow: 0 0 20px #00ff66 !important;
-    }
-    .stTabs [data-baseweb="tab-list"] {
-        background-color: #0b0f19 !important;
-        border: 1px solid #1f2937 !important;
-        border-radius: 8px !important;
-    }
-    .stTabs [data-baseweb="tab"] {
-        color: #6b7280 !important;
-    }
-    .stTabs [aria-selected="true"] {
-        color: #00ff66 !important;
-        text-shadow: 0 0 5px #00ff66 !important;
-    }
-    </style>
-    """, unsafe_allow_html=True)
 # --- ÇOKLU DİL SÖZLÜĞÜ (TR / EN / DE) ---
 DIL_PAKETI = {
     "TR": {
-        "main_title": "⚡ THREADS CYBER // MURAT & ESRA (CAN&KAN)",
-        "main_sub": "SYSTEM ENG: YEREL VE GÜVENLİ ÇİFT YÖNLÜ SİBER PROFİL ANALİZİ",
+        "main_title": "THREADS TÜRKİYE / MURAT & ESRA (CAN&KAN)",
+        "main_sub": "YEREL VE GÜVENLİ ÇİFT YÖNLÜ PROFİL TAKİPÇİ SİSTEMİ",
         "main_hashtag": "#bendeğilbizyaptık",
         "load_following": "Takip Ettiklerinizi Yükleyin (following.json)",
         "load_followers": "Takipçilerinizi Yükleyin (followers.json)",
-        "btn_analyze": "⚡ SİBER TARAMAYI BAŞLAT ⚡",
-        "tab_unfollowers": "[!] Beni Takip Etmeyenler",
-        "tab_fans": "[+] Geri Takip Etmediklerim",
-        "tab_ghosts": "[💀] Hayalet (Ghost) Hesaplar",
-        "input_error_msg": "CRITICAL ERROR: Analiz için iki kaynak dosya da yüklenmelidir.",
-        "parse_error_msg": "DECODE ERROR: Yüklenen JSON şeması motor tarafından çözümlenemedi.",
-        "success_msg": "SUCCESS: Dosyalar tarandı, veri havuzu köprü linkleriyle üretildi!",
-        "perfect_sync": "🎉 [SAFE LOG]: Herkes sizi geri takip ediyor, siber uyum kusursuz!",
-        "no_fans": "🎯 [SAFE LOG]: Takip ettiğiniz herkesi siz de geri takip ediyorsunuz.",
-        "no_ghosts": "🛡️ [SAFE LOG]: Profilinizde hayalet veya bot hesap algılanmadı.",
-        "download_excel": "📥 Cyber Excel Analiz Raporunu İndir",
-        "summary_title": "📊 SİBER PROFİL SAĞLIK ÖZETİ",
-        "health_score": "Siber Sağlık Skoru",
-        "guide_title": "📖 Threads Verileri Nasıl İndirilir? (Siber Kılavuz)",
+        "btn_analyze": "ANALİZİ BAŞLAT",
+        "tab_unfollowers": "Beni Takip Etmeyenler",
+        "tab_fans": "Geri Takip Etmediklerim",
+        "tab_ghosts": "Hayalet (Ghost) Hesaplar",
+        "input_error_msg": "Analiz için gerekli iki kaynak dosya da yüklenmelidir.",
+        "parse_error_msg": "Yüklenen JSON şeması motor tarafından çözümlenemedi.",
+        "success_msg": "Dosyalar tarandı, Excel ve TXT raporları köprü linkleriyle üretildi!",
+        "perfect_sync": "🎉 [KUSURSUZ SENKRONİZASYON]: Herkes sizi geri takip ediyor!",
+        "no_fans": "🎯 [HAYRAN YOK]: Takip ettiğiniz herkesi siz de geri takip ediyorsunuz.",
+        "no_ghosts": "🛡️ [TEMİZ PROFİL]: Profilinizde hayalet veya bot hesap algılanmadı.",
+        "download_excel": "📥 Excel Analiz Raporunu İndir",
+        "summary_title": "📊 PROFİL SAĞLIK ÖZETİ",
+        "health_score": "Sağlık Skoru",
+        "guide_title": "📖 Threads Verileri Nasıl İndirilir? (Kullanım Kılavuzu)",
         "guide_step1": "1️⃣ **Instagram/Threads** uygulamasını açın ve **Ayarlar -> Hesaplar Merkezi** bölümüne girin.",
         "guide_step2": "2️⃣ **Bilgilerin ve İzinlerin -> Bilgilerini İndir** adımlarını takip edin.",
         "guide_step3": "3️⃣ **Indirme Talep Et** butonuna basın ve sadece **Threads** seçeneğini işaretleyin.",
-        "guide_step4": "4️⃣ Dosya formatını **JSON** (ÖNEMLİ!), medya kalitesini **Düşük** seçip talebi onaylayın.",
-        "guide_step5": "5️⃣ E-postanıza gelen `.zip` dosyasını indirin veConnections klasörüne çıkartın.",
-        "guide_step6": "6️⃣ Klasörün içindeki `connections/followers_and_following` yoluna giderek **`followers.json`** ve **`following.json`** dosyalarını yükleyin.",
-        "contact_btn": "💬 SİBER YAPIMCI İLE İLETİŞİME GEÇ (@muratsenr)",
-        "player_title": "🎵 Arka Plan Müziği: Cankan - Yaranamadım (Siber Versiyon)"
+        "guide_step4": "4️⃣ Dosya formatını **JSON** (ÖNEMLİ!), medya kalitesini **Düşük** (hızlı inmesi için) seçip talebi onaylayın.",
+        "guide_step5": "5️⃣ Birkaç saat içinde (Takipçiniz az ise süre kısalır) e-postanıza gelen `.zip` dosyasını bilgisayara/telefona indirin ve klasöre çıkartın.",
+        "guide_step6": "6️⃣ Klasörün içindeki `connections/followers_and_following` yoluna giderek **`followers.json`** ve **`following.json`** dosyalarını aşağıdaki panellere yükleyin.",
+        "contact_btn": "💬 YAPIMCI İLE İLETİŞİME GEÇ (@muratsenr)",
+        "player_title": "🎵 Arka Plan Müziğini Zorla Koydurdu",
+        "share_btn": "🚀 SONUCU THREADS'TE PAYLAŞ",
+        "share_text": "Threads Takip Sistemi ile profilimi analiz ettim! Profil Sağlık Skorum: %{score}! 🎯 Siz de profilinizi güvenle test edin: "
     },
     "EN": {
-        "main_title": "⚡ THREADS CYBER GLOBAL",
-        "main_sub": "SYSTEM ENG: LOCAL & SECURE BI-DIRECTIONAL CYBER ANALYSIS",
+        "main_title": "THREADS GLOBAL",
+        "main_sub": "LOCAL AND SECURE BI-DIRECTIONAL PROFILE ANALYSIS SYSTEM",
         "main_hashtag": "#notmebutwe",
         "load_following": "Load Those You Follow (following.json)",
         "load_followers": "Load Your Followers (followers.json)",
-        "btn_analyze": "⚡ LAUNCH CYBER SCAN ⚡",
-        "tab_unfollowers": "[!] Not Following Me Back",
-        "tab_fans": "[+] I Am Not Following Back",
-        "tab_ghosts": "[💀] Ghost / Inactive Accounts",
-        "input_error_msg": "CRITICAL ERROR: Both required source files must be uploaded.",
-        "parse_error_msg": "DECODE ERROR: The uploaded JSON schema could not be resolved.",
-        "success_msg": "SUCCESS: Files scanned, cyber data generated with links!",
-        "perfect_sync": "🎉 [SAFE LOG]: Everyone is following you back!",
-        "no_fans": "🎯 [SAFE LOG]: You are following back everyone who follows you.",
-        "no_ghosts": "🛡️ [SAFE LOG]: No ghost or bot accounts detected.",
-        "download_excel": "📥 Download Cyber Excel Report",
-        "summary_title": "📊 CYBER PROFILE SUMMARY",
-        "health_score": "Cyber Health Score",
-        "guide_title": "📖 How to Download Threads Data? (Cyber Guide)",
+        "btn_analyze": "START ANALYSIS",
+        "tab_unfollowers": "Not Following Me Back",
+        "tab_fans": "I Am Not Following Back",
+        "tab_ghosts": "Ghost / Inactive Accounts",
+        "input_error_msg": "Both required source files must be uploaded for analysis.",
+        "parse_error_msg": "The uploaded JSON schema could not be resolved by the engine.",
+        "success_msg": "Files scanned, Excel and TXT reports generated with clickable links!",
+        "perfect_sync": "🎉 [PERFECT SYNC]: Everyone is following you back!",
+        "no_fans": "🎯 [NO FANS]: You are following back everyone who follows you.",
+        "no_ghosts": "🛡️ [CLEAN PROFILE]: No ghost or bot accounts detected on your profile.",
+        "download_excel": "📥 Download Excel Analysis Report",
+        "summary_title": "📊 PROFILE HEALTH SUMMARY",
+        "health_score": "Health Score",
+        "guide_title": "📖 How to Download Threads Data? (User Guide)",
         "guide_step1": "1️⃣ Open **Instagram/Threads**, go to **Settings -> Accounts Center**.",
         "guide_step2": "2️⃣ Follow **Your Information and Permissions -> Download Your Information**.",
         "guide_step3": "3️⃣ Click **Request a Download** and select only **Threads**.",
-        "guide_step4": "4️⃣ Choose format as **JSON**, media quality as **Low** and submit.",
-        "guide_step5": "5️⃣ Download the `.zip` file from your email and extract it.",
-        "guide_step6": "6️⃣ Go to `connections/followers_and_following` folder and upload files below.",
-        "contact_btn": "💬 CONTACT CYBER DEVELOPER (@muratsenr)",
-        "player_title": "🎵 Background Music: Cankan - Yaranamadım"
+        "guide_step4": "4️⃣ Choose format as **JSON**, media quality as **Low** (for fast download) and submit.",
+        "guide_step5": "5️⃣ In a few hours, download the `.zip` file from your email and extract it.",
+        "guide_step6": "6️⃣ Go to `connections/followers_and_following` folder and upload **`followers.json`** and **`following.json`** below.",
+        "contact_btn": "💬 CONTACT DEVELOPER (@muratsenr)",
+        "player_title": "🎵 Background Music: Cankan - Yaranamadım",
+        "share_btn": "🚀 SHARE RESULT ON THREADS",
+        "share_text": "I just analyzed my profile with Threads Tracking System! Profile Health Score: %{score}! 🎯 Test your profile securely here: "
     },
     "DE": {
-        "main_title": "⚡ THREADS CYBER GLOBAL",
-        "main_sub": "SYSTEM ENG: LOKALE & SICHERE BIDIREKTIONALE CYBER-ANALYSE",
+        "main_title": "THREADS GLOBAL",
+        "main_sub": "LOKALES UND SICHERES BIDIREKTIONALES PROFIL-ANALYSESYSTEM",
         "main_hashtag": "#nichtichsondernwir",
         "load_following": "Laden Sie die, denen Sie folgen (following.json)",
         "load_followers": "Laden Sie Ihre Follower (followers.json)",
-        "btn_analyze": "⚡ CYBER-SCAN STARTEN ⚡",
-        "tab_unfollowers": "[!] Folgen mir nicht zurück",
-        "tab_fans": "[+] Ich folge nicht zurück",
-        "tab_ghosts": "[💀] Geister / Inaktive Konten",
-        "input_error_msg": "CRITICAL ERROR: Für die Analyse müssen beide Quelldateien hochgeladen werden.",
-        "parse_error_msg": "DECODE ERROR: Das hochgeladene JSON-Schema konnte nicht aufgelöst werden.",
-        "success_msg": "SUCCESS: Dateien erfolgreich gescannt, Berichte exportiert!",
-        "perfect_sync": "🎉 [SAFE LOG]: Jeder folgt Ihnen zurück!",
-        "no_fans": "🎯 [SAFE LOG]: Sie folgen jedem zurück, der Ihnen folgt.",
-        "no_ghosts": "🛡️ [SAFE LOG]: Keine Geister- oder Bot-Konten auf Ihrem Profil.",
-        "download_excel": "📥 Cyber-Excel-Analysebericht herunterladen",
-        "summary_title": "📊 CYBER-PROFILÜBERSICHT",
-        "health_score": "Cyber-Gesundheitsscore",
-        "guide_title": "📖 Wie lade ich Threads-Daten herunter? (Cyber-Handbuch)",
+        "btn_analyze": "ANALYSE STARTEN",
+        "tab_unfollowers": "Folgen mir nicht zurück",
+        "tab_fans": "Ich folge nicht zurück",
+        "tab_ghosts": "Geister / Inaktive Konten",
+        "input_error_msg": "Für die Analyse müssen beide Quelldateien hochgeladen werden.",
+        "parse_error_msg": "Das hochgeladene JSON-Schema konnte nicht aufgelöst werden.",
+        "success_msg": "Dateien erfolgreich gescannt, Berichte als Excel und TXT exportiert!",
+        "perfect_sync": "🎉 [PERFEKTE SYNCHRONISATION]: Jeder folgt Ihnen zurück!",
+        "no_fans": "🎯 [KEINE FANS]: Sie folgen jedem zurück, der Ihnen folgt.",
+        "no_ghosts": "🛡️ [SAUBERES PROFIL]: Keine Geister- oder Bot-Konten auf Ihrem Profil erkannt.",
+        "download_excel": "📥 Excel-Analysebericht herunterladen",
+        "summary_title": "📊 PROFIL-GESUNDHEITSÜBERSICHT",
+        "health_score": "Gesundheitsscore",
+        "guide_title": "📖 Wie lade ich Threads-Daten herunter? (Benutzerhandbuch)",
         "guide_step1": "1️⃣ Öffnen Sie **Instagram/Threads**, gehen Sie zu **Einstellungen -> Kontenübersicht**.",
         "guide_step2": "2️⃣ Folgen Sie **Deine Informationen und Berechtigungen -> Deine Informationen herunterladen**.",
         "guide_step3": "3️⃣ Klicken Sie auf **Download anfordern** und wählen Sie nur **Threads** aus.",
-        "guide_step4": "4️⃣ Wählen Sie das Format **JSON** und die Medienqualität **Niedrig**.",
-        "guide_step5": "5️⃣ Laden Sie die `.zip`-Datei herunter und entpacken Sie sie.",
-        "guide_step6": "6️⃣ Gehen Sie zum Ordner `connections/followers_and_following` und laden Sie Dateien hoch.",
-        "contact_btn": "💬 CYBER-ENTWICKLER KONTAKTIEREN (@muratsenr)",
-        "player_title": "🎵 Hintergrundmusik: Cankan - Yaranamadım"
+        "guide_step4": "4️⃣ Wählen Sie das Format **JSON** und die Medienqualität **Niedrig** und senden Sie es ab.",
+        "guide_step5": "5️⃣ Laden Sie die `.zip`-Datei in wenigen Stunden aus Ihrer E-Mail herunter und entpacken Sie sie.",
+        "guide_step6": "6️⃣ Gehen Sie zum Ordner `connections/followers_and_following` und laden Sie **`followers.json`** und **`following.json`** unten hoch.",
+        "contact_btn": "💬 ENTWICKLER KONTAKTIEREN (@muratsenr)",
+        "player_title": "🎵 Hintergrundmusik: Cankan - Yaranamadım",
+        "share_btn": "🚀 ERGEBNIS AUF THREADS TEILEN",
+        "share_text": "Ich habe mein Profil mit dem Threads Tracking System analysiert! Profil-Gesundheitsscore: %{score}! 🎯 Testen Sie Ihr Profil hier sicher: "
     }
 }
 class AnalizMotoru:
@@ -193,20 +160,20 @@ class AnalizMotoru:
                 return True
         return False
 # --- MOBİL ARAYÜZ YAPILANDIRMASI VE DİL SEÇİMİ ---
-st.markdown("<h1>⚡ Threads Cyber Tracking System</h1>", unsafe_allow_html=True)
+st.title("🎯 Threads Profil Takip Sistemi")
 
 col_lang, col_hashtag = st.columns(2)
 with col_lang:
     aktif_dil = st.selectbox("🌐 Language / Dil", ["TR", "EN", "DE"])
 
 with col_hashtag:
-    st.markdown(f"<h4 style='text-align: right; color: #00ff66; margin-top: 5px;'>{DIL_PAKETI[aktif_dil]['main_hashtag']}</h4>", unsafe_allow_html=True)
+    st.markdown(f"<h4 style='text-align: right; color: #3a7ebf; margin-top: 5px;'>{DIL_PAKETI[aktif_dil]['main_hashtag']}</h4>", unsafe_allow_html=True)
 
 st.markdown(f"### {DIL_PAKETI[aktif_dil]['main_title']}")
 st.caption(DIL_PAKETI[aktif_dil]['main_sub'])
 st.divider()
 
-# --- 🎛️ GÜVENLİ MÜZİK BUTONU PANELİ ---
+# --- 🎛️ %100 ÇALIŞAN GÜVENLİ MÜZİK BUTONU PANELİ ---
 st.caption(DIL_PAKETI[aktif_dil]['player_title'])
 st.link_button(
     label="▶️ YAPARKEN DİNLERSİNİZ YA (Göndermeli Şarkı)",
@@ -222,7 +189,7 @@ with st.expander(DIL_PAKETI[aktif_dil]['guide_title'], expanded=False):
     st.markdown(DIL_PAKETI[aktif_dil]['guide_step4'])
     st.markdown(DIL_PAKETI[aktif_dil]['guide_step5'])
     st.markdown(DIL_PAKETI[aktif_dil]['guide_step6'])
-    st.info("ℹ️ SECURITY NOTICE: Raporlar yerel işlenir, verileriniz asla sunucuya kaydedilmez.")
+    st.info("ℹ️ Raporlar tamamen sizin cihazınızda işlenir, verileriniz asla sunucuya kaydedilmez.")
 
 st.write("") 
 
@@ -277,8 +244,8 @@ if btn_trigger:
                 output_excel = io.BytesIO()
                 workbook = xlsxwriter.Workbook(output_excel)
                 
-                header_format = workbook.add_format({'bold': True, 'font_color': 'white', 'bg_color': '#111827', 'border': 1, 'align': 'center'})
-                link_format = workbook.add_format({'font_color': '#00ff66', 'underline': True})
+                header_format = workbook.add_format({'bold': True, 'font_color': 'white', 'bg_color': '#1F4E78', 'border': 1, 'align': 'center'})
+                link_format = workbook.add_format({'font_color': 'blue', 'underline': True})
                 text_format = workbook.add_format({'align': 'left'})
                 # 1. Sayfa: Beni Takip Etmeyenler
                 sheet_unf = workbook.add_worksheet("Beni Takip Etmeyenler")
@@ -326,19 +293,21 @@ if btn_trigger:
                 st.download_button(
                     label=DIL_PAKETI[aktif_dil]['download_excel'],
                     data=output_excel,
-                    file_name="Threads_Cyber_Raporu.xlsx",
+                    file_name="Threads_Detayli_Analiz_Raporu.xlsx",
                     mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
                     use_container_width=True
                 )
-                # --- WEB SEKME GÖRÜNÜMLERİ (Tıklanabilir Siber Linkler) ---
+               
+
+                # --- WEB SEKME GÖRÜNÜMLERİ (Tıklanabilir Mavi Linkler) ---
                 t1, t2, t3 = st.tabs([DIL_PAKETI[aktif_dil]['tab_unfollowers'], DIL_PAKETI[aktif_dil]['tab_fans'], DIL_PAKETI[aktif_dil]['tab_ghosts']])
                 
                 with t1:
                     if unfollowers:
                         for index, user in enumerate(sorted_unf, 1):
                             süre = AnalizMotoru.zaman_metnine_cevir(global_following_map.get(user, 0))
-                            p_url = f"https://threads.com@{user}"
-                            st.markdown(f"[{index:03d}] 🟢 [@{user}]({p_url}) &nbsp;&nbsp;&nbsp;&nbsp; ⌛ {süre}")
+                            p_url = f"https://threads.com/@{user}"
+                            st.markdown(f"[{index:03d}] 🔗 [@{user}]({p_url}) &nbsp;&nbsp;&nbsp;&nbsp; ⌛ {süre}")
                     else:
                         st.info(DIL_PAKETI[aktif_dil]['perfect_sync'])
                         
@@ -346,8 +315,8 @@ if btn_trigger:
                     if fans:
                         for index, user in enumerate(sorted_fans, 1):
                             süre = AnalizMotoru.zaman_metnine_cevir(global_followers_map.get(user, 0))
-                            p_url = f"https://threads.com@{user}"
-                            st.markdown(f"[{index:03d}] 🟢 [@{user}]({p_url}) &nbsp;&nbsp;&nbsp;&nbsp; ⌛ {süre}")
+                            p_url = f"https://threads.com/@{user}"
+                            st.markdown(f"[{index:03d}] 🔗 [@{user}]({p_url}) &nbsp;&nbsp;&nbsp;&nbsp; ⌛ {süre}")
                     else:
                         st.info(DIL_PAKETI[aktif_dil]['no_fans'])
                         
@@ -355,8 +324,8 @@ if btn_trigger:
                     if ghosts:
                         for index, user in enumerate(sorted_gh, 1):
                             süre = AnalizMotoru.zaman_metnine_cevir(global_followers_map.get(user, 0))
-                            p_url = f"https://threads.com@{user}"
-                            st.markdown(f"[{index:03d}] 🟢 [@{user}]({p_url}) &nbsp;&nbsp;&nbsp;&nbsp; ⌛ {süre}")
+                            p_url = f"https://threads.com/@{user}"
+                            st.markdown(f"[{index:03d}] 🔗 [@{user}]({p_url}) &nbsp;&nbsp;&nbsp;&nbsp; ⌛ {süre}")
                     else:
                         st.info(DIL_PAKETI[aktif_dil]['no_ghosts'])
                         
@@ -368,6 +337,6 @@ st.write("")
 st.divider()
 st.link_button(
     label=DIL_PAKETI[aktif_dil]['contact_btn'],
-    url="https://threads.com@muratsenr",
+    url="https://threads.com/@muratsenr",
     use_container_width=True
 )
