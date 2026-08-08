@@ -171,7 +171,7 @@ st.caption(DIL_PAKETI[aktif_dil]['player_title'])
 # Hata veren video oynatıcı yerine YouTube engelini tamamen aşan tıklanabilir şık buton
 st.link_button(
     label="▶️ ŞARKIYI YOUTUBE ÜZERİNDEN BAŞLAT (Cankan - Yaranamadım)",
-    url="https://youtube.com",
+    url="https://www.youtube.com/watch?v=CpCG3ClOzY4",
     use_container_width=True
 )
 
