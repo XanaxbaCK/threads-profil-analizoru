@@ -15,6 +15,7 @@ st.set_page_config(
     layout="centered",
     initial_sidebar_state="collapsed"
 )
+
 # --- ÇOKLU DİL SÖZLÜĞÜ (TR / EN / DE) ---
 DIL_PAKETI = {
     "TR": {
@@ -85,7 +86,7 @@ DIL_PAKETI = {
         "main_hashtag": "#nichtichsondernwir",
         "load_following": "Laden Sie die, denen Sie folgen (following.json)",
         "load_followers": "Laden Sie Ihre Follower (followers.json)",
-        "btn_analyze": "⚡ CYBER-SCAN STARTEN ⚡",
+        "btn_analyze": "ANALYSE STARTEN",
         "tab_unfollowers": "Folgen mir nicht zurück",
         "tab_fans": "Ich folge nicht zurück",
         "tab_ghosts": "Geister / Inaktive Konten",
@@ -95,7 +96,7 @@ DIL_PAKETI = {
         "perfect_sync": "🎉 [SAFE LOG]: Jeder folgt Ihnen zurück!",
         "no_fans": "🎯 [SAFE LOG]: Sie folgen jedem zurück, der Ihnen folgt.",
         "no_ghosts": "🛡️ [SAFE LOG]: Keine Geister- oder Bot-Konten auf Ihrem Profil.",
-        "download_excel": "📥 Cyber-Excel-Analysebericht herunterladen",
+        "download_excel": "📥 Excel-Analysebericht herunterladen",
         "summary_title": "📊 PROFIL-GESUNDHEITSÜBERSICHT",
         "health_score": "Gesundheitsscore",
         "guide_title": "📖 Wie lade ich Threads-Daten herunter? (Handbuch)",
@@ -104,7 +105,7 @@ DIL_PAKETI = {
         "guide_step3": "3️⃣ Klicken Sie auf **Download anfordern** und wählen Sie nur **Threads** aus.",
         "guide_step4": "4️⃣ Wählen Sie das Format **JSON** und die Medienqualität **Niedrig**.",
         "guide_step5": "5️⃣ Laden Sie die `.zip`-Datei herunter und entpacken Sie sie.",
-        "guide_step6": "6️⃣ Suchen Sie den Ordner `connections/followers_and_following` und laden Sie die Dateien hoch.",
+        "guide_step6": "6️⃣ Gehen Sie zum Ordner `connections/followers_and_following` und laden Sie die Dateien hoch.",
         "contact_btn": "💬 CYBER-ENTWICKLER KONTAKTIEREN (@muratsenr)",
         "player_title": "🎵 Hintergrundmusik: Cankan - Yaranamadım",
         "search_placeholder": "🔍 Suchen Sie nach Benutzernamen...",
@@ -192,39 +193,6 @@ with st.expander(DIL_PAKETI[aktif_dil]['guide_title'], expanded=False):
     st.info("ℹ️ SECURITY NOTICE: Raporlar yerel işlenir, verileriniz asla sunucuya kaydedilmez.")
 
 st.write("") 
-
-# --- MOBİL UYUMLU DOSYA YÜKLEME ALANLARI ---
-uploaded_following = st.file_uploader(DIL_PAKETI[aktif_dil]['load_following'], type=["json"])
-uploaded_followers = st.file_uploader(DIL_PAKETI[aktif_dil]['load_followers'], type=["json"], accept_multiple_files=True)
-
-btn_trigger = st.button(DIL_PAKETI[aktif_dil]['btn_analyze'], use_container_width=True, type="primary")
-
-
-# --- 🎛️ GÜVENLİ MÜZİK BUTONU PANELİ ---
-st.caption(DIL_PAKETI[aktif_dil]['player_title'])
-st.link_button(
-    label="▶️ YAPARKEN DİNLERSİNİZ YA (Göndermeli Şarkı)",
-    url="https://youtube.com",
-    use_container_width=True
-)
-
-# --- 📖 RESİMLİ / ADIM ADIM KULLANIM KILAVUZU PANELİ ---
-with st.expander(DIL_PAKETI[aktif_dil]['guide_title'], expanded=False):
-    st.markdown(DIL_PAKETI[aktif_dil]['guide_step1'])
-    st.markdown(DIL_PAKETI[aktif_dil]['guide_step2'])
-    st.markdown(DIL_PAKETI[aktif_dil]['guide_step3'])
-    st.markdown(DIL_PAKETI[aktif_dil]['guide_step4'])
-    st.markdown(DIL_PAKETI[aktif_dil]['guide_step5'])
-    st.markdown(DIL_PAKETI[aktif_dil]['guide_step6'])
-    st.info("ℹ️ SECURITY NOTICE: Raporlar yerel işlenir, verileriniz asla sunucuya kaydedilmez.")
-
-st.write("") 
-
-# --- MOBİL UYUMLU DOSYA YÜKLEME ALANLARI ---
-uploaded_following = st.file_uploader(DIL_PAKETI[aktif_dil]['load_following'], type=["json"])
-uploaded_followers = st.file_uploader(DIL_PAKETI[aktif_dil]['load_followers'], type=["json"], accept_multiple_files=True)
-
-btn_trigger = st.button(DIL_PAKETI[aktif_dil]['btn_analyze'], use_container_width=True, type="primary")
 
 # --- MOBİL UYUMLU DOSYA YÜKLEME ALANLARI ---
 uploaded_following = st.file_uploader(DIL_PAKETI[aktif_dil]['load_following'], type=["json"])
@@ -362,7 +330,7 @@ if btn_trigger or st.session_state.get('analyzed', False):
                     if filtered_unf:
                         for index, user in enumerate(filtered_unf, 1):
                             süre = AnalizMotoru.zaman_metnine_cevir(global_following_map.get(user, 0))
-                            p_url = f"https://threads.com@{user}"
+                            p_url = f"https://threads.com/@{user}"
                             st.markdown(f"[{index:03d}] 🔗 [@{user}]({p_url}) &nbsp;&nbsp;&nbsp;&nbsp; ⌛ {süre}")
                     else:
                         st.info(DIL_PAKETI[aktif_dil]['perfect_sync'] if not clean_query else "Eşleşen kullanıcı bulunamadı.")
@@ -372,7 +340,7 @@ if btn_trigger or st.session_state.get('analyzed', False):
                     if filtered_fans:
                         for index, user in enumerate(filtered_fans, 1):
                             süre = AnalizMotoru.zaman_metnine_cevir(global_followers_map.get(user, 0))
-                            p_url = f"https://threads.com@{user}"
+                            p_url = f"https://threads.com/@{user}"
                             st.markdown(f"[{index:03d}] 🔗 [@{user}]({p_url}) &nbsp;&nbsp;&nbsp;&nbsp; ⌛ {süre}")
                     else:
                         st.info(DIL_PAKETI[aktif_dil]['no_fans'] if not clean_query else "Eşleşen kullanıcı bulunamadı.")
@@ -382,7 +350,7 @@ if btn_trigger or st.session_state.get('analyzed', False):
                     if filtered_gh:
                         for index, user in enumerate(filtered_gh, 1):
                             süre = AnalizMotoru.zaman_metnine_cevir(global_followers_map.get(user, 0))
-                            p_url = f"https://threads.com@{user}"
+                            p_url = f"https://threads.com/@{user}"
                             st.markdown(f"[{index:03d}] 🔗 [@{user}]({p_url}) &nbsp;&nbsp;&nbsp;&nbsp; ⌛ {süre}")
                     else:
                         st.info(DIL_PAKETI[aktif_dil]['no_ghosts'] if not clean_query else "Eşleşen kullanıcı bulunamadı.")
@@ -395,6 +363,6 @@ st.write("")
 st.divider()
 st.link_button(
     label=DIL_PAKETI[aktif_dil]['contact_btn'],
-    url="https://threads.com@muratsenr",
+    url="https://threads.com/@muratsenr",
     use_container_width=True
 )
