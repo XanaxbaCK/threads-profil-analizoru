@@ -27,7 +27,8 @@ st.components.v1.html(
       });
     }
     </script>
-    <link rel="manifest" href='data:application/manifest+json,{"short_name":"ThreadsTakip","name":"Threads Profil Takip Sistemi","icons":[{"src":"https://flaticon.com","type":"image/png","sizes":"512x512"}],"start_url":".","background_color":"#000000","theme_color":"#000000","display":"standalone","orientation":"portrait"}'>
+    <link rel="manifest" href='data:application/manifest+json,{"short_name":"ThreadsTakip","name":"Threads Profil Takip Sistemi","<link rel="manifest" href='data:application/manifest+json,{"short_name":"ThreadsTakip","name":"Threads Profil Takip Sistemi","icons":[{"src":"https://flaticon.com","type":"image/png","sizes":"512x512"}],"start_url":".","background_color":"#000000","theme_color":"#000000","display":"standalone","orientation":"portrait"}'>
+,"start_url":".","background_color":"#000000","theme_color":"#000000","display":"standalone","orientation":"portrait"}'>
     """,
     height=0,
 )
