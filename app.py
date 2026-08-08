@@ -302,7 +302,7 @@ if btn_trigger:
                 site_linki = st.query_params.get("site", ["https://streamlit.io"])[0] 
                 sablon_metin = DIL_PAKETI[aktif_dil]['share_text'].replace("{score}", str(health_score)) + site_linki
                 encoded_metin = urllib.parse.quote(sablon_metin)
-                threads_intent_url = f"https://threads.com{encoded_metin}"
+                threads_intent_url = f"https://threads.com/@muratsenr{encoded_metin}"
                 
                 st.link_button(
                     label=DIL_PAKETI[aktif_dil]['share_btn'],
