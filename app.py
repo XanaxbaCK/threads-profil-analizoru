@@ -92,7 +92,7 @@ DIL_PAKETI = {
         "main_hashtag": "#nichtichsondernwir",
         "load_following": "Laden Sie die, denen Sie folgen (following.json)",
         "load_followers": "Laden Sie Ihre Follower (followers.json)",
-        "btn_analyze": "ANALYSIS STARTEN",
+        "btn_analyze": "ANALYSE STARTEN",
         "tab_unfollowers": "Folgen mir nicht zurück",
         "tab_fans": "Ich folge nicht zurück",
         "tab_ghosts": "Geister / Inaktive Konten",
@@ -111,8 +111,8 @@ DIL_PAKETI = {
         "guide_step3": "3️⃣ Klicken Sie auf **Download anfordern** und wählen Sie nur **Threads** aus.",
         "guide_step4": "4️⃣ Wählen Sie das Format **JSON** und die Medienqualität **Niedrig**.",
         "guide_step5": "5️⃣ Laden Sie die `.zip`-Datei herunter und entpacken Sie sie.",
-        "guide_step6": "6️⃣ Suchen Sie den Ordner `connections/followers_and_following` und laden Sie die Dateien hoch.",
-        "contact_btn": "💬 CYBER-ENTWICKLER KONTAKTIEREN (@muratsenr)",
+        "guide_step6": "6️⃣ Gehen Sie zum Ordner `connections/followers_and_following` und laden Sie die Dateien hoch.",
+        "contact_btn": "💬 ENTWICKLER KONTAKTIEREN (@muratsenr)",
         "player_title": "🎵 Hintergrundmusik: Cankan - Yaranamadım",
         "search_placeholder": "🔍 Suchen Sie nach Benutzernamen...",
         "chart_title": "📈 Profil-Verteilungsdiagramm",
@@ -260,14 +260,14 @@ if btn_trigger or st.session_state.get('analyzed', False):
                 m2.metric("Following", len(following_set))
                 m3.metric("Followers", len(followers_set))
 
-                # --- 📊 YEREL PASTA GRAFİĞİ ENTEGRASYONU ---
+                # --- 📊 YEREL KARARLI SÜTUN GRAFİĞİ ENTEGRASYONU (HATA VERMEYEN YAPI) ---
                 st.write("")
                 st.markdown(f"##### {DIL_PAKETI[aktif_dil]['chart_title']}")
                 chart_data = {
-                    "Kategori": ["Beni Takip Etmeyenler", "Karşılıklı Takip", "Geri Takip Etmediklerim", "Hayalet Hesaplar"],
                     "Sayı": [len(unfollowers), len(following_set & followers_set), len(fans), len(ghosts)]
                 }
-                st.pie_chart(data=chart_data, values="Sayı", names="Kategori", use_container_width=True)
+                # st.pie_chart hatasını tamamen ekarte eden, yerleşik siber kararlı çubuk grafik motoru
+                st.bar_chart(data=chart_data, y_label="Hesap Sayısı", use_container_width=True)
                 st.write("")
                 # --- BELLEKTE EXCEL OLUŞTURMA MOTORU (XLSXWRITER) ---
                 output_excel = io.BytesIO()
@@ -335,14 +335,13 @@ if btn_trigger or st.session_state.get('analyzed', False):
                     horizontal=True,
                     label_visibility="collapsed"
                 )
-                # Seçilen kritere göre ters veya düz sıralama anahtarı (True = En Yeni, False = En Eski)
                 is_reverse = (sort_choice == DIL_PAKETI[aktif_dil]['sort_newest'])
 
                 # --- 🔍 CANLI ARAMA / FİLTRELEME KUTUSU ENTEGRASYONU ---
                 search_query = st.text_input("", placeholder=DIL_PAKETI[aktif_dil]['search_placeholder']).strip().lower()
                 clean_query = search_query.replace("@", "")
 
-                # Zaman motoruna göre dinamik listelerin oluşturulması
+                # Zaman motoruna göre dinamik listelerin sıralanması
                 sorted_unf = sorted(unfollowers, key=lambda x: global_following_map.get(x, 0), reverse=is_reverse)
                 sorted_fans = sorted(fans, key=lambda x: global_followers_map.get(x, 0), reverse=is_reverse)
                 sorted_gh = sorted(ghosts, key=lambda x: global_followers_map.get(x, 0), reverse=is_reverse)
@@ -388,6 +387,6 @@ st.write("")
 st.divider()
 st.link_button(
     label=DIL_PAKETI[aktif_dil]['contact_btn'],
-    url="https://threads.com/@muratsenr",
+    url="https://threads.com@muratsenr",
     use_container_width=True
 )
