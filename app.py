@@ -30,6 +30,48 @@ st.components.v1.html(
     """,
     height=0,
 )
+# --- ÇOKLU DİL SÖZLÜĞÜ (TR / EN / DE) ---
+DIL_PAKETI = {
+    "TR": {
+        "main_title": "THREADS TÜRKİYE / MURAT & ESRA (CAN&KAN)",
+        "main_sub": "YEREL VE GÜVENLİ ÇİFT YÖNLÜ PROFİL TAKİPÇİ SİSTEMİ // PWA MOBİL SÜRÜM ACTIVE",
+        "main_hashtag": "#bendeğilbizyaptık",
+        "load_batch": "📁 followers_and_following Klasörünü veya Dosyaları Sürükleyip Bırakın",
+        "btn_analyze": "ANALİZİ BAŞLAT",
+        "tab_unfollowers": "Beni Takip Etmeyenler",
+        "tab_fans": "Geri Takip Etmediklerim",
+        "tab_ghosts": "Hayalet (Ghost) Hesaplar",
+        "input_error_msg": "Analiz için veri havuzunda hem 'followers.json' hem de 'following.json' bulunmalıdır.",
+        "parse_error_msg": "Yüklenen JSON şeması motor tarafından çözümlenemedi.",
+        "success_msg": "Dosyalar tarandı, Excel ve TXT raporları köprü linkleriyle üretildi!",
+        "perfect_sync": "🎉 [KUSURSUZ SENKRONİZASYON]: Herkes sizi geri takip ediyor!",
+        "no_fans": "🎯 [HAYRAN YOK]: Takip ettiğiniz herkesi siz de geri takip ediyorsunuz.",
+        "no_ghosts": "🛡️ [TEMİZ PROFİL]: Profilinizde hayalet veya bot hesap algılanmadı.",
+        "download_excel": "📥 Excel Analiz Raporunu İndir",
+        "summary_title": "📊 PROFİL SAĞLIK ÖZETİ",
+        "health_score": "Sağlık Skoru",
+        "guide_title": "📖 Threads Verileri Nasıl İndirilir? (Kullanım Kılavuzu)",
+        "guide_step1": "📱 **%100 GÜVENLİ GİRİŞ AKTİF:** Hesabınıza ait özel şifreleme paneli korunmaktadır.",
+        "guide_step2": "1️⃣ **Instagram/Threads** uygulamasını açın ve **Ayarlar -> Hesaplar Merkezi** bölümüne girin.",
+        "guide_step3": "2️⃣ **Bilgilerin ve İzinlerin -> Bilgilerini İndir** adımlarını takip edin.",
+        "guide_step4": "3️⃣ **Indirme Talep Et** butonuna basın ve sadece **Threads** seçeneğini işaretleyin.",
+        "guide_step5": "4️⃣ Dosya formatını **JSON** (ÖNEMLİ!), medya kalitesini **Düşük** seçip talebi onaylayın.",
+        "guide_step6": "5️⃣ E-postanıza gelen klasörün içindeki `connections/followers_and_following` klasörünü komple aşağıdaki panele sürükleyip bırakın.",
+        "contact_btn": "💬 YAPIMCI İLE İLETİŞİME GEÇ (@muratsenr)",
+        "player_title": "🎵 Arka Plan Müziğini Zorla Koydurdu",
+        "search_placeholder": "🔍 Listede kullanıcı adı ara...",
+        "chart_title": "📈 Profil Dağılım Grafiği",
+        "sort_label": "⏳ Zaman Sıralaması",
+        "sort_newest": "Önce En Yeni (Kronolojik)",
+        "sort_oldest": "Önce En Eski (Nostaljik)",
+        "history_title": "⏳ ŞU ANDA AKTİF DEĞİŞİM KARŞILAŞTIRICISI",
+        "login_header": "🔒 SİSTEME GÜVENLİ GİRİŞ",
+        "login_user": "Kullanıcı Adı",
+        "login_pass": "Şifre",
+        "login_btn": "GİRİŞ YAP",
+        "login_success": "🔓 Erişim Yetkisi Onaylandı! Sistem yükleniyor...",
+        "login_error": "❌ Hatalı Kullanıcı Adı veya Şifre! Lütfen tekrar deneyin."
+    },
     "EN": {
         "main_title": "THREADS GLOBAL",
         "main_sub": "LOCAL AND SECURE BI-DIRECTIONAL PROFILE ANALYSIS SYSTEM // PWA MOBILE ACTIVE",
@@ -49,7 +91,7 @@ st.components.v1.html(
         "summary_title": "📊 PROFILE HEALTH SUMMARY",
         "health_score": "Health Score",
         "guide_title": "📖 How to Download Threads Data? (User Guide)",
-        "guide_step1": "📱 **SECURE LOGIN ACTIVE:** Your private encrypted profile gate is armed.",
+        "guide_step1": "📱 **TO INSTALL AS APP:** Click your browser settings and select **'Add to Home Screen'**.",
         "guide_step2": "1️⃣ Open **Instagram/Threads**, go to **Settings -> Accounts Center**.",
         "guide_step3": "2️⃣ Follow **Your Information and Permissions -> Download Your Information**.",
         "guide_step4": "3️⃣ Click **Request a Download** and select only **Threads**.",
@@ -89,7 +131,7 @@ st.components.v1.html(
         "summary_title": "📊 PROFIL-GESUNDHEITSÜBERSICHT",
         "health_score": "Gesundheitsscore",
         "guide_title": "📖 Wie lade ich Threads-Daten herunter? (Handbuch)",
-        "guide_step1": "📱 **SICHERER LOGIN AKTIV:** Ihr privates verschlüsseltes Profiltor ist scharf.",
+        "guide_step1": "📱 **ALS APP INSTALLIEREN:** Klicken Sie auf 'Zum Startbildschirm hinzufügen'.",
         "guide_step2": "1️⃣ Öffnen Sie **Instagram/Threads**, gehen Sie zu **Einstellungen -> Kontenübersicht**.",
         "guide_step3": "2️⃣ Folgen Sie **Deine Informationen und Berechtigungen -> Deine Informationen herunterladen**.",
         "guide_step4": "3️⃣ Klicken Sie auf **Download anfordern** und wählen Sie nur **Threads** aus.",
@@ -161,40 +203,36 @@ class AnalizMotoru:
                 return True
         return False
 # --- 🔑 ÖZEL KULLANICI ADI VE ŞİFRE VERİ TABANI ---
-# Buraya dilediğiniz kadar kullanıcı adı ve şifre ekleyebilirsiniz. Her satır bir kişiyi temsil eder.
 KULLANICI_VERITABANI = {
-    "murat": "sener34",     # 1. Kullanıcı (Örn: murat girip şifreye sener34 yazacak)
+    "murat": "sener34",     # 1. Kullanıcı
     "esra": "cankan99",     # 2. Kullanıcı
-    "demo": "threads2026"   # Ortak veya demo şifre alanı
+    "demo": "threads2026"   # 3. Ortak veya demo giriş bilgisi
 }
 
-# Oturum durumunu (Giriş yapılıp yapılmadığını) kontrol eden session_state kontrolü
 if "logged_in" not in st.session_state:
     st.session_state.logged_in = False
 
-# Eğer giriş yapılmadıysa sadece kilitli ekranı göster
 if not st.session_state.logged_in:
     st.markdown(f"### 🎯 Threads Profil Takip Sistemi")
     st.write("")
     
-    # Giriş Kutusu Tasarımı
     with st.container(border=True):
-        st.markdown("<h4 style='color:#3a7ebf; margin-top:0px;'>🔒 SİSTEME GÜVENLİ GİRİŞ</h4>", unsafe_allow_html=True)
-        input_user = st.text_input("👤 Kullanıcı Adı", key="Murat").strip()
-        input_pass = st.text_input("🔑 Şifre", type="password", key="Esra").strip()
+        st.markdown("<h4 style='color:#3a7ebf; margin-top:0px;'><b>🔒 SİSTEME GÜVENLİ GİRİŞ</b></h4>", unsafe_allow_html=True)
+        input_user = st.text_input("👤 Kullanıcı Adı", key="login_username_field").strip()
+        input_pass = st.text_input("🔑 Şifre", type="password", key="login_password_field").strip()
         login_click = st.button("SİSTEME BAĞLAN", use_container_width=True, type="primary")
         
         if login_click:
-            # Gidilen kullanıcı adı veri tabanında var mı ve şifresi uyuşuyor mu kontrolü
             if input_user in KULLANICI_VERITABANI and KULLANICI_VERITABANI[input_user] == input_pass:
                 st.session_state.logged_in = True
                 st.success("🔓 Erişim Onaylandı! Sistem yükleniyor...")
-                st.rerun() # Sayfayı yenileyerek gizli sistemi aç
+                st.rerun()
             else:
                 st.error("❌ Hatalı Kullanıcı Adı veya Şifre! Lütfen bilgilerinizi kontrol edin.")
-    st.stop() # Giriş yapılmadığı sürece kodun aşağı akmasını kesin olarak durdur!
+    st.stop() # Giriş yapılana kadar alttaki kodların tetiklenmesini kesin olarak kes!
+# --- GİRİŞ YAPILDIKTAN SONRA AKTİF OLAN ANA ARAYÜZ ---
+st.title("🎯 Threads Profil Takip Sistemi")
 
-# --- 🔓 BURADAN AŞAĞISI SADECE GİRİŞ YAPAN KULLANICILARA GÖRÜNÜR ---
 col_lang, col_hashtag = st.columns(2)
 with col_lang:
     aktif_dil = st.selectbox("🌐 Language / Dil", ["TR", "EN", "DE"])
@@ -379,21 +417,21 @@ if btn_trigger or st.session_state.get('analyzed', False):
                     if filtered_unf:
                         for index, user in enumerate(filtered_unf, 1):
                             süre = AnalizMotoru.zaman_metnine_cevir(global_following_map.get(user, 0))
-                            st.markdown(f"[{index:03d}] 🔗 [@{user}](https://threads.com@{user}) &nbsp;&nbsp;&nbsp;&nbsp; ⌛ {süre}")
+                            st.markdown(f"[{index:03d}] 🔗 [@{user}](https://threads.com@{user}) &nbsp;&nbsp;&nbsp;&nbsp; <b>⌛ {süre}</b>", unsafe_allow_html=True)
                     else: st.info(DIL_PAKETI[aktif_dil]['perfect_sync'] if not clean_query else "Eşleşen kullanıcı bulunamadı.")
                 with t2:
                     filtered_fans = [u for u in sorted_fans if clean_query in u.lower()] if clean_query else sorted_fans
                     if filtered_fans:
                         for index, user in enumerate(filtered_fans, 1):
                             süre = AnalizMotoru.zaman_metnine_cevir(global_followers_map.get(user, 0))
-                            st.markdown(f"[{index:03d}] 🔗 [@{user}](https://threads.com@{user}) &nbsp;&nbsp;&nbsp;&nbsp; ⌛ {süre}")
+                            st.markdown(f"[{index:03d}] 🔗 [@{user}](https://threads.com@{user}) &nbsp;&nbsp;&nbsp;&nbsp; <b>⌛ {süre}</b>", unsafe_allow_html=True)
                     else: st.info(DIL_PAKETI[aktif_dil]['no_fans'] if not clean_query else "Eşleşen kullanıcı bulunamadı.")
                 with t3:
                     filtered_gh = [u for u in sorted_gh if clean_query in u.lower()] if clean_query else sorted_gh
                     if filtered_gh:
                         for index, user in enumerate(filtered_gh, 1):
                             süre = AnalizMotoru.zaman_metnine_cevir(global_followers_map.get(user, 0))
-                            st.markdown(f"[{index:03d}] 🔗 [@{user}](https://threads.com@{user}) &nbsp;&nbsp;&nbsp;&nbsp; ⌛ {süre}")
+                            st.markdown(f"[{index:03d}] 🔗 [@{user}](https://threads.com@{user}) &nbsp;&nbsp;&nbsp;&nbsp; <b>⌛ {süre}</b>", unsafe_allow_html=True)
                     else: st.info(DIL_PAKETI[aktif_dil]['no_ghosts'] if not clean_query else "Eşleşen kullanıcı bulunamadı.")
         except Exception as e: st.error(f"Sistem Hatası: {str(e)}")
 
