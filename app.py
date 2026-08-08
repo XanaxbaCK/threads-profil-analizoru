@@ -218,8 +218,8 @@ if not st.session_state.logged_in:
     
     with st.container(border=True):
         st.markdown("<h4 style='color:#3a7ebf; margin-top:0px;'><b>🔒 SİSTEME GÜVENLİ GİRİŞ</b></h4>", unsafe_allow_html=True)
-        input_user = st.text_input("👤 Kullanıcı Adı", key="login_username_field").strip()
-        input_pass = st.text_input("🔑 Şifre", type="password", key="login_password_field").strip()
+        input_user = st.text_input("👤 Kullanıcı Adı", key="Murat").strip()
+        input_pass = st.text_input("🔑 Şifre", type="password", key="Esra").strip()
         login_click = st.button("SİSTEME BAĞLAN", use_container_width=True, type="primary")
         
         if login_click:
