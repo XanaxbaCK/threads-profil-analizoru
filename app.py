@@ -8,7 +8,7 @@ from datetime import datetime
 import streamlit as st
 import xlsxwriter
 
-# --- MOBİL VE GENİŞ EKRAN UYUMLULUK AYARI ---
+# --- MOBİL VE GENİŞ EKRAN GÜVENLİ STANDART AYARI ---
 st.set_page_config(
     page_title="Threads Profil Takip Sistemi",
     page_icon="🎯",
@@ -45,8 +45,8 @@ DIL_PAKETI = {
         "guide_step6": "6️⃣ Klasörün içindeki `connections/followers_and_following` yoluna giderek **`followers.json`** ve **`following.json`** dosyalarını aşağıdaki panellere yükleyin.",
         "contact_btn": "💬 YAPIMCI İLE İLETİŞİME GEÇ (@muratsenr)",
         "player_title": "🎵 Arka Plan Müziğini Zorla Koydurdu",
-        "share_btn": "🚀 SONUCU THREADS'TE PAYLAŞ",
-        "share_text": "Threads Takip Sistemi ile profilimi analiz ettim! Profil Sağlık Skorum: %{score}! 🎯 Siz de profilinizi güvenle test edin: "
+        "search_placeholder": "🔍 Listede kullanıcı adı ara...",
+        "chart_title": "📈 Profil Dağılım Grafiği"
     },
     "EN": {
         "main_title": "THREADS GLOBAL",
@@ -71,13 +71,13 @@ DIL_PAKETI = {
         "guide_step1": "1️⃣ Open **Instagram/Threads**, go to **Settings -> Accounts Center**.",
         "guide_step2": "2️⃣ Follow **Your Information and Permissions -> Download Your Information**.",
         "guide_step3": "3️⃣ Click **Request a Download** and select only **Threads**.",
-        "guide_step4": "4️⃣ Choose format as **JSON**, media quality as **Low** (for fast download) and submit.",
+        "guide_step4": "4️⃣ Choose format as **JSON**, media quality as **Low** and submit.",
         "guide_step5": "5️⃣ In a few hours, download the `.zip` file from your email and extract it.",
-        "guide_step6": "6️⃣ Go to `connections/followers_and_following` folder and upload **`followers.json`** and **`following.json`** below.",
+        "guide_step6": "6️⃣ Go to `connections/followers_and_following` folder and upload files below.",
         "contact_btn": "💬 CONTACT DEVELOPER (@muratsenr)",
         "player_title": "🎵 Background Music: Cankan - Yaranamadım",
-        "share_btn": "🚀 SHARE RESULT ON THREADS",
-        "share_text": "I just analyzed my profile with Threads Tracking System! Profile Health Score: %{score}! 🎯 Test your profile securely here: "
+        "search_placeholder": "🔍 Search username in list...",
+        "chart_title": "📈 Profile Distribution Chart"
     },
     "DE": {
         "main_title": "THREADS GLOBAL",
@@ -85,30 +85,30 @@ DIL_PAKETI = {
         "main_hashtag": "#nichtichsondernwir",
         "load_following": "Laden Sie die, denen Sie folgen (following.json)",
         "load_followers": "Laden Sie Ihre Follower (followers.json)",
-        "btn_analyze": "ANALYSE STARTEN",
+        "btn_analyze": "⚡ CYBER-SCAN STARTEN ⚡",
         "tab_unfollowers": "Folgen mir nicht zurück",
         "tab_fans": "Ich folge nicht zurück",
         "tab_ghosts": "Geister / Inaktive Konten",
         "input_error_msg": "Für die Analyse müssen beide Quelldateien hochgeladen werden.",
         "parse_error_msg": "Das hochgeladene JSON-Schema konnte nicht aufgelöst werden.",
-        "success_msg": "Dateien erfolgreich gescannt, Berichte als Excel und TXT exportiert!",
-        "perfect_sync": "🎉 [PERFEKTE SYNCHRONISATION]: Jeder folgt Ihnen zurück!",
-        "no_fans": "🎯 [KEINE FANS]: Sie folgen jedem zurück, der Ihnen folgt.",
-        "no_ghosts": "🛡️ [SAUBERES PROFIL]: Keine Geister- oder Bot-Konten auf Ihrem Profil erkannt.",
-        "download_excel": "📥 Excel-Analysebericht herunterladen",
+        "success_msg": "Dateien erfolgreich gescannt, Berichte exportiert!",
+        "perfect_sync": "🎉 [SAFE LOG]: Jeder folgt Ihnen zurück!",
+        "no_fans": "🎯 [SAFE LOG]: Sie folgen jedem zurück, der Ihnen folgt.",
+        "no_ghosts": "🛡️ [SAFE LOG]: Keine Geister- oder Bot-Konten auf Ihrem Profil.",
+        "download_excel": "📥 Cyber-Excel-Analysebericht herunterladen",
         "summary_title": "📊 PROFIL-GESUNDHEITSÜBERSICHT",
         "health_score": "Gesundheitsscore",
-        "guide_title": "📖 Wie lade ich Threads-Daten herunter? (Benutzerhandbuch)",
+        "guide_title": "📖 Wie lade ich Threads-Daten herunter? (Handbuch)",
         "guide_step1": "1️⃣ Öffnen Sie **Instagram/Threads**, gehen Sie zu **Einstellungen -> Kontenübersicht**.",
         "guide_step2": "2️⃣ Folgen Sie **Deine Informationen und Berechtigungen -> Deine Informationen herunterladen**.",
         "guide_step3": "3️⃣ Klicken Sie auf **Download anfordern** und wählen Sie nur **Threads** aus.",
-        "guide_step4": "4️⃣ Wählen Sie das Format **JSON** und die Medienqualität **Niedrig** und senden Sie es ab.",
-        "guide_step5": "5️⃣ Laden Sie die `.zip`-Datei in wenigen Stunden aus Ihrer E-Mail herunter und entpacken Sie sie.",
-        "guide_step6": "6️⃣ Gehen Sie zum Ordner `connections/followers_and_following` und laden Sie **`followers.json`** und **`following.json`** unten hoch.",
-        "contact_btn": "💬 ENTWICKLER KONTAKTIEREN (@muratsenr)",
+        "guide_step4": "4️⃣ Wählen Sie das Format **JSON** und die Medienqualität **Niedrig**.",
+        "guide_step5": "5️⃣ Laden Sie die `.zip`-Datei herunter und entpacken Sie sie.",
+        "guide_step6": "6️⃣ Suchen Sie den Ordner `connections/followers_and_following` und laden Sie die Dateien hoch.",
+        "contact_btn": "💬 CYBER-ENTWICKLER KONTAKTIEREN (@muratsenr)",
         "player_title": "🎵 Hintergrundmusik: Cankan - Yaranamadım",
-        "share_btn": "🚀 ERGEBNIS AUF THREADS TEILEN",
-        "share_text": "Ich habe mein Profil mit dem Threads Tracking System analysiert! Profil-Gesundheitsscore: %{score}! 🎯 Testen Sie Ihr Profil hier sicher: "
+        "search_placeholder": "🔍 Suchen Sie nach Benutzernamen...",
+        "chart_title": "📈 Profil-Verteilungsdiagramm"
     }
 }
 class AnalizMotoru:
@@ -173,11 +173,24 @@ st.markdown(f"### {DIL_PAKETI[aktif_dil]['main_title']}")
 st.caption(DIL_PAKETI[aktif_dil]['main_sub'])
 st.divider()
 
-# --- 🎛️ %100 ÇALIŞAN GÜVENLİ MÜZİK BUTONU PANELİ ---
+# --- 👤 LÜKS VE MODERN GELİŞTİRİCİ PROFİL KARTI ---
+# Buradaki profil resmi yer tutucudur. Kendi güncel Threads profil resminizin tam internet linkini veya avatarı koyabilirsiniz.
+with st.container(border=True):
+    p1, p2 = st.columns([1, 3])
+    with p1:
+        st.image("https://dicebear.com", width=110) # Şık siber avatar logosu
+    with p2:
+        st.markdown("#### **Murat Şener**")
+        st.markdown("🚀 *Threads Türkiye Topluluk Lideri & Yazılım Geliştirici*")
+        st.caption("✍️ Biyografi: 'Burası Threads'in kalbi. Profilinizi zombi hesaplardan arındırmak ve siber sağlığınızı korumak için bu güvenli aracı kodladım.'")
+
+st.write("")
+
+# --- 🎛 nighttime GÜVENLİ MÜZİK BUTONU PANELİ ---
 st.caption(DIL_PAKETI[aktif_dil]['player_title'])
 st.link_button(
     label="▶️ YAPARKEN DİNLERSİNİZ YA (Göndermeli Şarkı)",
-    url="https://www.youtube.com/watch?v=fdFvJGKzPNQ",
+    url="https://youtube.com",
     use_container_width=True
 )
 
@@ -189,7 +202,7 @@ with st.expander(DIL_PAKETI[aktif_dil]['guide_title'], expanded=False):
     st.markdown(DIL_PAKETI[aktif_dil]['guide_step4'])
     st.markdown(DIL_PAKETI[aktif_dil]['guide_step5'])
     st.markdown(DIL_PAKETI[aktif_dil]['guide_step6'])
-    st.info("ℹ️ Raporlar tamamen sizin cihazınızda işlenir, verileriniz asla sunucuya kaydedilmez.")
+    st.info("ℹ️ SECURITY NOTICE: Raporlar yerel işlenir, verileriniz asla sunucuya kaydedilmez.")
 
 st.write("") 
 
@@ -198,29 +211,39 @@ uploaded_following = st.file_uploader(DIL_PAKETI[aktif_dil]['load_following'], t
 uploaded_followers = st.file_uploader(DIL_PAKETI[aktif_dil]['load_followers'], type=["json"], accept_multiple_files=True)
 
 btn_trigger = st.button(DIL_PAKETI[aktif_dil]['btn_analyze'], use_container_width=True, type="primary")
-if btn_trigger:
+if btn_trigger or st.session_state.get('analyzed', False):
     if not uploaded_following or not uploaded_followers:
         st.warning(DIL_PAKETI[aktif_dil]['input_error_msg'])
     else:
         try:
-            following_raw = json.loads(uploaded_following.read().decode("utf-8"))
-            global_following_map = AnalizMotoru.akilli_süre_ayristir(following_raw)
-            
-            global_followers_map = {}
-            for u_file in uploaded_followers:
-                followers_raw = json.loads(u_file.read().decode("utf-8"))
-                global_followers_map.update(AnalizMotoru.akilli_süre_ayristir(followers_raw))
+            if 'unfollowers' not in st.session_state:
+                following_raw = json.loads(uploaded_following.read().decode("utf-8"))
+                st.session_state.global_following_map = AnalizMotoru.akilli_süre_ayristir(following_raw)
                 
-            following_set = set(global_following_map.keys())
-            followers_set = set(global_followers_map.keys())
-            
+                st.session_state.global_followers_map = {}
+                for u_file in uploaded_followers:
+                    followers_raw = json.loads(u_file.read().decode("utf-8"))
+                    st.session_state.global_followers_map.update(AnalizMotoru.akilli_süre_ayristir(followers_raw))
+                    
+                st.session_state.following_set = set(st.session_state.global_following_map.keys())
+                st.session_state.followers_set = set(st.session_state.global_followers_map.keys())
+                
+                st.session_state.unfollowers = st.session_state.following_set - st.session_state.followers_set
+                st.session_state.fans = st.session_state.followers_set - st.session_state.following_set
+                st.session_state.ghosts = {u for u, ts in st.session_state.global_followers_map.items() if AnalizMotoru.bot_ve_pasiflik_kontrolü(u, ts)}
+                st.session_state.analyzed = True
+
+            global_following_map = st.session_state.global_following_map
+            global_followers_map = st.session_state.global_followers_map
+            following_set = st.session_state.following_set
+            followers_set = st.session_state.followers_set
+            unfollowers = st.session_state.unfollowers
+            fans = st.session_state.fans
+            ghosts = st.session_state.ghosts
+
             if not following_set or not followers_set:
                 st.error(DIL_PAKETI[aktif_dil]['parse_error_msg'])
             else:
-                unfollowers = following_set - followers_set
-                fans = followers_set - following_set
-                ghosts = {u for u, ts in global_followers_map.items() if AnalizMotoru.bot_ve_pasiflik_kontrolü(u, ts)}
-
                 toplam_bağ = len(following_set) + len(followers_set)
                 if toplam_bağ > 0:
                     ceza_puanı = (len(unfollowers) / len(following_set)) * 40 if len(following_set) > 0 else 0
@@ -239,21 +262,31 @@ if btn_trigger:
                 m1.metric(DIL_PAKETI[aktif_dil]['health_score'], f"%{health_score}", durum_str)
                 m2.metric("Following", len(following_set))
                 m3.metric("Followers", len(followers_set))
-                
+
+                # --- 📊 YEREL PASTA GRAFİĞİ ENTEGRASYONU ---
+                st.write("")
+                st.markdown(f"##### {DIL_PAKETI[aktif_dil]['chart_title']}")
+                chart_data = {
+                    "Kategori": ["Beni Takip Etmeyenler", "Karşılıklı Takip", "Geri Takip Etmediklerim", "Hayalet Hesaplar"],
+                    "Sayı": [len(unfollowers), len(following_set & followers_set), len(fans), len(ghosts)]
+                }
+                st.pie_chart(data=chart_data, values="Sayı", names="Kategori", use_container_width=True)
+                st.write("")
                 # --- BELLEKTE EXCEL OLUŞTURMA MOTORU (XLSXWRITER) ---
                 output_excel = io.BytesIO()
                 workbook = xlsxwriter.Workbook(output_excel)
                 
-                header_format = workbook.add_format({'bold': True, 'font_color': 'white', 'bg_color': '#1F4E78', 'border': 1, 'align': 'center'})
+                header_format = workbook.add_format({'bold': True, 'font_color': 'white', 'bg_color': '#1f4e78', 'border': 1, 'align': 'center'})
                 link_format = workbook.add_format({'font_color': 'blue', 'underline': True})
                 text_format = workbook.add_format({'align': 'left'})
+                
                 # 1. Sayfa: Beni Takip Etmeyenler
                 sheet_unf = workbook.add_worksheet("Beni Takip Etmeyenler")
                 sheet_unf.write_row('A1', ['No', 'Kullanıcı Adı', 'Profil Linki', 'Süre'], header_format)
                 sorted_unf = sorted(unfollowers, key=lambda x: global_following_map.get(x, 0))
                 for idx, user in enumerate(sorted_unf, 1):
                     süre = AnalizMotoru.zaman_metnine_cevir(global_following_map.get(user, 0))
-                    p_url = f"https://threads.com/@{user}"
+                    p_url = f"https://threads.com@{user}"
                     sheet_unf.write(idx, 0, idx)
                     sheet_unf.write(idx, 1, f"@{user}", text_format)
                     sheet_unf.write_url(idx, 2, p_url, link_format, string=p_url)
@@ -266,7 +299,7 @@ if btn_trigger:
                 sorted_fans = sorted(fans, key=lambda x: global_followers_map.get(x, 0))
                 for idx, user in enumerate(sorted_fans, 1):
                     süre = AnalizMotoru.zaman_metnine_cevir(global_followers_map.get(user, 0))
-                    p_url = f"https://threads.com/@{user}"
+                    p_url = f"https://threads.com@{user}"
                     sheet_fans.write(idx, 0, idx)
                     sheet_fans.write(idx, 1, f"@{user}", text_format)
                     sheet_fans.write_url(idx, 2, p_url, link_format, string=p_url)
@@ -279,7 +312,7 @@ if btn_trigger:
                 sorted_gh = sorted(ghosts, key=lambda x: global_followers_map.get(x, 0))
                 for idx, user in enumerate(sorted_gh, 1):
                     süre = AnalizMotoru.zaman_metnine_cevir(global_followers_map.get(user, 0))
-                    p_url = f"https://threads.com/@{user}"
+                    p_url = f"https://threads.com@{user}"
                     sheet_gh.write(idx, 0, idx)
                     sheet_gh.write(idx, 1, f"@{user}", text_format)
                     sheet_gh.write_url(idx, 2, p_url, link_format, string=p_url)
@@ -297,37 +330,42 @@ if btn_trigger:
                     mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
                     use_container_width=True
                 )
-               
+                # --- 🔍 CANLI ARAMA / FİLTRELEME KUTUSU ENTEGRASYONU ---
+                search_query = st.text_input("", placeholder=DIL_PAKETI[aktif_dil]['search_placeholder']).strip().lower()
+                clean_query = search_query.replace("@", "")
 
-                # --- WEB SEKME GÖRÜNÜMLERİ (Tıklanabilir Mavi Linkler) ---
+                # --- WEB SEKME GÖRÜNÜMLERİ ---
                 t1, t2, t3 = st.tabs([DIL_PAKETI[aktif_dil]['tab_unfollowers'], DIL_PAKETI[aktif_dil]['tab_fans'], DIL_PAKETI[aktif_dil]['tab_ghosts']])
                 
                 with t1:
-                    if unfollowers:
-                        for index, user in enumerate(sorted_unf, 1):
+                    filtered_unf = [u for u in sorted_unf if clean_query in u.lower()] if clean_query else sorted_unf
+                    if filtered_unf:
+                        for index, user in enumerate(filtered_unf, 1):
                             süre = AnalizMotoru.zaman_metnine_cevir(global_following_map.get(user, 0))
-                            p_url = f"https://threads.com/@{user}"
+                            p_url = f"https://threads.com@{user}"
                             st.markdown(f"[{index:03d}] 🔗 [@{user}]({p_url}) &nbsp;&nbsp;&nbsp;&nbsp; ⌛ {süre}")
                     else:
-                        st.info(DIL_PAKETI[aktif_dil]['perfect_sync'])
+                        st.info(DIL_PAKETI[aktif_dil]['perfect_sync'] if not clean_query else "Eşleşen kullanıcı bulunamadı.")
                         
                 with t2:
-                    if fans:
-                        for index, user in enumerate(sorted_fans, 1):
+                    filtered_fans = [u for u in sorted_fans if clean_query in u.lower()] if clean_query else sorted_fans
+                    if filtered_fans:
+                        for index, user in enumerate(filtered_fans, 1):
                             süre = AnalizMotoru.zaman_metnine_cevir(global_followers_map.get(user, 0))
-                            p_url = f"https://threads.com/@{user}"
+                            p_url = f"https://threads.com@{user}"
                             st.markdown(f"[{index:03d}] 🔗 [@{user}]({p_url}) &nbsp;&nbsp;&nbsp;&nbsp; ⌛ {süre}")
                     else:
-                        st.info(DIL_PAKETI[aktif_dil]['no_fans'])
+                        st.info(DIL_PAKETI[aktif_dil]['no_fans'] if not clean_query else "Eşleşen kullanıcı bulunamadı.")
                         
                 with t3:
-                    if ghosts:
-                        for index, user in enumerate(sorted_gh, 1):
+                    filtered_gh = [u for u in sorted_gh if clean_query in u.lower()] if clean_query else sorted_gh
+                    if filtered_gh:
+                        for index, user in enumerate(filtered_gh, 1):
                             süre = AnalizMotoru.zaman_metnine_cevir(global_followers_map.get(user, 0))
-                            p_url = f"https://threads.com/@{user}"
+                            p_url = f"https://threads.com@{user}"
                             st.markdown(f"[{index:03d}] 🔗 [@{user}]({p_url}) &nbsp;&nbsp;&nbsp;&nbsp; ⌛ {süre}")
                     else:
-                        st.info(DIL_PAKETI[aktif_dil]['no_ghosts'])
+                        st.info(DIL_PAKETI[aktif_dil]['no_ghosts'] if not clean_query else "Eşleşen kullanıcı bulunamadı.")
                         
         except Exception as e:
             st.error(f"Sistem Hatası: {str(e)}")
@@ -337,6 +375,6 @@ st.write("")
 st.divider()
 st.link_button(
     label=DIL_PAKETI[aktif_dil]['contact_btn'],
-    url="https://threads.com/@muratsenr",
+    url="https://threads.com@muratsenr",
     use_container_width=True
 )
