@@ -177,7 +177,7 @@ st.divider()
 st.caption(DIL_PAKETI[aktif_dil]['player_title'])
 st.link_button(
     label="▶️ YAPARKEN DİNLERSİNİZ YA (Göndermeli Şarkı)",
-    url="https://youtube.com",
+    url="https://www.youtube.com/watch?v=fdFvJGKzPNQ",
     use_container_width=True
 )
 
@@ -253,7 +253,7 @@ if btn_trigger:
                 sorted_unf = sorted(unfollowers, key=lambda x: global_following_map.get(x, 0))
                 for idx, user in enumerate(sorted_unf, 1):
                     süre = AnalizMotoru.zaman_metnine_cevir(global_following_map.get(user, 0))
-                    p_url = f"https://threads.com@{user}"
+                    p_url = f"https://threads.com/@{user}"
                     sheet_unf.write(idx, 0, idx)
                     sheet_unf.write(idx, 1, f"@{user}", text_format)
                     sheet_unf.write_url(idx, 2, p_url, link_format, string=p_url)
@@ -266,7 +266,7 @@ if btn_trigger:
                 sorted_fans = sorted(fans, key=lambda x: global_followers_map.get(x, 0))
                 for idx, user in enumerate(sorted_fans, 1):
                     süre = AnalizMotoru.zaman_metnine_cevir(global_followers_map.get(user, 0))
-                    p_url = f"https://threads.com@{user}"
+                    p_url = f"https://threads.com/@{user}"
                     sheet_fans.write(idx, 0, idx)
                     sheet_fans.write(idx, 1, f"@{user}", text_format)
                     sheet_fans.write_url(idx, 2, p_url, link_format, string=p_url)
@@ -279,7 +279,7 @@ if btn_trigger:
                 sorted_gh = sorted(ghosts, key=lambda x: global_followers_map.get(x, 0))
                 for idx, user in enumerate(sorted_gh, 1):
                     süre = AnalizMotoru.zaman_metnine_cevir(global_followers_map.get(user, 0))
-                    p_url = f"https://threads.com@{user}"
+                    p_url = f"https://threads.com/@{user}"
                     sheet_gh.write(idx, 0, idx)
                     sheet_gh.write(idx, 1, f"@{user}", text_format)
                     sheet_gh.write_url(idx, 2, p_url, link_format, string=p_url)
