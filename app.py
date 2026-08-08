@@ -141,7 +141,8 @@ DIL_PAKETI = {
         "guide_step3": "2️⃣ Folgen Sie **Deine Informationen und Berechtigungen -> Deine Informationen herunterladen**.",
         "guide_step4": "3️⃣ Klicken Sie auf **Download anfordern** und wählen Sie nur **Threads** aus.",
         "guide_step5": "4️⃣ Wählen Sie das Format **JSON** und die Medienqualität **Niedrig**.",
-        "guide_step6": "5️⃣ Laden Sie die `.zip`-Datei unentpackt hoch oder wählen Sie die JSON-Dateien aus dem Ordner.",
+        "guide_step6": "5️⃣ Entpacken Sie die erhaltene `.zip`-Datei auf Ihrem Gerät.",
+        "guide_step7": "6️⃣ Ziehen Sie den Ordner `connections/followers_and_following` hierher.",
         "contact_btn": "💬 CYBER-ENTWICKLER KONTAKTIEREN (@muratsenr)",
         "player_title": "🎵 Hintergrundmusik: Cankan - Yaranamadım",
         "search_placeholder": "🔍 Suchen Sie nach Benutzernamen...",
@@ -239,8 +240,8 @@ if not st.session_state.logged_in:
                 st.error("❌ Hatalı Kullanıcı Adı veya Şifre! Lütfen bilgilerinizi kontrol edin.")
     st.stop()
 
-# --- TEMA SEÇİCİ ---
-col_theme, col_space = st.columns()
+# --- TEMA SEÇİCİ (Hata Veren Satır Düzeltildi) ---
+col_theme, col_space = st.columns(2)
 with col_theme:
     tema_secimi = st.selectbox("🌓 Tema Modu", ["Karanlık Gece Modu", "Açık Threads Modu"], label_visibility="collapsed")
 
@@ -280,7 +281,7 @@ with st.expander(DIL_PAKETI[aktif_dil]['guide_title'], expanded=False):
 
 st.write("") 
 
-# --- 📁 %100 ÜÇÜ BİR ARADA (ZIP + JSON SÜRÜKLE / SEÇ) HİBRİT DOSYA PANELİ ---
+# --- 📁 HİBRİT DOSYA PANELİ (ZIP + JSON SÜRÜKLE / SEÇ) ---
 uploaded_inputs = st.file_uploader(DIL_PAKETI[aktif_dil]['load_batch'], type=["zip", "json"], accept_multiple_files=True)
 
 following_bytes = None
@@ -288,7 +289,6 @@ followers_bytes = None
 
 if uploaded_inputs:
     for item in uploaded_inputs:
-        # Eğer ham .zip dosyası atıldıysa
         if item.name.lower().endswith(".zip"):
             try:
                 with zipfile.ZipFile(item) as z:
@@ -299,7 +299,6 @@ if uploaded_inputs:
                             followers_bytes = z.read(file_info.filename)
             except Exception:
                 st.error("Zip Çözümleme Hatası! Lütfen geçerli bir Threads arşivi yükleyin.")
-        # Eğer çoklu seçim veya klasör içi sürüklemeyle düz .json dosyaları atıldıysa
         elif item.name.lower().endswith(".json"):
             if "following" in item.name.lower():
                 following_bytes = item.read()
@@ -382,11 +381,14 @@ if btn_trigger or st.session_state.get('analyzed', False):
                     c1.metric("🚨 Yeni Taktikten Çıkanlar", len(yeni_takipten_cikanlar), f"+{len(yeni_takipten_cikanlar)} Kişi" if yeni_takipten_cikanlar else "Değişim Yok", delta_color="inverse")
                     c2.metric("🛸 Yeni Kazanılan Hayranlar", len(yeni_hayranlar), f"+{len(yeni_hayranlar)} Kişi" if yeni_hayranlar else "Değişim Yok")
 
-                # --- 📊 SÜTUN GRAFİĞİ ENTEGRASYONU ---
+                # --- 📊 YEREL SÜTUN GRAFİĞİ ENTEGRASYONU (Hizalaması Düzeltildi) ---
                 st.write("")
                 st.markdown(f"##### {DIL_PAKETI[aktif_dil]['chart_title']}")
-                chart_data = {"Sayı": [len(unfollowers), len(following_set & followers_set), len(fans), len(ghosts)]}
-                st.bar_chart(data=chart_data, y_label="Hesap Sayısı", use_container_width=True)
+                chart_data = {
+                    "Kategori": ["Takip Etmeyenler", "Karşılıklı", "Hayranlar", "Hayaletler"],
+                    "Sayı": [len(unfollowers), len(following_set & followers_set), len(fans), len(ghosts)]
+                }
+                st.bar_chart(data=chart_data, x="Kategori", y="Sayı", use_container_width=True)
                 st.write("")
 
                 # --- BELLEKTE EXCEL OLUŞTURMA MOTORU ---
