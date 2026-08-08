@@ -1,7 +1,6 @@
 import json
 import re
 import io
-import urllib.parse
 from pathlib import Path
 from typing import Any, List, Dict
 from datetime import datetime
@@ -22,13 +21,12 @@ DIL_PAKETI = {
         "main_title": "THREADS TÜRKİYE / MURAT & ESRA (CAN&KAN)",
         "main_sub": "YEREL VE GÜVENLİ ÇİFT YÖNLÜ PROFİL TAKİPÇİ SİSTEMİ",
         "main_hashtag": "#bendeğilbizyaptık",
-        "load_following": "Takip Ettiklerinizi Yükleyin (following.json)",
-        "load_followers": "Takipçilerinizi Yükleyin (followers.json)",
+        "load_batch": "📁 followers_and_following Klasörünü veya Dosyaları Sürükleyip Bırakın",
         "btn_analyze": "ANALİZİ BAŞLAT",
         "tab_unfollowers": "Beni Takip Etmeyenler",
         "tab_fans": "Geri Takip Etmediklerim",
         "tab_ghosts": "Hayalet (Ghost) Hesaplar",
-        "input_error_msg": "Analiz için gerekli iki kaynak dosya da yüklenmelidir.",
+        "input_error_msg": "Analiz için veri havuzunda hem 'followers.json' hem de 'following.json' bulunmalıdır.",
         "parse_error_msg": "Yüklenen JSON şeması motor tarafından çözümlenemedi.",
         "success_msg": "Dosyalar tarandı, Excel ve TXT raporları köprü linkleriyle üretildi!",
         "perfect_sync": "🎉 [KUSURSUZ SENKRONİZASYON]: Herkes sizi geri takip ediyor!",
@@ -41,28 +39,28 @@ DIL_PAKETI = {
         "guide_step1": "1️⃣ **Instagram/Threads** uygulamasını açın ve **Ayarlar -> Hesaplar Merkezi** bölümüne girin.",
         "guide_step2": "2️⃣ **Bilgilerin ve İzinlerin -> Bilgilerini İndir** adımlarını takip edin.",
         "guide_step3": "3️⃣ **Indirme Talep Et** butonuna basın ve sadece **Threads** seçeneğini işaretleyin.",
-        "guide_step4": "4️⃣ Dosya formatını **JSON** (ÖNEMLİ!), medya kalitesini **Düşük** (hızlı inmesi için) seçip talebi onaylayın.",
-        "guide_step5": "5️⃣ Birkaç saat içinde (Takipçiniz az ise süre kısalır) e-postanıza gelen `.zip` dosyasını bilgisayara/telefona indirin ve klasöre çıkartın.",
-        "guide_step6": "6️⃣ Klasörün içindeki `connections/followers_and_following` yoluna giderek **`followers.json`** ve **`following.json`** dosyalarını aşağıdaki panellere yükleyin.",
+        "guide_step4": "4️⃣ Dosya formatını **JSON** (ÖNEMLİ!), medya kalitesini **Düşük** seçip talebi onaylayın.",
+        "guide_step5": "5️⃣ E-postanıza gelen `.zip` dosyasını indirin ve klasöre çıkartın.",
+        "guide_step6": "6️⃣ Klasörün içindeki `connections/followers_and_following` klasörünü komple aşağıdaki panele sürükleyip bırakın.",
         "contact_btn": "💬 YAPIMCI İLE İLETİŞİME GEÇ (@muratsenr)",
         "player_title": "🎵 Arka Plan Müziğini Zorla Koydurdu",
         "search_placeholder": "🔍 Listede kullanıcı adı ara...",
         "chart_title": "📈 Profil Dağılım Grafiği",
         "sort_label": "⏳ Zaman Sıralaması",
         "sort_newest": "Önce En Yeni (Kronolojik)",
-        "sort_oldest": "Önce En Eski (Nostaljik)"
+        "sort_oldest": "Önce En Eski (Nostaljik)",
+        "history_title": "⏳ ŞU ANDA AKTİF DEĞİŞİM KARŞILAŞTIRICISI"
     },
     "EN": {
         "main_title": "THREADS GLOBAL",
         "main_sub": "LOCAL AND SECURE BI-DIRECTIONAL PROFILE ANALYSIS SYSTEM",
         "main_hashtag": "#notmebutwe",
-        "load_following": "Load Those You Follow (following.json)",
-        "load_followers": "Load Your Followers (followers.json)",
+        "load_batch": "📁 Drag & Drop followers_and_following Folder or Files Here",
         "btn_analyze": "START ANALYSIS",
         "tab_unfollowers": "Not Following Me Back",
         "tab_fans": "I Am Not Following Back",
         "tab_ghosts": "Ghost / Inactive Accounts",
-        "input_error_msg": "Both required source files must be uploaded for analysis.",
+        "input_error_msg": "Analysis requires both 'followers.json' and 'following.json' files in the data pool.",
         "parse_error_msg": "The uploaded JSON schema could not be resolved by the engine.",
         "success_msg": "Files scanned, Excel and TXT reports generated with clickable links!",
         "perfect_sync": "🎉 [PERFECT SYNC]: Everyone is following you back!",
@@ -76,27 +74,27 @@ DIL_PAKETI = {
         "guide_step2": "2️⃣ Follow **Your Information and Permissions -> Download Your Information**.",
         "guide_step3": "3️⃣ Click **Request a Download** and select only **Threads**.",
         "guide_step4": "4️⃣ Choose format as **JSON**, media quality as **Low** and submit.",
-        "guide_step5": "5️⃣ In a few hours, download the `.zip` file from your email and extract it.",
-        "guide_step6": "6️⃣ Go to `connections/followers_and_following` folder and upload files below.",
+        "guide_step5": "5️⃣ Download the `.zip` file from your email and extract it.",
+        "guide_step6": "6️⃣ Drag and drop the `connections/followers_and_following` folder into the panel below.",
         "contact_btn": "💬 CONTACT DEVELOPER (@muratsenr)",
         "player_title": "🎵 Background Music: Cankan - Yaranamadım",
         "search_placeholder": "🔍 Search username in list...",
         "chart_title": "📈 Profile Distribution Chart",
         "sort_label": "⏳ Time Sorting",
         "sort_newest": "Newest First (Chronological)",
-        "sort_oldest": "Oldest First"
+        "sort_oldest": "Oldest First",
+        "history_title": "⏳ ACTIVE LIVE CHANGE COMPARATOR"
     },
     "DE": {
         "main_title": "THREADS GLOBAL",
         "main_sub": "LOKALES UND SICHERES BIDIREKTIONALES PROFIL-ANALYSESYSTEM",
         "main_hashtag": "#nichtichsondernwir",
-        "load_following": "Laden Sie die, denen Sie folgen (following.json)",
-        "load_followers": "Laden Sie Ihre Follower (followers.json)",
+        "load_batch": "📁 Ziehen Sie den Ordner followers_and_following oder Dateien hierher",
         "btn_analyze": "ANALYSE STARTEN",
         "tab_unfollowers": "Folgen mir nicht zurück",
         "tab_fans": "Ich folge nicht zurück",
         "tab_ghosts": "Geister / Inaktive Konten",
-        "input_error_msg": "Für die Analyse müssen beide Quelldateien hochgeladen werden.",
+        "input_error_msg": "Die Analyse erfordert sowohl die Datei 'followers.json' als auch 'following.json' im Datenpool.",
         "parse_error_msg": "Das hochgeladene JSON-Schema konnte nicht aufgelöst werden.",
         "success_msg": "Dateien erfolgreich gescannt, Berichte exportiert!",
         "perfect_sync": "🎉 [SAFE LOG]: Jeder folgt Ihnen zurück!",
@@ -110,15 +108,16 @@ DIL_PAKETI = {
         "guide_step2": "2️⃣ Folgen Sie **Deine Informationen und Berechtigungen -> Deine Informationen herunterladen**.",
         "guide_step3": "3️⃣ Klicken Sie auf **Download anfordern** und wählen Sie nur **Threads** aus.",
         "guide_step4": "4️⃣ Wählen Sie das Format **JSON** und die Medienqualität **Niedrig**.",
-        "guide_step5": "5️⃣ Laden Sie die `.zip`-Datei herunter und entpacken Sie sie.",
-        "guide_step6": "6️⃣ Gehen Sie zum Ordner `connections/followers_and_following` und laden Sie die Dateien hoch.",
-        "contact_btn": "💬 ENTWICKLER KONTAKTIEREN (@muratsenr)",
+        "guide_step5": "5️⃣ Entpacken Sie die erhaltene `.zip`-Datei auf Ihrem Gerät.",
+        "guide_step6": "6️⃣ Ziehen Sie den Ordner `connections/followers_and_following` hierher.",
+        "contact_btn": "💬 CYBER-ENTWICKLER KONTAKTIEREN (@muratsenr)",
         "player_title": "🎵 Hintergrundmusik: Cankan - Yaranamadım",
         "search_placeholder": "🔍 Suchen Sie nach Benutzernamen...",
         "chart_title": "📈 Profil-Verteilungsdiagramm",
         "sort_label": "⏳ Zeitliche Sortierung",
         "sort_newest": "Neueste zuerst",
-        "sort_oldest": "Älteste zuerst"
+        "sort_oldest": "Älteste zuerst",
+        "history_title": "⏳ AKTIVER LIVE-VERÄNDERUNGSVERGLEICHER"
     }
 }
 class AnalizMotoru:
@@ -199,34 +198,50 @@ with st.expander(DIL_PAKETI[aktif_dil]['guide_title'], expanded=False):
     st.markdown(DIL_PAKETI[aktif_dil]['guide_step4'])
     st.markdown(DIL_PAKETI[aktif_dil]['guide_step5'])
     st.markdown(DIL_PAKETI[aktif_dil]['guide_step6'])
-    st.info("ℹ️ SECURITY NOTICE: Raporlar yerel işlenir, verileriniz asla sunucuya kaydedilmez.")
 
 st.write("") 
 
-# --- MOBİL UYUMLU DOSYA YÜKLEME ALANLARI ---
-uploaded_following = st.file_uploader(DIL_PAKETI[aktif_dil]['load_following'], type=["json"])
-uploaded_followers = st.file_uploader(DIL_PAKETI[aktif_dil]['load_followers'], type=["json"], accept_multiple_files=True)
+# --- 📂 ÖZELLİK 1: TOPLU KLASÖR VEYA DOSYA SÜRÜKLE-BIRAK ENJEKTÖRÜ ---
+uploaded_files = st.file_uploader(DIL_PAKETI[aktif_dil]['load_batch'], type=["json"], accept_multiple_files=True)
+
+# Sürüklenen çoklu dosyalardan followers ve following'i ayıran arka plan süzgeci
+following_file = None
+followers_file = None
+
+if uploaded_files:
+    for f in uploaded_files:
+        if "following" in f.name.lower():
+            following_file = f
+        elif "followers" in f.name.lower():
+            followers_file = f
 
 btn_trigger = st.button(DIL_PAKETI[aktif_dil]['btn_analyze'], use_container_width=True, type="primary")
 if btn_trigger or st.session_state.get('analyzed', False):
-    if not uploaded_following or not uploaded_followers:
+    if not following_file or not followers_file:
         st.warning(DIL_PAKETI[aktif_dil]['input_error_msg'])
     else:
         try:
             if 'unfollowers' not in st.session_state:
-                following_raw = json.loads(uploaded_following.read().decode("utf-8"))
+                # --- ⏳ ÖZELLİK 2: "ŞU ANDA AKTİF" DEĞİŞİM KARŞILAŞTIRICISI BELLEK YÖNETİMİ ---
+                # Yeni veriler okunmadan önce, eğer hafızada eski veri varsa "geçmiş analiz" olarak yedeklenir.
+                if 'current_unfollowers' in st.session_state:
+                    st.session_state.prev_unfollowers = st.session_state.current_unfollowers
+                    st.session_state.prev_fans = st.session_state.current_fans
+                    st.session_state.has_history = True
+                else:
+                    st.session_state.has_history = False
+
+                following_raw = json.loads(following_file.read().decode("utf-8"))
                 st.session_state.global_following_map = AnalizMotoru.akilli_süre_ayristir(following_raw)
                 
-                st.session_state.global_followers_map = {}
-                for u_file in uploaded_followers:
-                    followers_raw = json.loads(u_file.read().decode("utf-8"))
-                    st.session_state.global_followers_map.update(AnalizMotoru.akilli_süre_ayristir(followers_raw))
+                followers_raw = json.loads(followers_file.read().decode("utf-8"))
+                st.session_state.global_followers_map = AnalizMotoru.akilli_süre_ayristir(followers_raw)
                     
                 st.session_state.following_set = set(st.session_state.global_following_map.keys())
                 st.session_state.followers_set = set(st.session_state.global_followers_map.keys())
                 
-                st.session_state.unfollowers = st.session_state.following_set - st.session_state.followers_set
-                st.session_state.fans = st.session_state.followers_set - st.session_state.following_set
+                st.session_state.current_unfollowers = st.session_state.following_set - st.session_state.followers_set
+                st.session_state.current_fans = st.session_state.followers_set - st.session_state.following_set
                 st.session_state.ghosts = {u for u, ts in st.session_state.global_followers_map.items() if AnalizMotoru.bot_ve_pasiflik_kontrolü(u, ts)}
                 st.session_state.analyzed = True
 
@@ -234,8 +249,8 @@ if btn_trigger or st.session_state.get('analyzed', False):
             global_followers_map = st.session_state.global_followers_map
             following_set = st.session_state.following_set
             followers_set = st.session_state.followers_set
-            unfollowers = st.session_state.unfollowers
-            fans = st.session_state.fans
+            unfollowers = st.session_state.current_unfollowers
+            fans = st.session_state.current_fans
             ghosts = st.session_state.ghosts
 
             if not following_set or not followers_set:
@@ -260,13 +275,22 @@ if btn_trigger or st.session_state.get('analyzed', False):
                 m2.metric("Following", len(following_set))
                 m3.metric("Followers", len(followers_set))
 
-                # --- 📊 YEREL KARARLI SÜTUN GRAFİĞİ ENTEGRASYONU (HATA VERMEYEN YAPI) ---
+                # --- ⏳ DEĞİŞİM KARŞILAŞTIRICISI EKRAN PANELİ ---
+                if st.session_state.get('has_history', False):
+                    st.write("")
+                    st.markdown(f"##### {DIL_PAKETI[aktif_dil]['history_title']}")
+                    # Bir önceki analize göre takibi bırakan veya yeni gelen delta hesapları
+                    yeni_takipten_cikanlar = unfollowers - st.session_state.prev_unfollowers
+                    yeni_hayranlar = fans - st.session_state.prev_fans
+                    
+                    c1, c2 = st.columns(2)
+                    c1.metric("🚨 Yeni Taktikten Çıkanlar", len(yeni_takipten_cikanlar), f"+{len(yeni_takipten_cikanlar)} Kişi" if yeni_takipten_cikanlar else "Değişim Yok", delta_color="inverse")
+                    c2.metric("🛸 Yeni Kazanılan Hayranlar", len(yeni_hayranlar), f"+{len(yeni_hayranlar)} Kişi" if yeni_hayranlar else "Değişim Yok")
+
+                # --- 📊 SÜTUN GRAFİĞİ ENTEGRASYONU ---
                 st.write("")
                 st.markdown(f"##### {DIL_PAKETI[aktif_dil]['chart_title']}")
-                chart_data = {
-                    "Sayı": [len(unfollowers), len(following_set & followers_set), len(fans), len(ghosts)]
-                }
-                # st.pie_chart hatasını tamamen ekarte eden, yerleşik siber kararlı çubuk grafik motoru
+                chart_data = {"Sayı": [len(unfollowers), len(following_set & followers_set), len(fans), len(ghosts)]}
                 st.bar_chart(data=chart_data, y_label="Hesap Sayısı", use_container_width=True)
                 st.write("")
                 # --- BELLEKTE EXCEL OLUŞTURMA MOTORU (XLSXWRITER) ---
