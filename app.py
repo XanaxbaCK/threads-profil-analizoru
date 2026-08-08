@@ -27,48 +27,10 @@ st.components.v1.html(
       });
     }
     </script>
-    <link rel="manifest" href='data:application/manifest+json,{"short_name":"ThreadsTakip","name":"Threads Profil Takip Sistemi","<link rel="manifest" href='data:application/manifest+json,{"short_name":"ThreadsTakip","name":"Threads Profil Takip Sistemi","icons":[{"src":"https://flaticon.com","type":"image/png","sizes":"512x512"}]
-,"start_url":".","background_color":"#000000","theme_color":"#000000","display":"standalone","orientation":"portrait"}'>
-,"start_url":".","background_color":"#000000","theme_color":"#000000","display":"standalone","orientation":"portrait"}'>
+    <link rel="manifest" href='data:application/manifest+json,{"short_name":"ThreadsTakip","name":"Threads Profil Takip Sistemi","icons":[{"src":"https://flaticon.com","type":"image/png","sizes":"512x512"}],"start_url":".","background_color":"#000000","theme_color":"#000000","display":"standalone","orientation":"portrait"}'>
     """,
     height=0,
 )
-# --- ÇOKLU DİL SÖZLÜĞÜ (TR / EN / DE) ---
-DIL_PAKETI = {
-    "TR": {
-        "main_title": "THREADS TÜRKİYE / MURAT & ESRA (CAN&KAN)",
-        "main_sub": "YEREL VE GÜVENLİ ÇİFT YÖNLÜ PROFİL TAKİPÇİ SİSTEMİ // PWA MOBİL SÜRÜM ACTIVE",
-        "main_hashtag": "#bendeğilbizyaptık",
-        "load_batch": "📁 followers_and_following Klasörünü veya Dosyaları Sürükleyip Bırakın",
-        "btn_analyze": "ANALİZİ BAŞLAT",
-        "tab_unfollowers": "Beni Takip Etmeyenler",
-        "tab_fans": "Geri Takip Etmediklerim",
-        "tab_ghosts": "Hayalet (Ghost) Hesaplar",
-        "input_error_msg": "Analiz için veri havuzunda hem 'followers.json' hem de 'following.json' bulunmalıdır.",
-        "parse_error_msg": "Yüklenen JSON şeması motor tarafından çözümlenemedi.",
-        "success_msg": "Dosyalar tarandı, Excel ve TXT raporları köprü linkleriyle üretildi!",
-        "perfect_sync": "🎉 [KUSURSUZ SENKRONİZASYON]: Herkes sizi geri takip ediyor!",
-        "no_fans": "🎯 [HAYRAN YOK]: Takip ettiğiniz herkesi siz de geri takip ediyorsunuz.",
-        "no_ghosts": "🛡️ [TEMİZ PROFİL]: Profilinizde hayalet veya bot hesap algılanmadı.",
-        "download_excel": "📥 Excel Analiz Raporunu İndir",
-        "summary_title": "📊 PROFİL SAĞLIK ÖZETİ",
-        "health_score": "Sağlık Skoru",
-        "guide_title": "📖 Threads Verileri Nasıl İndirilir? (Kullanım Kılavuzu)",
-        "guide_step1": "📱 **MOBİL UYGULAMA YAPMAK İÇİN:** Tarayıcınızın seçeneklerinden **'Ana Ekrana Ekle'** diyerek telefona kurabilirsiniz.",
-        "guide_step2": "1️⃣ **Instagram/Threads** uygulamasını açın ve **Ayarlar -> Hesaplar Merkezi** bölümüne girin.",
-        "guide_step3": "2️⃣ **Bilgilerin ve İzinlerin -> Bilgilerini İndir** adımlarını takip edin.",
-        "guide_step4": "3️⃣ **Indirme Talep Et** butonuna basın ve sadece **Threads** seçeneğini işaretleyin.",
-        "guide_step5": "4️⃣ Dosya formatını **JSON** (ÖNEMLİ!), medya kalitesini **Düşük** seçip talebi onaylayın.",
-        "guide_step6": "5️⃣ E-postanıza gelen klasörün içindeki `connections/followers_and_following` klasörünü komple aşağıdaki panele sürükleyip bırakın.",
-        "contact_btn": "💬 YAPIMCI İLE İLETİŞİME GEÇ (@muratsenr)",
-        "player_title": "🎵 Arka Plan Müziğini Zorla Koydurdu",
-        "search_placeholder": "🔍 Listede kullanıcı adı ara...",
-        "chart_title": "📈 Profil Dağılım Grafiği",
-        "sort_label": "⏳ Zaman Sıralaması",
-        "sort_newest": "Önce En Yeni (Kronolojik)",
-        "sort_oldest": "Önce En Eski (Nostaljik)",
-        "history_title": "⏳ ŞU ANDA AKTİF DEĞİŞİM KARŞILAŞTIRICISI"
-    },
     "EN": {
         "main_title": "THREADS GLOBAL",
         "main_sub": "LOCAL AND SECURE BI-DIRECTIONAL PROFILE ANALYSIS SYSTEM // PWA MOBILE ACTIVE",
