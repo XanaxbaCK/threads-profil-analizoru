@@ -173,27 +173,32 @@ st.markdown(f"### {DIL_PAKETI[aktif_dil]['main_title']}")
 st.caption(DIL_PAKETI[aktif_dil]['main_sub'])
 st.divider()
 
-# --- 👤 ORİJİNAL THREADS GÖRÜNÜMLÜ GELİŞTİRİCİ PROFİL KARTI ---
-# Bu blok, manuel kutucuk görüntüsü yerine Threads tasarım dilinde, sizin resmi fotoğrafınız ve linkinizle birebir eşleşen orijinal bir kart basar.
-with st.container():
-    p1, p2 = st.columns([1, 4])
-    with p1:
-        # Doğrudan sizin Threads profil resminiz (Arka plan şeffaf, Meta dairesel kesim stili)
-        st.markdown(
-            """
-            <a href='https://threads.com/@muratsenr' target='_blank'>
-                <img src='https://unavatar.io' 
-                     style='width:85px; height:85px; border-radius:50%; border:2px solid #1f2937; box-shadow: 0 4px 6px rgba(0,0,0,0.1);'>
-            </a>
-            """, 
-            unsafe_allow_html=True
-        )
-    with p2:
-        st.markdown("### **Murat Şener** &nbsp; <span style='color:#3a7ebf; font-size:16px;'>✓</span>", unsafe_allow_html=True)
-        st.markdown("[@muratsenr](https://threads.com) &nbsp;&nbsp; • &nbsp;&nbsp; **threads.com**", unsafe_allow_html=True)
-        st.markdown("<p style='color:#666666; font-size:13px; font-style:italic; margin-top:3px;'>Burası Threads'in kalbi. Profilinizi zombi hesaplardan arındırmak ve siber sağlığınızı korumak için bu güvenli aracı kodladım.</p>", unsafe_allow_html=True)
+# --- 🎛️ GÜVENLİ MÜZİK BUTONU PANELİ ---
+st.caption(DIL_PAKETI[aktif_dil]['player_title'])
+st.link_button(
+    label="▶️ YAPARKEN DİNLERSİNİZ YA (Göndermeli Şarkı)",
+    url="https://youtube.com",
+    use_container_width=True
+)
 
-st.write("")
+# --- 📖 RESİMLİ / ADIM ADIM KULLANIM KILAVUZU PANELİ ---
+with st.expander(DIL_PAKETI[aktif_dil]['guide_title'], expanded=False):
+    st.markdown(DIL_PAKETI[aktif_dil]['guide_step1'])
+    st.markdown(DIL_PAKETI[aktif_dil]['guide_step2'])
+    st.markdown(DIL_PAKETI[aktif_dil]['guide_step3'])
+    st.markdown(DIL_PAKETI[aktif_dil]['guide_step4'])
+    st.markdown(DIL_PAKETI[aktif_dil]['guide_step5'])
+    st.markdown(DIL_PAKETI[aktif_dil]['guide_step6'])
+    st.info("ℹ️ SECURITY NOTICE: Raporlar yerel işlenir, verileriniz asla sunucuya kaydedilmez.")
+
+st.write("") 
+
+# --- MOBİL UYUMLU DOSYA YÜKLEME ALANLARI ---
+uploaded_following = st.file_uploader(DIL_PAKETI[aktif_dil]['load_following'], type=["json"])
+uploaded_followers = st.file_uploader(DIL_PAKETI[aktif_dil]['load_followers'], type=["json"], accept_multiple_files=True)
+
+btn_trigger = st.button(DIL_PAKETI[aktif_dil]['btn_analyze'], use_container_width=True, type="primary")
+
 
 # --- 🎛️ GÜVENLİ MÜZİK BUTONU PANELİ ---
 st.caption(DIL_PAKETI[aktif_dil]['player_title'])
