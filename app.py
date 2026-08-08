@@ -50,7 +50,7 @@ DIL_PAKETI = {
         "chart_title": "📈 Profil Dağılım Grafiği"
     },
     "EN": {
-        "main_title": "THREADS GLOBAL",
+        "main_title": "THREADS GLOBAL/ PRD:MURAT & ESRA (CAN&KAN)",
         "main_sub": "LOCAL AND SECURE BI-DIRECTIONAL PROFILE ANALYSIS SYSTEM",
         "main_hashtag": "#notmebutwe",
         "load_following": "Load Those You Follow (following.json)",
@@ -81,7 +81,7 @@ DIL_PAKETI = {
         "chart_title": "📈 Profile Distribution Chart"
     },
     "DE": {
-        "main_title": "THREADS GLOBAL",
+        "main_title": "THREADS GLOBAL / PRD:MURAT & ESRA (CAN&KAN)",
         "main_sub": "LOKALES UND SICHERES BIDIREKTIONALES PROFIL-ANALYSESYSTEM",
         "main_hashtag": "#nichtichsondernwir",
         "load_following": "Laden Sie die, denen Sie folgen (following.json)",
