@@ -297,19 +297,7 @@ if btn_trigger:
                     mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
                     use_container_width=True
                 )
-                # --- 🚀 VIRAL THREADS'TE PAYLAŞ BUTONU ENTEGRASYONU ---
-                # Sitenizin canlı linkini (Örn: https://streamlit.app) en sona ekleyebilirsiniz.
-                site_linki = st.query_params.get("site", ["https://streamlit.io"])[0] 
-                sablon_metin = DIL_PAKETI[aktif_dil]['share_text'].replace("{score}", str(health_score)) + site_linki
-                encoded_metin = urllib.parse.quote(sablon_metin)
-                threads_intent_url = f"https://threads.com/@muratsenr{encoded_metin}"
-                
-                st.link_button(
-                    label=DIL_PAKETI[aktif_dil]['share_btn'],
-                    url=threads_intent_url,
-                    use_container_width=True
-                )
-                st.write("")
+               
 
                 # --- WEB SEKME GÖRÜNÜMLERİ (Tıklanabilir Mavi Linkler) ---
                 t1, t2, t3 = st.tabs([DIL_PAKETI[aktif_dil]['tab_unfollowers'], DIL_PAKETI[aktif_dil]['tab_fans'], DIL_PAKETI[aktif_dil]['tab_ghosts']])
