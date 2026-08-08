@@ -70,7 +70,8 @@ DIL_PAKETI = {
         "login_pass": "Şifre",
         "login_btn": "GİRİŞ YAP",
         "login_success": "🔓 Erişim Yetkisi Onaylandı! Sistem yükleniyor...",
-        "login_error": "❌ Hatalı Kullanıcı Adı veya Şifre! Lütfen tekrar deneyin."
+        "login_error": "❌ Hatalı Kullanıcı Adı veya Şifre! Lütfen tekrar deneyin.",
+        "outdated_warning": "⏳ **DİKKAT: ESKİ VERİ SETİ ALGILANDI**\n\nYüklediğiniz veri paketleri en son {days} gün önce güncellenmiş görünüyor. En doğru ve güncel analiz sonuçları için lütfen Threads verilerinizi yeniden indirip sisteme yükleyin."
     },
     "EN": {
         "main_title": "THREADS GLOBAL",
@@ -91,7 +92,7 @@ DIL_PAKETI = {
         "summary_title": "📊 PROFILE HEALTH SUMMARY",
         "health_score": "Health Score",
         "guide_title": "📖 How to Download Threads Data? (User Guide)",
-        "guide_step1": "📱 **TO INSTALL AS APP:** Click your browser settings and select **'Add to Home Screen'**.",
+        "guide_step1": "📱 **SECURE LOGIN ACTIVE:** Your private encrypted profile gate is armed.",
         "guide_step2": "1️⃣ Open **Instagram/Threads**, go to **Settings -> Accounts Center**.",
         "guide_step3": "2️⃣ Follow **Your Information and Permissions -> Download Your Information**.",
         "guide_step4": "3️⃣ Click **Request a Download** and select only **Threads**.",
@@ -110,7 +111,8 @@ DIL_PAKETI = {
         "login_pass": "Password",
         "login_btn": "LOGIN",
         "login_success": "🔓 Access Granted! Loading system...",
-        "login_error": "❌ Invalid Username or Password! Please try again."
+        "login_error": "❌ Invalid Username or Password! Please try again.",
+        "outdated_warning": "⏳ **WARNING: OUTDATED DATA DETECTED**\n\nYour uploaded data files were last updated {days} days ago. For the most accurate and real-time results, please re-download your data packs from Threads."
     },
     "DE": {
         "main_title": "THREADS GLOBAL",
@@ -131,7 +133,7 @@ DIL_PAKETI = {
         "summary_title": "📊 PROFIL-GESUNDHEITSÜBERSICHT",
         "health_score": "Gesundheitsscore",
         "guide_title": "📖 Wie lade ich Threads-Daten herunter? (Handbuch)",
-        "guide_step1": "📱 **ALS APP INSTALLIEREN:** Klicken Sie auf 'Zum Startbildschirm hinzufügen'.",
+        "guide_step1": "📱 **SICHERER LOGIN AKTIV:** Ihr privates verschlüsseltes Profiltor ist scharf.",
         "guide_step2": "1️⃣ Öffnen Sie **Instagram/Threads**, gehen Sie zu **Einstellungen -> Kontenübersicht**.",
         "guide_step3": "2️⃣ Folgen Sie **Deine Informationen und Berechtigungen -> Deine Informationen herunterladen**.",
         "guide_step4": "3️⃣ Klicken Sie auf **Download anfordern** und wählen Sie nur **Threads** aus.",
@@ -151,7 +153,8 @@ DIL_PAKETI = {
         "login_pass": "Passwort",
         "login_btn": "EINLOGGEN",
         "login_success": "🔓 Zugriff gewährt! System wird geladen...",
-        "login_error": "❌ Ungültiger Benutzername oder Passwort! Bitte versuchen Sie es erneut."
+        "login_error": "❌ Ungültiger Benutzername oder Passwort! Bitte versuchen Sie es erneut.",
+        "outdated_warning": "⏳ **WARNUNG: VERALTETE DATEN ERKANNT**\n\nIhre hochgeladenen Datendateien wurden vor {days} Tagen aktualisiert. Für genaue Echtzeitergebnisse laden Sie bitte Ihre Daten von Threads neu herunter."
     }
 }
 class AnalizMotoru:
@@ -205,8 +208,8 @@ class AnalizMotoru:
 # --- 🔑 ÖZEL KULLANICI ADI VE ŞİFRE VERİ TABANI ---
 KULLANICI_VERITABANI = {
     "murat": "esra",     # 1. Kullanıcı
-    "esra": "murat",     # 2. Kullanıcı
-    "deneme": "deneme"   # 3. Ortak veya demo giriş bilgisi
+    "esra": "cankan99",     # 2. Kullanıcı
+    "demo": "threads2026"   # 3. Ortak giriş şifresi
 }
 
 if "logged_in" not in st.session_state:
@@ -218,8 +221,8 @@ if not st.session_state.logged_in:
     
     with st.container(border=True):
         st.markdown("<h4 style='color:#3a7ebf; margin-top:0px;'><b>🔒 SİSTEME GÜVENLİ GİRİŞ</b></h4>", unsafe_allow_html=True)
-        input_user = st.text_input("👤 Kullanıcı Adı", key="Murat").strip()
-        input_pass = st.text_input("🔑 Şifre", type="password", key="Esra").strip()
+        input_user = st.text_input("👤 Kullanıcı Adı", key="login_username_field").strip()
+        input_pass = st.text_input("🔑 Şifre", type="password", key="login_password_field").strip()
         login_click = st.button("SİSTEME BAĞLAN", use_container_width=True, type="primary")
         
         if login_click:
@@ -229,7 +232,8 @@ if not st.session_state.logged_in:
                 st.rerun()
             else:
                 st.error("❌ Hatalı Kullanıcı Adı veya Şifre! Lütfen bilgilerinizi kontrol edin.")
-    st.stop() # Giriş yapılana kadar alttaki kodların tetiklenmesini kesin olarak kes!
+    st.stop()
+
 # --- GİRİŞ YAPILDIKTAN SONRA AKTİF OLAN ANA ARAYÜZ ---
 st.title("🎯 Threads Profil Takip Sistemi")
 
@@ -315,6 +319,15 @@ if btn_trigger or st.session_state.get('analyzed', False):
             if not following_set or not followers_set:
                 st.error(DIL_PAKETI[aktif_dil]['parse_error_msg'])
             else:
+                # --- ⏳ ÖZELLİK: AKILLI DOSYA GÜNCELLİK DENETLEYİCİSİ SÜZGECİ ---
+                # Dosya içindeki en büyük timestamp (en son takibe alınan kişi) bulunur
+                en_son_sinyal_zamani = max(list(global_following_map.values()) + list(global_followers_map.values()), default=0)
+                if en_son_sinyal_zamani > 0:
+                    gecen_gun = (datetime.now() - datetime.fromtimestamp(en_son_sinyal_zamani)).days
+                    # Veriler 30 günden eskiyse sarı kurumsal uyarı kartını patlat
+                    if gecen_gun > 30:
+                        st.warning(DIL_PAKETI[aktif_dil]['outdated_warning'].replace("{days}", str(gecen_gun)))
+
                 toplam_bağ = len(following_set) + len(followers_set)
                 if toplam_bağ > 0:
                     ceza_puanı = (len(unfollowers) / len(following_set)) * 40 if len(following_set) > 0 else 0
@@ -351,13 +364,13 @@ if btn_trigger or st.session_state.get('analyzed', False):
                 chart_data = {"Sayı": [len(unfollowers), len(following_set & followers_set), len(fans), len(ghosts)]}
                 st.bar_chart(data=chart_data, y_label="Hesap Sayısı", use_container_width=True)
                 st.write("")
-
                 # --- BELLEKTE EXCEL OLUŞTURMA MOTORU ---
                 output_excel = io.BytesIO()
                 workbook = xlsxwriter.Workbook(output_excel)
                 header_format = workbook.add_format({'bold': True, 'font_color': 'white', 'bg_color': '#1f4e78', 'border': 1, 'align': 'center'})
                 link_format = workbook.add_format({'font_color': 'blue', 'underline': True})
                 text_format = workbook.add_format({'align': 'left'})
+                
                 sheet_unf = workbook.add_worksheet("Beni Takip Etmeyenler")
                 sheet_unf.write_row('A1', ['No', 'Kullanıcı Adı', 'Profil Linki', 'Süre'], header_format)
                 sorted_unf_excel = sorted(unfollowers, key=lambda x: global_following_map.get(x, 0))
