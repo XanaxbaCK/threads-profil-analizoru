@@ -17,7 +17,6 @@ st.set_page_config(
 )
 
 # --- 📱 REAL PWA (ANA EKRANA EKLE) MOBİL UYGULAMA ENJEKTÖRÜ ---
-# Bu JavaScript ve HTML kodu, telefon tarayıcılarına bu sitenin bir mobil uygulama olduğunu bildirir.
 st.components.v1.html(
     """
     <script>
@@ -31,6 +30,42 @@ st.components.v1.html(
     """,
     height=0,
 )
+# --- ÇOKLU DİL SÖZLÜĞÜ (TR / EN / DE) ---
+DIL_PAKETI = {
+    "TR": {
+        "main_title": "THREADS TÜRKİYE / MURAT & ESRA (CAN&KAN)",
+        "main_sub": "YEREL VE GÜVENLİ ÇİFT YÖNLÜ PROFİL TAKİPÇİ SİSTEMİ // PWA MOBİL SÜRÜM ACTIVE",
+        "main_hashtag": "#bendeğilbizyaptık",
+        "load_batch": "📁 followers_and_following Klasörünü veya Dosyaları Sürükleyip Bırakın",
+        "btn_analyze": "ANALİZİ BAŞLAT",
+        "tab_unfollowers": "Beni Takip Etmeyenler",
+        "tab_fans": "Geri Takip Etmediklerim",
+        "tab_ghosts": "Hayalet (Ghost) Hesaplar",
+        "input_error_msg": "Analiz için veri havuzunda hem 'followers.json' hem de 'following.json' bulunmalıdır.",
+        "parse_error_msg": "Yüklenen JSON şeması motor tarafından çözümlenemedi.",
+        "success_msg": "Dosyalar tarandı, Excel ve TXT raporları köprü linkleriyle üretildi!",
+        "perfect_sync": "🎉 [KUSURSUZ SENKRONİZASYON]: Herkes sizi geri takip ediyor!",
+        "no_fans": "🎯 [HAYRAN YOK]: Takip ettiğiniz herkesi siz de geri takip ediyorsunuz.",
+        "no_ghosts": "🛡️ [TEMİZ PROFİL]: Profilinizde hayalet veya bot hesap algılanmadı.",
+        "download_excel": "📥 Excel Analiz Raporunu İndir",
+        "summary_title": "📊 PROFİL SAĞLIK ÖZETİ",
+        "health_score": "Sağlık Skoru",
+        "guide_title": "📖 Threads Verileri Nasıl İndirilir? (Kullanım Kılavuzu)",
+        "guide_step1": "📱 **MOBİL UYGULAMA YAPMAK İÇİN:** Tarayıcınızın seçeneklerinden **'Ana Ekrana Ekle'** diyerek telefona kurabilirsiniz.",
+        "guide_step2": "1️⃣ **Instagram/Threads** uygulamasını açın ve **Ayarlar -> Hesaplar Merkezi** bölümüne girin.",
+        "guide_step3": "2️⃣ **Bilgilerin ve İzinlerin -> Bilgilerini İndir** adımlarını takip edin.",
+        "guide_step4": "3️⃣ **Indirme Talep Et** butonuna basın ve sadece **Threads** seçeneğini işaretleyin.",
+        "guide_step5": "4️⃣ Dosya formatını **JSON** (ÖNEMLİ!), medya kalitesini **Düşük** seçip talebi onaylayın.",
+        "guide_step6": "5️⃣ E-postanıza gelen klasörün içindeki `connections/followers_and_following` klasörünü komple aşağıdaki panele sürükleyip bırakın.",
+        "contact_btn": "💬 YAPIMCI İLE İLETİŞİME GEÇ (@muratsenr)",
+        "player_title": "🎵 Arka Plan Müziğini Zorla Koydurdu",
+        "search_placeholder": "🔍 Listede kullanıcı adı ara...",
+        "chart_title": "📈 Profil Dağılım Grafiği",
+        "sort_label": "⏳ Zaman Sıralaması",
+        "sort_newest": "Önce En Yeni (Kronolojik)",
+        "sort_oldest": "Önce En Eski (Nostaljik)",
+        "history_title": "⏳ ŞU ANDA AKTİF DEĞİŞİM KARŞILAŞTIRICISI"
+    },
     "EN": {
         "main_title": "THREADS GLOBAL",
         "main_sub": "LOCAL AND SECURE BI-DIRECTIONAL PROFILE ANALYSIS SYSTEM // PWA MOBILE ACTIVE",
@@ -89,7 +124,8 @@ st.components.v1.html(
         "guide_step3": "2️⃣ Folgen Sie **Deine Informationen und Berechtigungen -> Deine Informationen herunterladen**.",
         "guide_step4": "3️⃣ Klicken Sie auf **Download anfordern** und wählen Sie nur **Threads** aus.",
         "guide_step5": "4️⃣ Wählen Sie das Format **JSON** und die Medienqualität **Niedrig**.",
-        "guide_step6": "6️⃣ Ziehen Sie den Ordner `connections/followers_and_following` hierher.",
+        "guide_step6": "5️⃣ Entpacken Sie die erhaltene `.zip`-Datei auf Ihrem Gerät.",
+        "guide_step7": "6️⃣ Ziehen Sie den Ordner `connections/followers_and_following` hierher.",
         "contact_btn": "💬 CYBER-ENTWICKLER KONTAKTIEREN (@muratsenr)",
         "player_title": "🎵 Hintergrundmusik: Cankan - Yaranamadım",
         "search_placeholder": "🔍 Suchen Sie nach Benutzernamen...",
@@ -148,6 +184,9 @@ class AnalizMotoru:
             if fark_gun > 540:
                 return True
         return False
+# --- MOBİL ARAYÜZ YAPILANDIRMASI VE DİL SEÇİMİ ---
+st.title("🎯 Threads Profil Takip Sistemi")
+
 col_lang, col_hashtag = st.columns(2)
 with col_lang:
     aktif_dil = st.selectbox("🌐 Language / Dil", ["TR", "EN", "DE"])
@@ -266,13 +305,13 @@ if btn_trigger or st.session_state.get('analyzed', False):
                 chart_data = {"Sayı": [len(unfollowers), len(following_set & followers_set), len(fans), len(ghosts)]}
                 st.bar_chart(data=chart_data, y_label="Hesap Sayısı", use_container_width=True)
                 st.write("")
+
                 # --- BELLEKTE EXCEL OLUŞTURMA MOTORU ---
                 output_excel = io.BytesIO()
                 workbook = xlsxwriter.Workbook(output_excel)
                 header_format = workbook.add_format({'bold': True, 'font_color': 'white', 'bg_color': '#1f4e78', 'border': 1, 'align': 'center'})
                 link_format = workbook.add_format({'font_color': 'blue', 'underline': True})
                 text_format = workbook.add_format({'align': 'left'})
-                
                 sheet_unf = workbook.add_worksheet("Beni Takip Etmeyenler")
                 sheet_unf.write_row('A1', ['No', 'Kullanıcı Adı', 'Profil Linki', 'Süre'], header_format)
                 sorted_unf_excel = sorted(unfollowers, key=lambda x: global_following_map.get(x, 0))
