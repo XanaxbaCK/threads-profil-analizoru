@@ -166,10 +166,14 @@ st.markdown(f"### {DIL_PAKETI[aktif_dil]['main_title']}")
 st.caption(DIL_PAKETI[aktif_dil]['main_sub'])
 st.divider()
 
-# --- 🎛️ PREMIUM ENGELLENMEYEN VİDEO OYNATICI MODÜLÜ ---
+# --- 🎛️ %100 ÇALIŞAN GÜVENLİ MÜZİK BUTONU PANELİ ---
 st.caption(DIL_PAKETI[aktif_dil]['player_title'])
-# YouTube güvenlik duvarını ve "bağlanmayı reddetti" hatasını baypas eden resmi paylaşım URL formatı
-st.video("https://youtu.be")
+# Hata veren video oynatıcı yerine YouTube engelini tamamen aşan tıklanabilir şık buton
+st.link_button(
+    label="▶️ ŞARKIYI YOUTUBE ÜZERİNDEN BAŞLAT (Cankan - Yaranamadım)",
+    url="https://youtube.com",
+    use_container_width=True
+)
 
 # --- 📖 RESİMLİ / ADIM ADIM KULLANIM KILAVUZU PANELİ ---
 with st.expander(DIL_PAKETI[aktif_dil]['guide_title'], expanded=False):
