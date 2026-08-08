@@ -19,7 +19,8 @@ st.set_page_config(
 # --- ÇOKLU DİL SÖZLÜĞÜ (TR / EN / DE) ---
 DIL_PAKETI = {
     "TR": {
-        "main_title": "THREADS TÜRKİYE / PRODUCTOR MURAT & ESRA (CAN&KAN)",
+        "main_title": "THREADS TÜRKİYE /
+         PRODUCTOR MURAT & ESRA (CAN&KAN)",
         "main_sub": "YEREL VE GÜVENLİ ÇİFT YÖNLÜ PROFİL TAKİPÇİ SİSTEMİ",
         "main_hashtag": "#bendeğilbizyaptık",
         "load_following": "Takip Ettiklerinizi Yükleyin (following.json)",
