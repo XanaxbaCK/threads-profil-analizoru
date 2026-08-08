@@ -166,9 +166,20 @@ st.markdown(f"### {DIL_PAKETI[aktif_dil]['main_title']}")
 st.caption(DIL_PAKETI[aktif_dil]['main_sub'])
 st.divider()
 
-# --- 🎛️ VİDEO OYNATICI MODÜLÜ ---
+# --- 🎛️ PREMIUM EMBED VİDEO OYNATICI MODÜLÜ ---
 st.caption(DIL_PAKETI[aktif_dil]['player_title'])
-st.video("https://youtube.com")
+# Tarayıcı ve SSL engellerine takılmayan resmi YouTube Embed (Iframe) Motoru
+st.components.v1.html(
+    """
+    <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 12px;">
+        <iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" 
+        src="https://youtube.com" 
+        frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+        </iframe>
+    </div>
+    """,
+    height=315,
+)
 
 # --- 📖 RESİMLİ / ADIM ADIM KULLANIM KILAVUZU PANELİ ---
 with st.expander(DIL_PAKETI[aktif_dil]['guide_title'], expanded=False):
@@ -187,6 +198,7 @@ uploaded_following = st.file_uploader(DIL_PAKETI[aktif_dil]['load_following'], t
 uploaded_followers = st.file_uploader(DIL_PAKETI[aktif_dil]['load_followers'], type=["json"], accept_multiple_files=True)
 
 btn_trigger = st.button(DIL_PAKETI[aktif_dil]['btn_analyze'], use_container_width=True, type="primary")
+
 if btn_trigger:
     if not uploaded_following or not uploaded_followers:
         st.warning(DIL_PAKETI[aktif_dil]['input_error_msg'])
