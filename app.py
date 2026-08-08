@@ -19,15 +19,15 @@ st.set_page_config(
 # --- ÇOKLU DİL SÖZLÜĞÜ (TR / EN / DE) ---
 DIL_PAKETI = {
     "TR": {
-        "main_title": "THREADS TÜRKİYE / PRD:MURAT & ESRA (CAN&KAN)",
-        "main_sub": "YEREL VE ONLİNE ÇİFT YÖNLÜ PROFİL TAKİPÇİ SİSTEMİ",
+        "main_title": "THREADS TÜRKİYE / MURAT & ESRA (CAN&KAN)",
+        "main_sub": "YEREL VE GÜVENLİ ÇİFT YÖNLÜ PROFİL TAKİPÇİ SİSTEMİ",
         "main_hashtag": "#bendeğilbizyaptık",
         "load_following": "Takip Ettiklerinizi Yükleyin (following.json)",
         "load_followers": "Takipçilerinizi Yükleyin (followers.json)",
         "btn_analyze": "ANALİZİ BAŞLAT",
         "tab_unfollowers": "Beni Takip Etmeyenler",
         "tab_fans": "Geri Takip Etmediklerim",
-        "tab_ghosts": "Hayalet & Bot Hesaplar",
+        "tab_ghosts": "Hayalet (Ghost) Hesaplar",
         "input_error_msg": "Analiz için gerekli iki kaynak dosya da yüklenmelidir.",
         "parse_error_msg": "Yüklenen JSON şeması motor tarafından çözümlenemedi.",
         "success_msg": "Dosyalar tarandı, Excel ve TXT raporları köprü linkleriyle üretildi!",
@@ -47,10 +47,13 @@ DIL_PAKETI = {
         "contact_btn": "💬 YAPIMCI İLE İLETİŞİME GEÇ (@muratsenr)",
         "player_title": "🎵 Arka Plan Müziğini Zorla Koydurdu",
         "search_placeholder": "🔍 Listede kullanıcı adı ara...",
-        "chart_title": "📈 Profil Dağılım Grafiği"
+        "chart_title": "📈 Profil Dağılım Grafiği",
+        "sort_label": "⏳ Zaman Sıralaması",
+        "sort_newest": "Önce En Yeni (Kronolojik)",
+        "sort_oldest": "Önce En Eski (Nostaljik)"
     },
     "EN": {
-        "main_title": "THREADS GLOBAL/ PRD:MURAT & ESRA (CAN&KAN)",
+        "main_title": "THREADS GLOBAL",
         "main_sub": "LOCAL AND SECURE BI-DIRECTIONAL PROFILE ANALYSIS SYSTEM",
         "main_hashtag": "#notmebutwe",
         "load_following": "Load Those You Follow (following.json)",
@@ -78,15 +81,18 @@ DIL_PAKETI = {
         "contact_btn": "💬 CONTACT DEVELOPER (@muratsenr)",
         "player_title": "🎵 Background Music: Cankan - Yaranamadım",
         "search_placeholder": "🔍 Search username in list...",
-        "chart_title": "📈 Profile Distribution Chart"
+        "chart_title": "📈 Profile Distribution Chart",
+        "sort_label": "⏳ Time Sorting",
+        "sort_newest": "Newest First (Chronological)",
+        "sort_oldest": "Oldest First"
     },
     "DE": {
-        "main_title": "THREADS GLOBAL / PRD:MURAT & ESRA (CAN&KAN)",
+        "main_title": "THREADS GLOBAL",
         "main_sub": "LOKALES UND SICHERES BIDIREKTIONALES PROFIL-ANALYSESYSTEM",
         "main_hashtag": "#nichtichsondernwir",
         "load_following": "Laden Sie die, denen Sie folgen (following.json)",
         "load_followers": "Laden Sie Ihre Follower (followers.json)",
-        "btn_analyze": "ANALYSE STARTEN",
+        "btn_analyze": "ANALYSIS STARTEN",
         "tab_unfollowers": "Folgen mir nicht zurück",
         "tab_fans": "Ich folge nicht zurück",
         "tab_ghosts": "Geister / Inaktive Konten",
@@ -105,11 +111,14 @@ DIL_PAKETI = {
         "guide_step3": "3️⃣ Klicken Sie auf **Download anfordern** und wählen Sie nur **Threads** aus.",
         "guide_step4": "4️⃣ Wählen Sie das Format **JSON** und die Medienqualität **Niedrig**.",
         "guide_step5": "5️⃣ Laden Sie die `.zip`-Datei herunter und entpacken Sie sie.",
-        "guide_step6": "6️⃣ Gehen Sie zum Ordner `connections/followers_and_following` und laden Sie die Dateien hoch.",
+        "guide_step6": "6️⃣ Suchen Sie den Ordner `connections/followers_and_following` und laden Sie die Dateien hoch.",
         "contact_btn": "💬 CYBER-ENTWICKLER KONTAKTIEREN (@muratsenr)",
         "player_title": "🎵 Hintergrundmusik: Cankan - Yaranamadım",
         "search_placeholder": "🔍 Suchen Sie nach Benutzernamen...",
-        "chart_title": "📈 Profil-Verteilungsdiagramm"
+        "chart_title": "📈 Profil-Verteilungsdiagramm",
+        "sort_label": "⏳ Zeitliche Sortierung",
+        "sort_newest": "Neueste zuerst",
+        "sort_oldest": "Älteste zuerst"
     }
 }
 class AnalizMotoru:
@@ -271,8 +280,8 @@ if btn_trigger or st.session_state.get('analyzed', False):
                 # 1. Sayfa: Beni Takip Etmeyenler
                 sheet_unf = workbook.add_worksheet("Beni Takip Etmeyenler")
                 sheet_unf.write_row('A1', ['No', 'Kullanıcı Adı', 'Profil Linki', 'Süre'], header_format)
-                sorted_unf = sorted(unfollowers, key=lambda x: global_following_map.get(x, 0))
-                for idx, user in enumerate(sorted_unf, 1):
+                sorted_unf_excel = sorted(unfollowers, key=lambda x: global_following_map.get(x, 0))
+                for idx, user in enumerate(sorted_unf_excel, 1):
                     süre = AnalizMotoru.zaman_metnine_cevir(global_following_map.get(user, 0))
                     p_url = f"https://threads.com@{user}"
                     sheet_unf.write(idx, 0, idx)
@@ -284,8 +293,8 @@ if btn_trigger or st.session_state.get('analyzed', False):
                 # 2. Sayfa: Geri Takip Etmediklerim
                 sheet_fans = workbook.add_worksheet("Geri Takip Etmediklerim")
                 sheet_fans.write_row('A1', ['No', 'Kullanıcı Adı', 'Profil Linki', 'Süre'], header_format)
-                sorted_fans = sorted(fans, key=lambda x: global_followers_map.get(x, 0))
-                for idx, user in enumerate(sorted_fans, 1):
+                sorted_fans_excel = sorted(fans, key=lambda x: global_followers_map.get(x, 0))
+                for idx, user in enumerate(sorted_fans_excel, 1):
                     süre = AnalizMotoru.zaman_metnine_cevir(global_followers_map.get(user, 0))
                     p_url = f"https://threads.com@{user}"
                     sheet_fans.write(idx, 0, idx)
@@ -297,8 +306,8 @@ if btn_trigger or st.session_state.get('analyzed', False):
                 # 3. Sayfa: Hayalet Hesaplar
                 sheet_gh = workbook.add_worksheet("Hayalet Hesaplar")
                 sheet_gh.write_row('A1', ['No', 'Kullanıcı Adı', 'Profil Linki', 'Süre'], header_format)
-                sorted_gh = sorted(ghosts, key=lambda x: global_followers_map.get(x, 0))
-                for idx, user in enumerate(sorted_gh, 1):
+                sorted_gh_excel = sorted(ghosts, key=lambda x: global_followers_map.get(x, 0))
+                for idx, user in enumerate(sorted_gh_excel, 1):
                     süre = AnalizMotoru.zaman_metnine_cevir(global_followers_map.get(user, 0))
                     p_url = f"https://threads.com@{user}"
                     sheet_gh.write(idx, 0, idx)
@@ -318,9 +327,25 @@ if btn_trigger or st.session_state.get('analyzed', False):
                     mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
                     use_container_width=True
                 )
+                # --- ⏳ KRONOLOJİK VE GELİŞMİŞ ZAMAN SIRALAMASI MOTORU ---
+                st.markdown(f"###### {DIL_PAKETI[aktif_dil]['sort_label']}")
+                sort_choice = st.radio(
+                    label="",
+                    options=[DIL_PAKETI[aktif_dil]['sort_newest'], DIL_PAKETI[aktif_dil]['sort_oldest']],
+                    horizontal=True,
+                    label_visibility="collapsed"
+                )
+                # Seçilen kritere göre ters veya düz sıralama anahtarı (True = En Yeni, False = En Eski)
+                is_reverse = (sort_choice == DIL_PAKETI[aktif_dil]['sort_newest'])
+
                 # --- 🔍 CANLI ARAMA / FİLTRELEME KUTUSU ENTEGRASYONU ---
                 search_query = st.text_input("", placeholder=DIL_PAKETI[aktif_dil]['search_placeholder']).strip().lower()
                 clean_query = search_query.replace("@", "")
+
+                # Zaman motoruna göre dinamik listelerin oluşturulması
+                sorted_unf = sorted(unfollowers, key=lambda x: global_following_map.get(x, 0), reverse=is_reverse)
+                sorted_fans = sorted(fans, key=lambda x: global_followers_map.get(x, 0), reverse=is_reverse)
+                sorted_gh = sorted(ghosts, key=lambda x: global_followers_map.get(x, 0), reverse=is_reverse)
 
                 # --- WEB SEKME GÖRÜNÜMLERİ ---
                 t1, t2, t3 = st.tabs([DIL_PAKETI[aktif_dil]['tab_unfollowers'], DIL_PAKETI[aktif_dil]['tab_fans'], DIL_PAKETI[aktif_dil]['tab_ghosts']])
@@ -330,7 +355,7 @@ if btn_trigger or st.session_state.get('analyzed', False):
                     if filtered_unf:
                         for index, user in enumerate(filtered_unf, 1):
                             süre = AnalizMotoru.zaman_metnine_cevir(global_following_map.get(user, 0))
-                            p_url = f"https://threads.com/@{user}"
+                            p_url = f"https://threads.com@{user}"
                             st.markdown(f"[{index:03d}] 🔗 [@{user}]({p_url}) &nbsp;&nbsp;&nbsp;&nbsp; ⌛ {süre}")
                     else:
                         st.info(DIL_PAKETI[aktif_dil]['perfect_sync'] if not clean_query else "Eşleşen kullanıcı bulunamadı.")
@@ -340,7 +365,7 @@ if btn_trigger or st.session_state.get('analyzed', False):
                     if filtered_fans:
                         for index, user in enumerate(filtered_fans, 1):
                             süre = AnalizMotoru.zaman_metnine_cevir(global_followers_map.get(user, 0))
-                            p_url = f"https://threads.com/@{user}"
+                            p_url = f"https://threads.com@{user}"
                             st.markdown(f"[{index:03d}] 🔗 [@{user}]({p_url}) &nbsp;&nbsp;&nbsp;&nbsp; ⌛ {süre}")
                     else:
                         st.info(DIL_PAKETI[aktif_dil]['no_fans'] if not clean_query else "Eşleşen kullanıcı bulunamadı.")
@@ -350,7 +375,7 @@ if btn_trigger or st.session_state.get('analyzed', False):
                     if filtered_gh:
                         for index, user in enumerate(filtered_gh, 1):
                             süre = AnalizMotoru.zaman_metnine_cevir(global_followers_map.get(user, 0))
-                            p_url = f"https://threads.com/@{user}"
+                            p_url = f"https://threads.com@{user}"
                             st.markdown(f"[{index:03d}] 🔗 [@{user}]({p_url}) &nbsp;&nbsp;&nbsp;&nbsp; ⌛ {süre}")
                     else:
                         st.info(DIL_PAKETI[aktif_dil]['no_ghosts'] if not clean_query else "Eşleşen kullanıcı bulunamadı.")
