@@ -37,13 +37,13 @@ DIL_PAKETI = {
         "main_title": "THREADS TÜRKİYE / MURAT & ESRA (CAN&KAN)",
         "main_sub": "YEREL VE GÜVENLİ ÇİFT YÖNLÜ PROFİL TAKİPÇİ SİSTEMİ // PWA MOBİL SÜRÜM ACTIVE",
         "main_hashtag": "#bendeğilbizyaptık",
-        "load_batch": "📁 Threads'ten Gelen Ham .zip Dosyasını Doğrudan Sürükleyip Bırakın",
+        "load_batch": "📁 Ham .zip Dosyasını veya .json Dosyalarını Sürükleyin / Seçin",
         "btn_analyze": "ANALİZİ BAŞLAT",
         "tab_unfollowers": "Beni Takip Etmeyenler",
         "tab_fans": "Geri Takip Etmediklerim",
         "tab_ghosts": "Hayalet (Ghost) Hesaplar",
-        "input_error_msg": "Analiz için veri havuzunda hem 'followers.json' hem de 'following.json' bulunmalıdır. Lütfen doğru bir Threads .zip dosyası yükleyin.",
-        "parse_error_msg": "Yüklenen JSON şeması motor tarafından çözümlenemedi.",
+        "input_error_msg": "Analiz için veri havuzunda hem 'followers.json' hem de 'following.json' bulunmalıdır. Lütfen doğru dosya veya .zip yükleyin.",
+        "parse_error_msg": "Yüklenen JSON şeması siber motor tarafından çözümlenemedi.",
         "success_msg": "Dosyalar tarandı, Excel ve TXT raporları köprü linkleriyle üretildi!",
         "perfect_sync": "🎉 [KUSURSUZ SENKRONİZASYON]: Herkes sizi geri takip ediyor!",
         "no_fans": "🎯 [HAYRAN YOK]: Takip ettiğiniz herkesi siz de geri takip ediyorsunuz.",
@@ -52,12 +52,12 @@ DIL_PAKETI = {
         "summary_title": "📊 PROFİL SAĞLIK ÖZETİ",
         "health_score": "Sağlık Skoru",
         "guide_title": "📖 Threads Verileri Nasıl İndirilir? (Kullanım Kılavuzu)",
-        "guide_step1": "📱 **%100 GÜVENLİ GİRİŞ AKTİF:** Hesabınıza ait özel şifreleme paneli korunmaktadır.",
+        "guide_step1": "📱 **%100 GÜVENLİ HİBRİT MOTOR:** İster ham .zip atın, ister içindeki .json dosyalarını çoklu seçip yükleyin.",
         "guide_step2": "1️⃣ **Instagram/Threads** uygulamasını açın ve **Ayarlar -> Hesaplar Merkezi** bölümüne girin.",
         "guide_step3": "2️⃣ **Bilgilerin ve İzinlerin -> Bilgilerini İndir** adımlarını takip edin.",
         "guide_step4": "3️⃣ **Indirme Talep Et** butonuna basın ve sadece **Threads** seçeneğini işaretleyin.",
         "guide_step5": "4️⃣ Dosya formatını **JSON** (ÖNEMLİ!), medya kalitesini **Düşük** seçip talebi onaylayın.",
-        "guide_step6": "5️⃣ E-postanıza gelen ham `.zip` dosyasını bilgisayara/telefona indirin ve klasöre açmadan doğrudan aşağıdaki panele yükleyin.",
+        "guide_step6": "5️⃣ E-postanıza gelen ham `.zip` dosyasını klasöre açmadan direkt yükleyebilir veya içindeki `connections/followers_and_following` klasöründen dosyaları seçebilirsiniz.",
         "contact_btn": "💬 YAPIMCI İLE İLETİŞİME GEÇ (@muratsenr)",
         "player_title": "🎵 Arka Plan Müziğini Zorla Koydurdu",
         "search_placeholder": "🔍 Listede kullanıcı adı ara...",
@@ -79,12 +79,12 @@ DIL_PAKETI = {
         "main_title": "THREADS GLOBAL",
         "main_sub": "LOCAL AND SECURE BI-DIRECTIONAL PROFILE ANALYSIS SYSTEM // PWA MOBILE ACTIVE",
         "main_hashtag": "#notmebutwe",
-        "load_batch": "📁 Drag & Drop Raw Threads .zip File Directly Here",
+        "load_batch": "📁 Drag & Drop Raw .zip or Multiple .json Files Here",
         "btn_analyze": "START ANALYSIS",
         "tab_unfollowers": "Not Following Me Back",
         "tab_fans": "I Am Not Following Back",
         "tab_ghosts": "Ghost / Inactive Accounts",
-        "input_error_msg": "Analysis requires both 'followers.json' and 'following.json' in the zip pool. Please upload a valid Threads data zip.",
+        "input_error_msg": "Analysis requires both 'followers.json' and 'following.json' in the pool. Please upload correct files or .zip.",
         "parse_error_msg": "The uploaded JSON schema could not be resolved by the engine.",
         "success_msg": "Files scanned, Excel and TXT reports generated with clickable links!",
         "perfect_sync": "🎉 [PERFECT SYNC]: Everyone is following you back!",
@@ -94,12 +94,12 @@ DIL_PAKETI = {
         "summary_title": "📊 PROFILE HEALTH SUMMARY",
         "health_score": "Health Score",
         "guide_title": "📖 How to Download Threads Data? (User Guide)",
-        "guide_step1": "📱 **SECURE LOGIN ACTIVE:** Your private encrypted profile gate is armed.",
+        "guide_step1": "📱 **%100 SECURE HYBRID ENGINE:** Drag raw .zip or multiple select .json files as you wish.",
         "guide_step2": "1️⃣ Open **Instagram/Threads**, go to **Settings -> Accounts Center**.",
         "guide_step3": "2️⃣ Follow **Your Information and Permissions -> Download Your Information**.",
         "guide_step4": "3️⃣ Click **Request a Download** and select only **Threads**.",
         "guide_step5": "4️⃣ Choose format as **JSON**, media quality as **Low** and submit.",
-        "guide_step6": "5️⃣ Download the raw `.zip` file from your email and upload it directly below without extracting.",
+        "guide_step6": "5️⃣ Upload the raw `.zip` file from your email directly, or browse and extract files inside connections folder.",
         "contact_btn": "💬 CONTACT DEVELOPER (@muratsenr)",
         "player_title": "🎵 Background Music: Cankan - Yaranamadım",
         "search_placeholder": "🔍 Search username in list...",
@@ -121,12 +121,12 @@ DIL_PAKETI = {
         "main_title": "THREADS GLOBAL",
         "main_sub": "LOKALES UND SICHERES BIDIREKTIONALES PROFIL-ANALYSESYSTEM // PWA MOBILE AKTIV",
         "main_hashtag": "#nichtichsondernwir",
-        "load_batch": "📁 Ziehen Sie die unentpackte Threads .zip Datei direkt hierher",
+        "load_batch": "📁 Ziehen Sie die unentpackte .zip oder mehrere .json Dateien hierher",
         "btn_analyze": "ANALYSE STARTEN",
         "tab_unfollowers": "Folgen mir nicht zurück",
         "tab_fans": "Ich folge nicht zurück",
         "tab_ghosts": "Geister / Inaktive Konten",
-        "input_error_msg": "Die Analyse erfordert sowohl die Datei 'followers.json' als auch 'following.json' im zip-Archiv.",
+        "input_error_msg": "Die Analyse erfordert sowohl die Datei 'followers.json' als auch 'following.json' im Verzeichnis.",
         "parse_error_msg": "Das hochgeladene JSON-Schema konnte nicht aufgelöst werden.",
         "success_msg": "Dateien erfolgreich gescannt, Berichte exportiert!",
         "perfect_sync": "🎉 [SAFE LOG]: Jeder folgt Ihnen zurück!",
@@ -136,12 +136,12 @@ DIL_PAKETI = {
         "summary_title": "📊 PROFIL-GESUNDHEITSÜBERSICHT",
         "health_score": "Gesundheitsscore",
         "guide_title": "📖 Wie lade ich Threads-Daten herunter? (Handbuch)",
-        "guide_step1": "📱 **SICHERER LOGIN AKTIV:** Ihr privates verschlüsseltes Profiltor ist scharf.",
+        "guide_step1": "📱 **%100 SICHERE HYBRID-ENGINE:** Laden Sie entweder die rohe .zip-Datei oder einzelne JSON-Dateien hoch.",
         "guide_step2": "1️⃣ Öffnen Sie **Instagram/Threads**, gehen Sie zu **Einstellungen -> Kontenübersicht**.",
         "guide_step3": "2️⃣ Folgen Sie **Deine Informationen und Berechtigungen -> Deine Informationen herunterladen**.",
         "guide_step4": "3️⃣ Klicken Sie auf **Download anfordern** und wählen Sie nur **Threads** aus.",
         "guide_step5": "4️⃣ Wählen Sie das Format **JSON** und die Medienqualität **Niedrig**.",
-        "guide_step6": "5️⃣ Laden Sie die `.zip`-Datei herunter und laden Sie sie unentpackt direkt unten hoch.",
+        "guide_step6": "5️⃣ Laden Sie die `.zip`-Datei unentpackt hoch oder wählen Sie die JSON-Dateien aus dem Ordner.",
         "contact_btn": "💬 CYBER-ENTWICKLER KONTAKTIEREN (@muratsenr)",
         "player_title": "🎵 Hintergrundmusik: Cankan - Yaranamadım",
         "search_placeholder": "🔍 Suchen Sie nach Benutzernamen...",
@@ -239,8 +239,8 @@ if not st.session_state.logged_in:
                 st.error("❌ Hatalı Kullanıcı Adı veya Şifre! Lütfen bilgilerinizi kontrol edin.")
     st.stop()
 
-# --- 🌓 ÖZELLİK 2: AÇIK / KOYU TEMA ENJEKTÖRÜ ---
-col_theme, col_space = st.columns([1, 2])
+# --- TEMA SEÇİCİ ---
+col_theme, col_space = st.columns()
 with col_theme:
     tema_secimi = st.selectbox("🌓 Tema Modu", ["Karanlık Gece Modu", "Açık Threads Modu"], label_visibility="collapsed")
 
@@ -253,7 +253,7 @@ if tema_secimi == "Açık Threads Modu":
         </style>
         """, unsafe_allow_html=True)
 
-# --- GİRİŞ YAPILDIKTAN SONRA AKTİF OLAN ANA ARAYÜZ ---
+# --- ANA ARAYÜZ ---
 st.title("🎯 Threads Profil Takip Sistemi")
 
 col_lang, col_hashtag = st.columns(2)
@@ -267,11 +267,9 @@ st.markdown(f"### {DIL_PAKETI[aktif_dil]['main_title']}")
 st.caption(DIL_PAKETI[aktif_dil]['main_sub'])
 st.divider()
 
-# --- 🎛️ GÜVENLİ MÜZİK BUTONU PANELİ ---
 st.caption(DIL_PAKETI[aktif_dil]['player_title'])
 st.link_button(label="▶️ YAPARKEN DİNLERSİNİZ YA (Göndermeli Şarkı)", url="https://youtube.com", use_container_width=True)
 
-# --- 📖 RESİMLİ / ADIM ADIM KULLANIM KILAVUZU PANELİ ---
 with st.expander(DIL_PAKETI[aktif_dil]['guide_title'], expanded=False):
     st.info(DIL_PAKETI[aktif_dil]['guide_step1'])
     st.markdown(DIL_PAKETI[aktif_dil]['guide_step2'])
@@ -282,23 +280,31 @@ with st.expander(DIL_PAKETI[aktif_dil]['guide_title'], expanded=False):
 
 st.write("") 
 
-# --- 📂 ÖZELLİK 1: HAM .ZIP DOSYASI SÜRÜKLE-BIRAK ENJEKTÖRÜ ---
-uploaded_zip = st.file_uploader(DIL_PAKETI[aktif_dil]['load_batch'], type=["zip"])
+# --- 📁 %100 ÜÇÜ BİR ARADA (ZIP + JSON SÜRÜKLE / SEÇ) HİBRİT DOSYA PANELİ ---
+uploaded_inputs = st.file_uploader(DIL_PAKETI[aktif_dil]['load_batch'], type=["zip", "json"], accept_multiple_files=True)
 
 following_bytes = None
 followers_bytes = None
 
-# Sürüklenen .zip dosyasını arka planda un-zip yapıp hafızadan okuyan siber motor
-if uploaded_zip:
-    try:
-        with zipfile.ZipFile(uploaded_zip) as z:
-            for file_info in z.infolist():
-                if "following.json" in file_info.filename.lower():
-                    following_bytes = z.read(file_info.filename)
-                elif "followers.json" in file_info.filename.lower():
-                    followers_bytes = z.read(file_info.filename)
-    except Exception:
-        st.error("Dosya açma hatası: Lütfen Instagram'dan inen geçerli bir .zip havuzu yükleyin.")
+if uploaded_inputs:
+    for item in uploaded_inputs:
+        # Eğer ham .zip dosyası atıldıysa
+        if item.name.lower().endswith(".zip"):
+            try:
+                with zipfile.ZipFile(item) as z:
+                    for file_info in z.infolist():
+                        if "following.json" in file_info.filename.lower():
+                            following_bytes = z.read(file_info.filename)
+                        elif "followers.json" in file_info.filename.lower():
+                            followers_bytes = z.read(file_info.filename)
+            except Exception:
+                st.error("Zip Çözümleme Hatası! Lütfen geçerli bir Threads arşivi yükleyin.")
+        # Eğer çoklu seçim veya klasör içi sürüklemeyle düz .json dosyaları atıldıysa
+        elif item.name.lower().endswith(".json"):
+            if "following" in item.name.lower():
+                following_bytes = item.read()
+            elif "followers" in item.name.lower():
+                followers_bytes = item.read()
 
 btn_trigger = st.button(DIL_PAKETI[aktif_dil]['btn_analyze'], use_container_width=True, type="primary")
 if btn_trigger or st.session_state.get('analyzed', False):
@@ -339,7 +345,7 @@ if btn_trigger or st.session_state.get('analyzed', False):
             if not following_set or not followers_set:
                 st.error(DIL_PAKETI[aktif_dil]['parse_error_msg'])
             else:
-                # --- ⏳ AKILLI DOSYA GÜNCELLİK DENETLEYİCİSİ SÜZGECİ ---
+                # --- AKILLI DOSYA GÜNCELLİK DENETLEYİCİSİ SÜZGECİ ---
                 en_son_sinyal_zamani = max(list(global_following_map.values()) + list(global_followers_map.values()), default=0)
                 if en_son_sinyal_zamani > 0:
                     gecen_gun = (datetime.now() - datetime.fromtimestamp(en_son_sinyal_zamani)).days
@@ -365,7 +371,7 @@ if btn_trigger or st.session_state.get('analyzed', False):
                 m2.metric("Following", len(following_set))
                 m3.metric("Followers", len(followers_set))
 
-                # --- ⏳ DEĞİŞİM KARŞILAŞTIRICISI EKRAN PANELİ ---
+                # --- DEĞİŞİM KARŞILAŞTIRICISI PANELİ ---
                 if st.session_state.get('has_history', False):
                     st.write("")
                     st.markdown(f"##### {DIL_PAKETI[aktif_dil]['history_title']}")
@@ -429,12 +435,12 @@ if btn_trigger or st.session_state.get('analyzed', False):
                 
                 st.download_button(label=DIL_PAKETI[aktif_dil]['download_excel'], data=output_excel, file_name="Threads_Detayli_Analiz_Raporu.xlsx", mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", use_container_width=True)
 
-                # --- ⏳ KRONOLOJİK ZAMAN MOTORU ---
+                # --- KRONOLOJİK ZAMAN MOTORU ---
                 st.markdown(f"###### {DIL_PAKETI[aktif_dil]['sort_label']}")
                 sort_choice = st.radio(label="", options=[DIL_PAKETI[aktif_dil]['sort_newest'], DIL_PAKETI[aktif_dil]['sort_oldest']], horizontal=True, label_visibility="collapsed")
                 is_reverse = (sort_choice == DIL_PAKETI[aktif_dil]['sort_newest'])
 
-                # --- 🔍 CANLI ARAMA ---
+                # --- CANLI ARAMA ---
                 search_query = st.text_input("", placeholder=DIL_PAKETI[aktif_dil]['search_placeholder']).strip().lower()
                 clean_query = search_query.replace("@", "")
 
@@ -466,7 +472,7 @@ if btn_trigger or st.session_state.get('analyzed', False):
                     else: st.info(DIL_PAKETI[aktif_dil]['no_ghosts'] if not clean_query else "Eşleşen kullanıcı bulunamadı.")
         except Exception as e: st.error(f"Sistem Hatası: {str(e)}")
 
-# --- 🔓 LOG-OUT VE SİSTEM AYARLARI ALT ALANI ---
+# --- LOG-OUT VE SİSTEM AYARLARI ALT ALANI ---
 st.write(""); st.divider()
 
 with st.expander("⚙️ Hesap Ayarları (Şifre Değiştir)", expanded=False):
