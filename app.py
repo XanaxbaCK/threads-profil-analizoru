@@ -1,6 +1,7 @@
 import json
 import re
 import io
+import urllib.parse
 from pathlib import Path
 from typing import Any, List, Dict
 from datetime import datetime
@@ -15,11 +16,26 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
+# --- 📱 REAL PWA (ANA EKRANA EKLE) MOBİL UYGULAMA ENJEKTÖRÜ ---
+# Bu JavaScript ve HTML kodu, telefon tarayıcılarına bu sitenin bir mobil uygulama olduğunu bildirir.
+st.components.v1.html(
+    """
+    <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function() {
+        navigator.serviceWorker.register('https://jsdelivr.net');
+      });
+    }
+    </script>
+    <link rel="manifest" href='data:application/manifest+json,{"short_name":"ThreadsTakip","name":"Threads Profil Takip Sistemi","icons":[{"src":"https://flaticon.com","type":"image/png","sizes":"512x512"}],"start_url":".","background_color":"#000000","theme_color":"#000000","display":"standalone","orientation":"portrait"}'>
+    """,
+    height=0,
+)
 # --- ÇOKLU DİL SÖZLÜĞÜ (TR / EN / DE) ---
 DIL_PAKETI = {
     "TR": {
         "main_title": "THREADS TÜRKİYE / MURAT & ESRA (CAN&KAN)",
-        "main_sub": "YEREL VE GÜVENLİ ÇİFT YÖNLÜ PROFİL TAKİPÇİ SİSTEMİ",
+        "main_sub": "YEREL VE GÜVENLİ ÇİFT YÖNLÜ PROFİL TAKİPÇİ SİSTEMİ // PWA MOBİL SÜRÜM ACTIVE",
         "main_hashtag": "#bendeğilbizyaptık",
         "load_batch": "📁 followers_and_following Klasörünü veya Dosyaları Sürükleyip Bırakın",
         "btn_analyze": "ANALİZİ BAŞLAT",
@@ -36,12 +52,12 @@ DIL_PAKETI = {
         "summary_title": "📊 PROFİL SAĞLIK ÖZETİ",
         "health_score": "Sağlık Skoru",
         "guide_title": "📖 Threads Verileri Nasıl İndirilir? (Kullanım Kılavuzu)",
-        "guide_step1": "1️⃣ **Instagram/Threads** uygulamasını açın ve **Ayarlar -> Hesaplar Merkezi** bölümüne girin.",
-        "guide_step2": "2️⃣ **Bilgilerin ve İzinlerin -> Bilgilerini İndir** adımlarını takip edin.",
-        "guide_step3": "3️⃣ **Indirme Talep Et** butonuna basın ve sadece **Threads** seçeneğini işaretleyin.",
-        "guide_step4": "4️⃣ Dosya formatını **JSON** (ÖNEMLİ!), medya kalitesini **Düşük** seçip talebi onaylayın.",
-        "guide_step5": "5️⃣ E-postanıza gelen `.zip` dosyasını indirin ve klasöre çıkartın.",
-        "guide_step6": "6️⃣ Klasörün içindeki `connections/followers_and_following` klasörünü komple aşağıdaki panele sürükleyip bırakın.",
+        "guide_step1": "📱 **MOBİL UYGULAMA YAPMAK İÇİN:** Tarayıcınızın seçeneklerinden **'Ana Ekrana Ekle'** diyerek telefona kurabilirsiniz.",
+        "guide_step2": "1️⃣ **Instagram/Threads** uygulamasını açın ve **Ayarlar -> Hesaplar Merkezi** bölümüne girin.",
+        "guide_step3": "2️⃣ **Bilgilerin ve İzinlerin -> Bilgilerini İndir** adımlarını takip edin.",
+        "guide_step4": "3️⃣ **Indirme Talep Et** butonuna basın ve sadece **Threads** seçeneğini işaretleyin.",
+        "guide_step5": "4️⃣ Dosya formatını **JSON** (ÖNEMLİ!), medya kalitesini **Düşük** seçip talebi onaylayın.",
+        "guide_step6": "5️⃣ E-postanıza gelen klasörün içindeki `connections/followers_and_following` klasörünü komple aşağıdaki panele sürükleyip bırakın.",
         "contact_btn": "💬 YAPIMCI İLE İLETİŞİME GEÇ (@muratsenr)",
         "player_title": "🎵 Arka Plan Müziğini Zorla Koydurdu",
         "search_placeholder": "🔍 Listede kullanıcı adı ara...",
@@ -53,7 +69,7 @@ DIL_PAKETI = {
     },
     "EN": {
         "main_title": "THREADS GLOBAL",
-        "main_sub": "LOCAL AND SECURE BI-DIRECTIONAL PROFILE ANALYSIS SYSTEM",
+        "main_sub": "LOCAL AND SECURE BI-DIRECTIONAL PROFILE ANALYSIS SYSTEM // PWA MOBILE ACTIVE",
         "main_hashtag": "#notmebutwe",
         "load_batch": "📁 Drag & Drop followers_and_following Folder or Files Here",
         "btn_analyze": "START ANALYSIS",
@@ -70,12 +86,12 @@ DIL_PAKETI = {
         "summary_title": "📊 PROFILE HEALTH SUMMARY",
         "health_score": "Health Score",
         "guide_title": "📖 How to Download Threads Data? (User Guide)",
-        "guide_step1": "1️⃣ Open **Instagram/Threads**, go to **Settings -> Accounts Center**.",
-        "guide_step2": "2️⃣ Follow **Your Information and Permissions -> Download Your Information**.",
-        "guide_step3": "3️⃣ Click **Request a Download** and select only **Threads**.",
-        "guide_step4": "4️⃣ Choose format as **JSON**, media quality as **Low** and submit.",
-        "guide_step5": "5️⃣ Download the `.zip` file from your email and extract it.",
-        "guide_step6": "6️⃣ Drag and drop the `connections/followers_and_following` folder into the panel below.",
+        "guide_step1": "📱 **TO INSTALL AS APP:** Click your browser settings and select **'Add to Home Screen'**.",
+        "guide_step2": "1️⃣ Open **Instagram/Threads**, go to **Settings -> Accounts Center**.",
+        "guide_step3": "2️⃣ Follow **Your Information and Permissions -> Download Your Information**.",
+        "guide_step4": "3️⃣ Click **Request a Download** and select only **Threads**.",
+        "guide_step5": "4️⃣ Choose format as **JSON**, media quality as **Low** and submit.",
+        "guide_step6": "5️⃣ Drag and drop the `connections/followers_and_following` folder into the panel below.",
         "contact_btn": "💬 CONTACT DEVELOPER (@muratsenr)",
         "player_title": "🎵 Background Music: Cankan - Yaranamadım",
         "search_placeholder": "🔍 Search username in list...",
@@ -87,7 +103,7 @@ DIL_PAKETI = {
     },
     "DE": {
         "main_title": "THREADS GLOBAL",
-        "main_sub": "LOKALES UND SICHERES BIDIREKTIONALES PROFIL-ANALYSESYSTEM",
+        "main_sub": "LOKALES UND SICHERES BIDIREKTIONALES PROFIL-ANALYSESYSTEM // PWA MOBILE AKTIV",
         "main_hashtag": "#nichtichsondernwir",
         "load_batch": "📁 Ziehen Sie den Ordner followers_and_following oder Dateien hierher",
         "btn_analyze": "ANALYSE STARTEN",
@@ -104,11 +120,11 @@ DIL_PAKETI = {
         "summary_title": "📊 PROFIL-GESUNDHEITSÜBERSICHT",
         "health_score": "Gesundheitsscore",
         "guide_title": "📖 Wie lade ich Threads-Daten herunter? (Handbuch)",
-        "guide_step1": "1️⃣ Öffnen Sie **Instagram/Threads**, gehen Sie zu **Einstellungen -> Kontenübersicht**.",
-        "guide_step2": "2️⃣ Folgen Sie **Deine Informationen und Berechtigungen -> Deine Informationen herunterladen**.",
-        "guide_step3": "3️⃣ Klicken Sie auf **Download anfordern** und wählen Sie nur **Threads** aus.",
-        "guide_step4": "4️⃣ Wählen Sie das Format **JSON** und die Medienqualität **Niedrig**.",
-        "guide_step5": "5️⃣ Entpacken Sie die erhaltene `.zip`-Datei auf Ihrem Gerät.",
+        "guide_step1": "📱 **ALS APP INSTALLIEREN:** Klicken Sie auf 'Zum Startbildschirm hinzufügen'.",
+        "guide_step2": "1️⃣ Öffnen Sie **Instagram/Threads**, gehen Sie zu **Einstellungen -> Kontenübersicht**.",
+        "guide_step3": "2️⃣ Folgen Sie **Deine Informationen und Berechtigungen -> Deine Informationen herunterladen**.",
+        "guide_step4": "3️⃣ Klicken Sie auf **Download anfordern** und wählen Sie nur **Threads** aus.",
+        "guide_step5": "4️⃣ Wählen Sie das Format **JSON** und die Medienqualität **Niedrig**.",
         "guide_step6": "6️⃣ Ziehen Sie den Ordner `connections/followers_and_following` hierher.",
         "contact_btn": "💬 CYBER-ENTWICKLER KONTAKTIEREN (@muratsenr)",
         "player_title": "🎵 Hintergrundmusik: Cankan - Yaranamadım",
@@ -168,9 +184,6 @@ class AnalizMotoru:
             if fark_gun > 540:
                 return True
         return False
-# --- MOBİL ARAYÜZ YAPILANDIRMASI VE DİL SEÇİMİ ---
-st.title("🎯 Threads Profil Takip Sistemi")
-
 col_lang, col_hashtag = st.columns(2)
 with col_lang:
     aktif_dil = st.selectbox("🌐 Language / Dil", ["TR", "EN", "DE"])
@@ -192,7 +205,7 @@ st.link_button(
 
 # --- 📖 RESİMLİ / ADIM ADIM KULLANIM KILAVUZU PANELİ ---
 with st.expander(DIL_PAKETI[aktif_dil]['guide_title'], expanded=False):
-    st.markdown(DIL_PAKETI[aktif_dil]['guide_step1'])
+    st.info(DIL_PAKETI[aktif_dil]['guide_step1'])
     st.markdown(DIL_PAKETI[aktif_dil]['guide_step2'])
     st.markdown(DIL_PAKETI[aktif_dil]['guide_step3'])
     st.markdown(DIL_PAKETI[aktif_dil]['guide_step4'])
@@ -201,10 +214,9 @@ with st.expander(DIL_PAKETI[aktif_dil]['guide_title'], expanded=False):
 
 st.write("") 
 
-# --- 📂 ÖZELLİK 1: TOPLU KLASÖR VEYA DOSYA SÜRÜKLE-BIRAK ENJEKTÖRÜ ---
+# --- 📂 AKILLI BATCH KLASÖR VEYA ÇOKLU DOSYA YÜKLEYİCİ ---
 uploaded_files = st.file_uploader(DIL_PAKETI[aktif_dil]['load_batch'], type=["json"], accept_multiple_files=True)
 
-# Sürüklenen çoklu dosyalardan followers ve following'i ayıran arka plan süzgeci
 following_file = None
 followers_file = None
 
@@ -222,8 +234,6 @@ if btn_trigger or st.session_state.get('analyzed', False):
     else:
         try:
             if 'unfollowers' not in st.session_state:
-                # --- ⏳ ÖZELLİK 2: "ŞU ANDA AKTİF" DEĞİŞİM KARŞILAŞTIRICISI BELLEK YÖNETİMİ ---
-                # Yeni veriler okunmadan önce, eğer hafızada eski veri varsa "geçmiş analiz" olarak yedeklenir.
                 if 'current_unfollowers' in st.session_state:
                     st.session_state.prev_unfollowers = st.session_state.current_unfollowers
                     st.session_state.prev_fans = st.session_state.current_fans
@@ -279,7 +289,6 @@ if btn_trigger or st.session_state.get('analyzed', False):
                 if st.session_state.get('has_history', False):
                     st.write("")
                     st.markdown(f"##### {DIL_PAKETI[aktif_dil]['history_title']}")
-                    # Bir önceki analize göre takibi bırakan veya yeni gelen delta hesapları
                     yeni_takipten_cikanlar = unfollowers - st.session_state.prev_unfollowers
                     yeni_hayranlar = fans - st.session_state.prev_fans
                     
@@ -293,15 +302,13 @@ if btn_trigger or st.session_state.get('analyzed', False):
                 chart_data = {"Sayı": [len(unfollowers), len(following_set & followers_set), len(fans), len(ghosts)]}
                 st.bar_chart(data=chart_data, y_label="Hesap Sayısı", use_container_width=True)
                 st.write("")
-                # --- BELLEKTE EXCEL OLUŞTURMA MOTORU (XLSXWRITER) ---
+                # --- BELLEKTE EXCEL OLUŞTURMA MOTORU ---
                 output_excel = io.BytesIO()
                 workbook = xlsxwriter.Workbook(output_excel)
-                
                 header_format = workbook.add_format({'bold': True, 'font_color': 'white', 'bg_color': '#1f4e78', 'border': 1, 'align': 'center'})
                 link_format = workbook.add_format({'font_color': 'blue', 'underline': True})
                 text_format = workbook.add_format({'align': 'left'})
                 
-                # 1. Sayfa: Beni Takip Etmeyenler
                 sheet_unf = workbook.add_worksheet("Beni Takip Etmeyenler")
                 sheet_unf.write_row('A1', ['No', 'Kullanıcı Adı', 'Profil Linki', 'Süre'], header_format)
                 sorted_unf_excel = sorted(unfollowers, key=lambda x: global_following_map.get(x, 0))
@@ -314,7 +321,6 @@ if btn_trigger or st.session_state.get('analyzed', False):
                     sheet_unf.write(idx, 3, süre, text_format)
                 sheet_unf.set_column('A:A', 5); sheet_unf.set_column('B:B', 20); sheet_unf.set_column('C:C', 45); sheet_unf.set_column('D:D', 20)
 
-                # 2. Sayfa: Geri Takip Etmediklerim
                 sheet_fans = workbook.add_worksheet("Geri Takip Etmediklerim")
                 sheet_fans.write_row('A1', ['No', 'Kullanıcı Adı', 'Profil Linki', 'Süre'], header_format)
                 sorted_fans_excel = sorted(fans, key=lambda x: global_followers_map.get(x, 0))
@@ -327,7 +333,6 @@ if btn_trigger or st.session_state.get('analyzed', False):
                     sheet_fans.write(idx, 3, süre, text_format)
                 sheet_fans.set_column('A:A', 5); sheet_fans.set_column('B:B', 20); sheet_fans.set_column('C:C', 45); sheet_fans.set_column('D:D', 20)
 
-                # 3. Sayfa: Hayalet Hesaplar
                 sheet_gh = workbook.add_worksheet("Hayalet Hesaplar")
                 sheet_gh.write_row('A1', ['No', 'Kullanıcı Adı', 'Profil Linki', 'Süre'], header_format)
                 sorted_gh_excel = sorted(ghosts, key=lambda x: global_followers_map.get(x, 0))
@@ -339,78 +344,47 @@ if btn_trigger or st.session_state.get('analyzed', False):
                     sheet_gh.write_url(idx, 2, p_url, link_format, string=p_url)
                     sheet_gh.write(idx, 3, süre, text_format)
                 sheet_gh.set_column('A:A', 5); sheet_gh.set_column('B:B', 20); sheet_gh.set_column('C:C', 45); sheet_gh.set_column('D:D', 20)
-                
                 workbook.close()
                 output_excel.seek(0)
                 
-                # --- EXCEL İNDİRME BUTONU ---
-                st.download_button(
-                    label=DIL_PAKETI[aktif_dil]['download_excel'],
-                    data=output_excel,
-                    file_name="Threads_Detayli_Analiz_Raporu.xlsx",
-                    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                    use_container_width=True
-                )
-                # --- ⏳ KRONOLOJİK VE GELİŞMİŞ ZAMAN SIRALAMASI MOTORU ---
+                st.download_button(label=DIL_PAKETI[aktif_dil]['download_excel'], data=output_excel, file_name="Threads_Detayli_Analiz_Raporu.xlsx", mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", use_container_width=True)
+
+                # --- ⏳ KRONOLOJİK ZAMAN MOTORU ---
                 st.markdown(f"###### {DIL_PAKETI[aktif_dil]['sort_label']}")
-                sort_choice = st.radio(
-                    label="",
-                    options=[DIL_PAKETI[aktif_dil]['sort_newest'], DIL_PAKETI[aktif_dil]['sort_oldest']],
-                    horizontal=True,
-                    label_visibility="collapsed"
-                )
+                sort_choice = st.radio(label="", options=[DIL_PAKETI[aktif_dil]['sort_newest'], DIL_PAKETI[aktif_dil]['sort_oldest']], horizontal=True, label_visibility="collapsed")
                 is_reverse = (sort_choice == DIL_PAKETI[aktif_dil]['sort_newest'])
 
-                # --- 🔍 CANLI ARAMA / FİLTRELEME KUTUSU ENTEGRASYONU ---
+                # --- 🔍 CANLI ARAMA ---
                 search_query = st.text_input("", placeholder=DIL_PAKETI[aktif_dil]['search_placeholder']).strip().lower()
                 clean_query = search_query.replace("@", "")
 
-                # Zaman motoruna göre dinamik listelerin sıralanması
                 sorted_unf = sorted(unfollowers, key=lambda x: global_following_map.get(x, 0), reverse=is_reverse)
                 sorted_fans = sorted(fans, key=lambda x: global_followers_map.get(x, 0), reverse=is_reverse)
                 sorted_gh = sorted(ghosts, key=lambda x: global_followers_map.get(x, 0), reverse=is_reverse)
 
-                # --- WEB SEKME GÖRÜNÜMLERİ ---
                 t1, t2, t3 = st.tabs([DIL_PAKETI[aktif_dil]['tab_unfollowers'], DIL_PAKETI[aktif_dil]['tab_fans'], DIL_PAKETI[aktif_dil]['tab_ghosts']])
-                
                 with t1:
                     filtered_unf = [u for u in sorted_unf if clean_query in u.lower()] if clean_query else sorted_unf
                     if filtered_unf:
                         for index, user in enumerate(filtered_unf, 1):
                             süre = AnalizMotoru.zaman_metnine_cevir(global_following_map.get(user, 0))
-                            p_url = f"https://threads.com@{user}"
-                            st.markdown(f"[{index:03d}] 🔗 [@{user}]({p_url}) &nbsp;&nbsp;&nbsp;&nbsp; ⌛ {süre}")
-                    else:
-                        st.info(DIL_PAKETI[aktif_dil]['perfect_sync'] if not clean_query else "Eşleşen kullanıcı bulunamadı.")
-                        
+                            st.markdown(f"[{index:03d}] 🔗 [@{user}](https://threads.com@{user}) &nbsp;&nbsp;&nbsp;&nbsp; ⌛ {süre}")
+                    else: st.info(DIL_PAKETI[aktif_dil]['perfect_sync'] if not clean_query else "Eşleşen kullanıcı bulunamadı.")
                 with t2:
                     filtered_fans = [u for u in sorted_fans if clean_query in u.lower()] if clean_query else sorted_fans
                     if filtered_fans:
                         for index, user in enumerate(filtered_fans, 1):
                             süre = AnalizMotoru.zaman_metnine_cevir(global_followers_map.get(user, 0))
-                            p_url = f"https://threads.com@{user}"
-                            st.markdown(f"[{index:03d}] 🔗 [@{user}]({p_url}) &nbsp;&nbsp;&nbsp;&nbsp; ⌛ {süre}")
-                    else:
-                        st.info(DIL_PAKETI[aktif_dil]['no_fans'] if not clean_query else "Eşleşen kullanıcı bulunamadı.")
-                        
+                            st.markdown(f"[{index:03d}] 🔗 [@{user}](https://threads.com@{user}) &nbsp;&nbsp;&nbsp;&nbsp; ⌛ {süre}")
+                    else: st.info(DIL_PAKETI[aktif_dil]['no_fans'] if not clean_query else "Eşleşen kullanıcı bulunamadı.")
                 with t3:
                     filtered_gh = [u for u in sorted_gh if clean_query in u.lower()] if clean_query else sorted_gh
                     if filtered_gh:
                         for index, user in enumerate(filtered_gh, 1):
                             süre = AnalizMotoru.zaman_metnine_cevir(global_followers_map.get(user, 0))
-                            p_url = f"https://threads.com@{user}"
-                            st.markdown(f"[{index:03d}] 🔗 [@{user}]({p_url}) &nbsp;&nbsp;&nbsp;&nbsp; ⌛ {süre}")
-                    else:
-                        st.info(DIL_PAKETI[aktif_dil]['no_ghosts'] if not clean_query else "Eşleşen kullanıcı bulunamadı.")
-                        
-        except Exception as e:
-            st.error(f"Sistem Hatası: {str(e)}")
+                            st.markdown(f"[{index:03d}] 🔗 [@{user}](https://threads.com@{user}) &nbsp;&nbsp;&nbsp;&nbsp; ⌛ {süre}")
+                    else: st.info(DIL_PAKETI[aktif_dil]['no_ghosts'] if not clean_query else "Eşleşen kullanıcı bulunamadı.")
+        except Exception as e: st.error(f"Sistem Hatası: {str(e)}")
 
-# --- 💬 SABİT İLETİŞİM & YAPIMCI BUTONU (SAYFA ALTI) ---
-st.write("")
-st.divider()
-st.link_button(
-    label=DIL_PAKETI[aktif_dil]['contact_btn'],
-    url="https://threads.com@muratsenr",
-    use_container_width=True
-)
+st.write(""); st.divider()
+st.link_button(label=DIL_PAKETI[aktif_dil]['contact_btn'], url="https://threads.com@muratsenr", use_container_width=True)
