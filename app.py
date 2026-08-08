@@ -9,7 +9,7 @@ import xlsxwriter
 
 # --- MOBİL VE GENİŞ EKRAN UYUMLULUK AYARI ---
 st.set_page_config(
-    page_title="Threads Profil Analizörü",
+    page_title="Threads Profil Takip Sistemi",
     page_icon="🎯",
     layout="centered",
     initial_sidebar_state="collapsed"
@@ -17,7 +17,7 @@ st.set_page_config(
 # --- ÇOKLU DİL SÖZLÜĞÜ (TR / EN / DE) ---
 DIL_PAKETI = {
     "TR": {
-        "main_title": "THREADS TÜRKİYE",
+        "main_title": "THREADS TÜRKİYE / MURAT & ESRA (CAN&KAN)",
         "main_sub": "YEREL VE GÜVENLİ ÇİFT YÖNLÜ PROFİL TAKİPÇİ SİSTEMİ",
         "main_hashtag": "#bendeğilbizyaptık",
         "load_following": "Takip Ettiklerinizi Yükleyin (following.json)",
@@ -39,11 +39,11 @@ DIL_PAKETI = {
         "guide_step1": "1️⃣ **Instagram/Threads** uygulamasını açın ve **Ayarlar -> Hesaplar Merkezi** bölümüne girin.",
         "guide_step2": "2️⃣ **Bilgilerin ve İzinlerin -> Bilgilerini İndir** adımlarını takip edin.",
         "guide_step3": "3️⃣ **Indirme Talep Et** butonuna basın ve sadece **Threads** seçeneğini işaretleyin.",
-        "guide_step4": "4️⃣ Dosya formatını **JSON**, medya kalitesini **Düşük** (hızlı inmesi için) seçip talebi onaylayın.",
-        "guide_step5": "5️⃣ Birkaç saat içinde e-postanıza gelen `.zip` dosyasını bilgisayara/telefona indirin ve klasöre çıkartın.",
+        "guide_step4": "4️⃣ Dosya formatını **JSON** (ÖNEMLİ!), medya kalitesini **Düşük** (hızlı inmesi için) seçip talebi onaylayın.",
+        "guide_step5": "5️⃣ Birkaç saat içinde (Takipçiniz az ise süre kısalır) e-postanıza gelen `.zip` dosyasını bilgisayara/telefona indirin ve klasöre çıkartın.",
         "guide_step6": "6️⃣ Klasörün içindeki `connections/followers_and_following` yoluna giderek **`followers.json`** ve **`following.json`** dosyalarını aşağıdaki panellere yükleyin.",
         "contact_btn": "💬 YAPIMCI İLE İLETİŞİME GEÇ (@muratsenr)",
-        "player_title": "🎵 Arka Plan Müziği: Cankan - Yaranamadım"
+        "player_title": "🎵 Arka Plan Müziği mi Tabi ki - Cankan - Yaranamadım"
     },
     "EN": {
         "main_title": "THREADS GLOBAL",
@@ -153,7 +153,7 @@ class AnalizMotoru:
                 return True
         return False
 # --- MOBİL ARAYÜZ YAPILANDIRMASI VE DİL SEÇİMİ ---
-st.title("🎯 Threads Profil Analizörü")
+st.title("🎯 Threads Profil Takip Sistemi")
 
 col_lang, col_hashtag = st.columns(2)
 with col_lang:
@@ -170,7 +170,7 @@ st.divider()
 st.caption(DIL_PAKETI[aktif_dil]['player_title'])
 # Hata veren video oynatıcı yerine YouTube engelini tamamen aşan tıklanabilir şık buton
 st.link_button(
-    label="▶️ ŞARKIYI YOUTUBE ÜZERİNDEN BAŞLAT (Cankan - Yaranamadım)",
+    label="▶️ YAPARKEN DİNLERSİNİZ YA (Göndermeli Şarkı)",
     url="https://www.youtube.com/watch?v=CpCG3ClOzY4",
     use_container_width=True
 )
@@ -300,7 +300,7 @@ if btn_trigger:
                     if unfollowers:
                         for index, user in enumerate(sorted_unf, 1):
                             süre = AnalizMotoru.zaman_metnine_cevir(global_following_map.get(user, 0))
-                            p_url = f"https://threads.com@{user}"
+                            p_url = f"https://threads.com/@{user}"
                             st.markdown(f"[{index:03d}] 🔗 [@{user}]({p_url}) &nbsp;&nbsp;&nbsp;&nbsp; ⌛ {süre}")
                     else:
                         st.info(DIL_PAKETI[aktif_dil]['perfect_sync'])
@@ -309,7 +309,7 @@ if btn_trigger:
                     if fans:
                         for index, user in enumerate(sorted_fans, 1):
                             süre = AnalizMotoru.zaman_metnine_cevir(global_followers_map.get(user, 0))
-                            p_url = f"https://threads.com@{user}"
+                            p_url = f"https://threads.com/@{user}"
                             st.markdown(f"[{index:03d}] 🔗 [@{user}]({p_url}) &nbsp;&nbsp;&nbsp;&nbsp; ⌛ {süre}")
                     else:
                         st.info(DIL_PAKETI[aktif_dil]['no_fans'])
@@ -318,7 +318,7 @@ if btn_trigger:
                     if ghosts:
                         for index, user in enumerate(sorted_gh, 1):
                             süre = AnalizMotoru.zaman_metnine_cevir(global_followers_map.get(user, 0))
-                            p_url = f"https://threads.com@{user}"
+                            p_url = f"https://threads.com/@{user}"
                             st.markdown(f"[{index:03d}] 🔗 [@{user}]({p_url}) &nbsp;&nbsp;&nbsp;&nbsp; ⌛ {süre}")
                     else:
                         st.info(DIL_PAKETI[aktif_dil]['no_ghosts'])
@@ -331,6 +331,6 @@ st.write("")
 st.divider()
 st.link_button(
     label=DIL_PAKETI[aktif_dil]['contact_btn'],
-    url="https://threads.com@muratsenr",
+    url="https://threads.com/@muratsenr",
     use_container_width=True
 )
