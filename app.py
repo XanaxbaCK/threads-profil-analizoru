@@ -204,9 +204,9 @@ class AnalizMotoru:
         return False
 # --- 🔑 ÖZEL KULLANICI ADI VE ŞİFRE VERİ TABANI ---
 KULLANICI_VERITABANI = {
-    "murat": "sener34",     # 1. Kullanıcı
-    "esra": "cankan99",     # 2. Kullanıcı
-    "demo": "threads2026"   # 3. Ortak veya demo giriş bilgisi
+    "murat": "esra",     # 1. Kullanıcı
+    "esra": "murat",     # 2. Kullanıcı
+    "deneme": "deneme"   # 3. Ortak veya demo giriş bilgisi
 }
 
 if "logged_in" not in st.session_state:
