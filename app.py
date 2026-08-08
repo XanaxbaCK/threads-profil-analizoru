@@ -20,14 +20,14 @@ st.set_page_config(
 DIL_PAKETI = {
     "TR": {
         "main_title": "THREADS TÜRKİYE / PRD:MURAT & ESRA (CAN&KAN)",
-        "main_sub": "YEREL VE GÜVENLİ ÇİFT YÖNLÜ PROFİL TAKİPÇİ SİSTEMİ",
+        "main_sub": "YEREL VE ONLİNE ÇİFT YÖNLÜ PROFİL TAKİPÇİ SİSTEMİ",
         "main_hashtag": "#bendeğilbizyaptık",
         "load_following": "Takip Ettiklerinizi Yükleyin (following.json)",
         "load_followers": "Takipçilerinizi Yükleyin (followers.json)",
         "btn_analyze": "ANALİZİ BAŞLAT",
         "tab_unfollowers": "Beni Takip Etmeyenler",
         "tab_fans": "Geri Takip Etmediklerim",
-        "tab_ghosts": "Hayalet (Ghost) Hesaplar",
+        "tab_ghosts": "Hayalet & Bot Hesaplar",
         "input_error_msg": "Analiz için gerekli iki kaynak dosya da yüklenmelidir.",
         "parse_error_msg": "Yüklenen JSON şeması motor tarafından çözümlenemedi.",
         "success_msg": "Dosyalar tarandı, Excel ve TXT raporları köprü linkleriyle üretildi!",
