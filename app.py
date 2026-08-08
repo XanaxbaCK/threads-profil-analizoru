@@ -71,7 +71,8 @@ DIL_PAKETI = {
         "login_btn": "GİRİŞ YAP",
         "login_success": "🔓 Erişim Yetkisi Onaylandı! Sistem yükleniyor...",
         "login_error": "❌ Hatalı Kullanıcı Adı veya Şifre! Lütfen tekrar deneyin.",
-        "outdated_warning": "⏳ **DİKKAT: ESKİ VERİ SETİ ALGILANDI**\n\nYüklediğiniz veri paketleri en son {days} gün önce güncellenmiş görünüyor. En doğru ve güncel analiz sonuçları için lütfen Threads verilerinizi yeniden indirip sisteme yükleyin."
+        "outdated_warning": "⏳ **DİKKAT: ESKİ VERİ SETİ ALGILANDI**\n\nYüklediğiniz veri paketleri en son {days} gün önce güncellenmiş görünüyor. En doğru sonuçlar için lütfen Threads verilerinizi yeniden indirin.",
+        "logout_btn": "🔒 OTURUMU GÜVENLİ KAPAT (LOG-OUT)"
     },
     "EN": {
         "main_title": "THREADS GLOBAL",
@@ -112,7 +113,8 @@ DIL_PAKETI = {
         "login_btn": "LOGIN",
         "login_success": "🔓 Access Granted! Loading system...",
         "login_error": "❌ Invalid Username or Password! Please try again.",
-        "outdated_warning": "⏳ **WARNING: OUTDATED DATA DETECTED**\n\nYour uploaded data files were last updated {days} days ago. For the most accurate and real-time results, please re-download your data packs from Threads."
+        "outdated_warning": "⏳ **WARNING: OUTDATED DATA DETECTED**\n\nYour uploaded data files were last updated {days} days ago. For the most accurate results, please re-download from Threads.",
+        "logout_btn": "🔒 SECURE LOG-OUT"
     },
     "DE": {
         "main_title": "THREADS GLOBAL",
@@ -154,7 +156,8 @@ DIL_PAKETI = {
         "login_btn": "EINLOGGEN",
         "login_success": "🔓 Zugriff gewährt! System wird geladen...",
         "login_error": "❌ Ungültiger Benutzername oder Passwort! Bitte versuchen Sie es erneut.",
-        "outdated_warning": "⏳ **WARNUNG: VERALTETE DATEN ERKANNT**\n\nIhre hochgeladenen Datendateien wurden vor {days} Tagen aktualisiert. Für genaue Echtzeitergebnisse laden Sie bitte Ihre Daten von Threads neu herunter."
+        "outdated_warning": "⏳ **WARNUNG: VERALTETE DATEN ERKANNT**\n\nIhre hochgeladenen Datendateien wurden vor {days} Tagen aktualisiert. Bitte laden Sie Ihre Daten von Threads neu herunter.",
+        "logout_btn": "🔒 SICHERER LOG-OUT"
     }
 }
 class AnalizMotoru:
@@ -206,15 +209,17 @@ class AnalizMotoru:
                 return True
         return False
 # --- 🔑 ÖZEL KULLANICI ADI VE ŞİFRE VERİ TABANI ---
-KULLANICI_VERITABANI = {
-    "murat": "esra",     # 1. Kullanıcı
-    "esra": "cankan99",     # 2. Kullanıcı
-    "demo": "threads2026"   # 3. Ortak giriş şifresi
-}
+if "user_db" not in st.session_state:
+    st.session_state.user_db = {
+        "murat": "esra",
+        "esra": "cankan99",
+        "demo": "threads2026"
+    }
 
 if "logged_in" not in st.session_state:
     st.session_state.logged_in = False
 
+# Şifre Koruma Ekranı
 if not st.session_state.logged_in:
     st.markdown(f"### 🎯 Threads Profil Takip Sistemi")
     st.write("")
@@ -226,8 +231,9 @@ if not st.session_state.logged_in:
         login_click = st.button("SİSTEME BAĞLAN", use_container_width=True, type="primary")
         
         if login_click:
-            if input_user in KULLANICI_VERITABANI and KULLANICI_VERITABANI[input_user] == input_pass:
+            if input_user in st.session_state.user_db and st.session_state.user_db[input_user] == input_pass:
                 st.session_state.logged_in = True
+                st.session_state.current_active_user = input_user
                 st.success("🔓 Erişim Onaylandı! Sistem yükleniyor...")
                 st.rerun()
             else:
@@ -319,12 +325,10 @@ if btn_trigger or st.session_state.get('analyzed', False):
             if not following_set or not followers_set:
                 st.error(DIL_PAKETI[aktif_dil]['parse_error_msg'])
             else:
-                # --- ⏳ ÖZELLİK: AKILLI DOSYA GÜNCELLİK DENETLEYİCİSİ SÜZGECİ ---
-                # Dosya içindeki en büyük timestamp (en son takibe alınan kişi) bulunur
+                # --- ⏳ AKILLI DOSYA GÜNCELLİK DENETLEYİCİSİ SÜZGECİ ---
                 en_son_sinyal_zamani = max(list(global_following_map.values()) + list(global_followers_map.values()), default=0)
                 if en_son_sinyal_zamani > 0:
                     gecen_gun = (datetime.now() - datetime.fromtimestamp(en_son_sinyal_zamani)).days
-                    # Veriler 30 günden eskiyse sarı kurumsal uyarı kartını patlat
                     if gecen_gun > 30:
                         st.warning(DIL_PAKETI[aktif_dil]['outdated_warning'].replace("{days}", str(gecen_gun)))
 
@@ -364,13 +368,13 @@ if btn_trigger or st.session_state.get('analyzed', False):
                 chart_data = {"Sayı": [len(unfollowers), len(following_set & followers_set), len(fans), len(ghosts)]}
                 st.bar_chart(data=chart_data, y_label="Hesap Sayısı", use_container_width=True)
                 st.write("")
+
                 # --- BELLEKTE EXCEL OLUŞTURMA MOTORU ---
                 output_excel = io.BytesIO()
                 workbook = xlsxwriter.Workbook(output_excel)
                 header_format = workbook.add_format({'bold': True, 'font_color': 'white', 'bg_color': '#1f4e78', 'border': 1, 'align': 'center'})
                 link_format = workbook.add_format({'font_color': 'blue', 'underline': True})
                 text_format = workbook.add_format({'align': 'left'})
-                
                 sheet_unf = workbook.add_worksheet("Beni Takip Etmeyenler")
                 sheet_unf.write_row('A1', ['No', 'Kullanıcı Adı', 'Profil Linki', 'Süre'], header_format)
                 sorted_unf_excel = sorted(unfollowers, key=lambda x: global_following_map.get(x, 0))
@@ -448,5 +452,25 @@ if btn_trigger or st.session_state.get('analyzed', False):
                     else: st.info(DIL_PAKETI[aktif_dil]['no_ghosts'] if not clean_query else "Eşleşen kullanıcı bulunamadı.")
         except Exception as e: st.error(f"Sistem Hatası: {str(e)}")
 
+# --- 🔓 PREMIUM GÜVENLİ ÇIKIŞ (LOG-OUT) VE SİSTEM AYARLARI ALT ALANI ---
 st.write(""); st.divider()
+
+# Kod değiştirmeden şifre güncelleyebilmeniz için gizli Şifre Değiştirme kutusu
+with st.expander("⚙️ Hesap Ayarları (Şifre Değiştir)", expanded=False):
+    yeni_sifre_input = st.text_input("🔑 Yeni Şifrenizi Girin", type="password", key="change_password_box").strip()
+    sifre_onay_btn = st.button("ŞİFREYİ GÜNCELLE", use_container_width=True)
+    if sifre_onay_btn and yeni_sifre_input:
+        aktif_u = st.session_state.current_active_user
+        st.session_state.user_db[aktif_u] = yeni_sifre_input
+        st.success("🎉 Şifreniz başarıyla güncellendi! Bir sonraki girişte aktif olacaktır.")
+
+st.write("")
+# Basıldığı an tarayıcı hafızasını uçuran resmi güvenli çıkış butonu
+logout_click = st.button(DIL_PAKETI[aktif_dil]['logout_btn'], use_container_width=True, type="secondary")
+if logout_click:
+    st.session_state.logged_in = False
+    st.session_state.analyzed = False
+    st.rerun() # Sayfayı anında kilitli şifreleme ekranına geri fırlat
+
+st.write("")
 st.link_button(label=DIL_PAKETI[aktif_dil]['contact_btn'], url="https://threads.com@muratsenr", use_container_width=True)
