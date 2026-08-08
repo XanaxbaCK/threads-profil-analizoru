@@ -1,6 +1,7 @@
 import json
 import re
 import io
+import urllib.parse
 from pathlib import Path
 from typing import Any, List, Dict
 from datetime import datetime
@@ -43,7 +44,9 @@ DIL_PAKETI = {
         "guide_step5": "5️⃣ Birkaç saat içinde (Takipçiniz az ise süre kısalır) e-postanıza gelen `.zip` dosyasını bilgisayara/telefona indirin ve klasöre çıkartın.",
         "guide_step6": "6️⃣ Klasörün içindeki `connections/followers_and_following` yoluna giderek **`followers.json`** ve **`following.json`** dosyalarını aşağıdaki panellere yükleyin.",
         "contact_btn": "💬 YAPIMCI İLE İLETİŞİME GEÇ (@muratsenr)",
-        "player_title": "🎵 Arka Plan Müziğini Zorla Koydurdu"
+        "player_title": "🎵 Arka Plan Müziğini Zorla Koydurdu",
+        "share_btn": "🚀 SONUCU THREADS'TE PAYLAŞ",
+        "share_text": "Threads Takip Sistemi ile profilimi analiz ettim! Profil Sağlık Skorum: %{score}! 🎯 Siz de profilinizi güvenle test edin: "
     },
     "EN": {
         "main_title": "THREADS GLOBAL",
@@ -72,7 +75,9 @@ DIL_PAKETI = {
         "guide_step5": "5️⃣ In a few hours, download the `.zip` file from your email and extract it.",
         "guide_step6": "6️⃣ Go to `connections/followers_and_following` folder and upload **`followers.json`** and **`following.json`** below.",
         "contact_btn": "💬 CONTACT DEVELOPER (@muratsenr)",
-        "player_title": "🎵 Background Music: Cankan - Yaranamadım"
+        "player_title": "🎵 Background Music: Cankan - Yaranamadım",
+        "share_btn": "🚀 SHARE RESULT ON THREADS",
+        "share_text": "I just analyzed my profile with Threads Tracking System! Profile Health Score: %{score}! 🎯 Test your profile securely here: "
     },
     "DE": {
         "main_title": "THREADS GLOBAL",
@@ -101,7 +106,9 @@ DIL_PAKETI = {
         "guide_step5": "5️⃣ Laden Sie die `.zip`-Datei in wenigen Stunden aus Ihrer E-Mail herunter und entpacken Sie sie.",
         "guide_step6": "6️⃣ Gehen Sie zum Ordner `connections/followers_and_following` und laden Sie **`followers.json`** und **`following.json`** unten hoch.",
         "contact_btn": "💬 ENTWICKLER KONTAKTIEREN (@muratsenr)",
-        "player_title": "🎵 Hintergrundmusik: Cankan - Yaranamadım"
+        "player_title": "🎵 Hintergrundmusik: Cankan - Yaranamadım",
+        "share_btn": "🚀 ERGEBNIS AUF THREADS TEILEN",
+        "share_text": "Ich habe mein Profil mit dem Threads Tracking System analysiert! Profil-Gesundheitsscore: %{score}! 🎯 Testen Sie Ihr Profil hier sicher: "
     }
 }
 class AnalizMotoru:
@@ -168,10 +175,9 @@ st.divider()
 
 # --- 🎛️ %100 ÇALIŞAN GÜVENLİ MÜZİK BUTONU PANELİ ---
 st.caption(DIL_PAKETI[aktif_dil]['player_title'])
-# Hata veren video oynatıcı yerine YouTube engelini tamamen aşan tıklanabilir şık buton
 st.link_button(
     label="▶️ YAPARKEN DİNLERSİNİZ YA (Göndermeli Şarkı)",
-    url="https://www.youtube.com/watch?v=CpCG3ClOzY4",
+    url="https://youtube.com",
     use_container_width=True
 )
 
@@ -192,8 +198,6 @@ uploaded_following = st.file_uploader(DIL_PAKETI[aktif_dil]['load_following'], t
 uploaded_followers = st.file_uploader(DIL_PAKETI[aktif_dil]['load_followers'], type=["json"], accept_multiple_files=True)
 
 btn_trigger = st.button(DIL_PAKETI[aktif_dil]['btn_analyze'], use_container_width=True, type="primary")
-
-
 if btn_trigger:
     if not uploaded_following or not uploaded_followers:
         st.warning(DIL_PAKETI[aktif_dil]['input_error_msg'])
@@ -235,6 +239,7 @@ if btn_trigger:
                 m1.metric(DIL_PAKETI[aktif_dil]['health_score'], f"%{health_score}", durum_str)
                 m2.metric("Following", len(following_set))
                 m3.metric("Followers", len(followers_set))
+                
                 # --- BELLEKTE EXCEL OLUŞTURMA MOTORU (XLSXWRITER) ---
                 output_excel = io.BytesIO()
                 workbook = xlsxwriter.Workbook(output_excel)
@@ -242,7 +247,6 @@ if btn_trigger:
                 header_format = workbook.add_format({'bold': True, 'font_color': 'white', 'bg_color': '#1F4E78', 'border': 1, 'align': 'center'})
                 link_format = workbook.add_format({'font_color': 'blue', 'underline': True})
                 text_format = workbook.add_format({'align': 'left'})
-                
                 # 1. Sayfa: Beni Takip Etmeyenler
                 sheet_unf = workbook.add_worksheet("Beni Takip Etmeyenler")
                 sheet_unf.write_row('A1', ['No', 'Kullanıcı Adı', 'Profil Linki', 'Süre'], header_format)
@@ -284,6 +288,7 @@ if btn_trigger:
                 
                 workbook.close()
                 output_excel.seek(0)
+                
                 # --- EXCEL İNDİRME BUTONU ---
                 st.download_button(
                     label=DIL_PAKETI[aktif_dil]['download_excel'],
@@ -292,7 +297,20 @@ if btn_trigger:
                     mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
                     use_container_width=True
                 )
+                # --- 🚀 VIRAL THREADS'TE PAYLAŞ BUTONU ENTEGRASYONU ---
+                # Sitenizin canlı linkini (Örn: https://streamlit.app) en sona ekleyebilirsiniz.
+                site_linki = st.query_params.get("site", ["https://streamlit.io"])[0] 
+                sablon_metin = DIL_PAKETI[aktif_dil]['share_text'].replace("{score}", str(health_score)) + site_linki
+                encoded_metin = urllib.parse.quote(sablon_metin)
+                threads_intent_url = f"https://threads.com{encoded_metin}"
                 
+                st.link_button(
+                    label=DIL_PAKETI[aktif_dil]['share_btn'],
+                    url=threads_intent_url,
+                    use_container_width=True
+                )
+                st.write("")
+
                 # --- WEB SEKME GÖRÜNÜMLERİ (Tıklanabilir Mavi Linkler) ---
                 t1, t2, t3 = st.tabs([DIL_PAKETI[aktif_dil]['tab_unfollowers'], DIL_PAKETI[aktif_dil]['tab_fans'], DIL_PAKETI[aktif_dil]['tab_ghosts']])
                 
