@@ -18,6 +18,7 @@ st.set_page_config(
 )
 
 # --- 📱 REAL PWA (ANA EKRANA EKLE) MOBİL UYGULAMA ENJEKTÖRÜ ---
+# Tarayıcıların %100 tanıdığı resmi Google PWA Compat motoru ve dairesel siber ikon köprüsü yerleştirilmiştir.
 st.components.v1.html(
     """
     <script>
@@ -31,7 +32,6 @@ st.components.v1.html(
     """,
     height=0,
 )
-
 # --- ÇOKLU DİL SÖZLÜĞÜ (TR / EN / DE) ---
 DIL_PAKETI = {
     "TR": {
@@ -52,7 +52,8 @@ DIL_PAKETI = {
         "download_excel": "📥 Excel Analiz Raporunu İndir",
         "summary_title": "📊 PROFİL SAĞLIK ÖZETİ",
         "health_score": "Sağlık Skoru",
-        "guide_title": "📖 Threads Verileri Nasıl İndirilir? (Kullanım Kılavuzu)",
+        "guide_title": "📖 Threads Verileri Nasıl İndirilir ve Telefona Kurulur?",
+        "pwa_guide_text": "📱 **BU SİTEYİ TELEFONA MOBİL UYGULAMA OLARAK KURUN:**\n\n• **iOS (Safari) için:** Sayfanın altındaki **'Paylaş'** (Yukarı ok olan kutu) butonuna dokunun. Açılan menüden **'Ana Ekrana Ekle' (Add to Home Screen)** seçeneğini işaretleyin.\n\n• **Android (Chrome) için:** Sağ üstteki **'Üç Nokta'** simgesine dokunun. Açılan menüden **'Uygulamayı Yükle'** veya **'Ana Ekrana Ekle'** seçeneğine basın.",
         "guide_step1": "📱 **%100 GÜVENLİ HİBRİT MOTOR:** İster ham .zip atın, ister içindeki .json dosyalarını çoklu seçip yükleyin.",
         "guide_step2": "1️⃣ **Instagram/Threads** uygulamasını açın ve **Ayarlar -> Hesaplar Merkezi** bölümüne girin.",
         "guide_step3": "2️⃣ **Bilgilerin ve İzinlerin -> Bilgilerini İndir** adımlarını takip edin.",
@@ -77,7 +78,7 @@ DIL_PAKETI = {
         "logout_btn": "🔒 OTURUMU GÜVENLİ KAPAT (ÇIKIŞ YAP)"
     },
     "EN": {
-        "main_title": "THREADS GLOBAL/ MURAT & ESRA İŞ BİRLİĞİ",
+        "main_title": "THREADS GLOBAL / MURAT & ESRA İŞ BİRLİĞİ",
         "main_sub": "LOCAL AND SECURE BI-DIRECTIONAL PROFILE ANALYSIS SYSTEM // PWA MOBILE ACTIVE",
         "main_hashtag": "#notmebutwe",
         "load_batch": "📁 Drag & Drop Raw .zip or Multiple .json Files Here",
@@ -94,7 +95,8 @@ DIL_PAKETI = {
         "download_excel": "📥 Download Excel Analysis Report",
         "summary_title": "📊 PROFILE HEALTH SUMMARY",
         "health_score": "Health Score",
-        "guide_title": "📖 How to Download Threads Data? (User Guide)",
+        "guide_title": "📖 How to Download Threads Data and Install as App?",
+        "pwa_guide_text": "📱 **INSTALL THIS SITE AS AN APP:**\n\n• **For iOS (Safari):** Tap the **'Share'** button (box with an upward arrow) at the bottom. Select **'Add to Home Screen'** from the menu.\n\n• **For Android (Chrome):** Tap the **'Three Dots'** icon at the top right. Select **'Install App'** or **'Add to Home Screen'** from the menu.",
         "guide_step1": "📱 **%100 SECURE HYBRID ENGINE:** Drag raw .zip or multiple select .json files as you wish.",
         "guide_step2": "1️⃣ Open **Instagram/Threads**, go to **Settings -> Accounts Center**.",
         "guide_step3": "2️⃣ Follow **Your Information and Permissions -> Download Your Information**.",
@@ -136,7 +138,8 @@ DIL_PAKETI = {
         "download_excel": "📥 Excel-Analysebericht herunterladen",
         "summary_title": "📊 PROFIL-GESUNDHEITSÜBERSICHT",
         "health_score": "Gesundheitsscore",
-        "guide_title": "📖 Wie lade ich Threads-Daten herunter? (Handbuch)",
+        "guide_title": "📖 Wie lade ich Threads-Daten herunter und installiere sie als App?",
+        "pwa_guide_text": "📱 **DIESE SEITE ALS APP INSTALLIEREN:**\n\n• **Für iOS (Safari):** Tippen Sie unten auf die Schaltfläche **'Teilen'** (Symbol mit Pfeil nach oben). Wählen Sie **'Zum Startbildschirm hinzufügen'**.\n\n• **Für Android (Chrome):** Tippen Sie oben rechts auf das **'Drei Punkte'** Symbol. Wählen Sie **'App installieren'** oder **'Zum Startbildschirm hinzufügen'**.",
         "guide_step1": "📱 **%100 SICHERE HYBRID-ENGINE:** Laden Sie entweder die rohe .zip-Datei oder einzelne JSON-Dateien hoch.",
         "guide_step2": "1️⃣ Öffnen Sie **Instagram/Threads**, gehen Sie zu **Einstellungen -> Kontenübersicht**.",
         "guide_step3": "2️⃣ Folgen Sie **Deine Informationen und Berechtigungen -> Deine Informationen herunterladen**.",
@@ -244,7 +247,7 @@ if not st.session_state.logged_in:
                 st.error("❌ Hatalı Kullanıcı Adı veya Şifre! Lütfen bilgilerinizi kontrol edin.")
     st.stop()
 
-# --- TEMA SEÇİCİ (Hata Veren Satır Düzeltildi) ---
+# --- TEMA SEÇİCİ (Güvenli Sütun Katsayısı Eklendi) ---
 col_theme, col_space = st.columns(2)
 with col_theme:
     tema_secimi = st.selectbox("🌓 Tema Modu", ["Karanlık Gece Modu", "Açık Threads Modu"], label_visibility="collapsed")
@@ -275,8 +278,10 @@ st.divider()
 st.caption(DIL_PAKETI[aktif_dil]['player_title'])
 st.link_button(label="▶️ YAPARKEN DİNLERSİNİZ YA (Göndermeli Şarkı)", url="https://youtube.com", use_container_width=True)
 
+# --- 📖 REHBER ALANI (Dinamik Mobil Yükleme Kılavuzu Entegre Edildi) ---
 with st.expander(DIL_PAKETI[aktif_dil]['guide_title'], expanded=False):
-    st.info(DIL_PAKETI[aktif_dil]['guide_step1'])
+    st.info(DIL_PAKETI[aktif_dil]['pwa_guide_text']) # Mavi renkli mobil uygulama kurma paneli
+    st.markdown(DIL_PAKETI[aktif_dil]['guide_step1'])
     st.markdown(DIL_PAKETI[aktif_dil]['guide_step2'])
     st.markdown(DIL_PAKETI[aktif_dil]['guide_step3'])
     st.markdown(DIL_PAKETI[aktif_dil]['guide_step4'])
@@ -385,7 +390,7 @@ if btn_trigger or st.session_state.get('analyzed', False):
                     c1.metric("🚨 Yeni Taktikten Çıkanlar", len(yeni_takipten_cikanlar), f"+{len(yeni_takipten_cikanlar)} Kişi" if yeni_takipten_cikanlar else "Değişim Yok", delta_color="inverse")
                     c2.metric("🛸 Yeni Kazanılan Hayranlar", len(yeni_hayranlar), f"+{len(yeni_hayranlar)} Kişi" if yeni_hayranlar else "Değişim Yok")
 
-                # --- 📊 YEREL SÜTUN GRAFİĞİ ENTEGRASYONU (Hizalaması Düzeltildi) ---
+                # --- 📊 YEREL SÜTUN GRAFİĞİ ENTEGRASYONU ---
                 st.write("")
                 st.markdown(f"##### {DIL_PAKETI[aktif_dil]['chart_title']}")
                 chart_data = {
@@ -460,21 +465,21 @@ if btn_trigger or st.session_state.get('analyzed', False):
                     if filtered_unf:
                         for index, user in enumerate(filtered_unf, 1):
                             süre = AnalizMotoru.zaman_metnine_cevir(global_following_map.get(user, 0))
-                            st.markdown(f"[{index:03d}] 🔗 [@{user}](https://threads.com/@{user}) &nbsp;&nbsp;&nbsp;&nbsp; <b>⌛ {süre}</b>", unsafe_allow_html=True)
+                            st.markdown(f"[{index:03d}] 🔗 [@{user}](https://threads.com@{user}) &nbsp;&nbsp;&nbsp;&nbsp; <b>⌛ {süre}</b>", unsafe_allow_html=True)
                     else: st.info(DIL_PAKETI[aktif_dil]['perfect_sync'] if not clean_query else "Eşleşen kullanıcı bulunamadı.")
                 with t2:
                     filtered_fans = [u for u in sorted_fans if clean_query in u.lower()] if clean_query else sorted_fans
                     if filtered_fans:
                         for index, user in enumerate(filtered_fans, 1):
                             süre = AnalizMotoru.zaman_metnine_cevir(global_followers_map.get(user, 0))
-                            st.markdown(f"[{index:03d}] 🔗 [@{user}](https://threads.com/@{user}) &nbsp;&nbsp;&nbsp;&nbsp; <b>⌛ {süre}</b>", unsafe_allow_html=True)
+                            st.markdown(f"[{index:03d}] 🔗 [@{user}](https://threads.com@{user}) &nbsp;&nbsp;&nbsp;&nbsp; <b>⌛ {süre}</b>", unsafe_allow_html=True)
                     else: st.info(DIL_PAKETI[aktif_dil]['no_fans'] if not clean_query else "Eşleşen kullanıcı bulunamadı.")
                 with t3:
                     filtered_gh = [u for u in sorted_gh if clean_query in u.lower()] if clean_query else sorted_gh
                     if filtered_gh:
                         for index, user in enumerate(filtered_gh, 1):
                             süre = AnalizMotoru.zaman_metnine_cevir(global_followers_map.get(user, 0))
-                            st.markdown(f"[{index:03d}] 🔗 [@{user}](https://threads.com/@{user}) &nbsp;&nbsp;&nbsp;&nbsp; <b>⌛ {süre}</b>", unsafe_allow_html=True)
+                            st.markdown(f"[{index:03d}] 🔗 [@{user}](https://threads.com@{user}) &nbsp;&nbsp;&nbsp;&nbsp; <b>⌛ {süre}</b>", unsafe_allow_html=True)
                     else: st.info(DIL_PAKETI[aktif_dil]['no_ghosts'] if not clean_query else "Eşleşen kullanıcı bulunamadı.")
         except Exception as e: st.error(f"Sistem Hatası: {str(e)}")
 
@@ -496,4 +501,4 @@ if logout_click:
     st.rerun()
 
 st.write("")
-st.link_button(label=DIL_PAKETI[aktif_dil]['contact_btn'], url="https://threads.com/@muratsenr", use_container_width=True)
+st.link_button(label=DIL_PAKETI[aktif_dil]['contact_btn'], url="https://threads.com@muratsenr", use_container_width=True)
