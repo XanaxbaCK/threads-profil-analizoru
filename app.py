@@ -34,7 +34,7 @@ st.components.v1.html(
 # --- ÇOKLU DİL SÖZLÜĞÜ (TR / EN / DE) ---
 DIL_PAKETI = {
     "TR": {
-        "main_title": "THREADS TÜRKİYE / MURAT & ESRA (CAN&KAN)",
+        "main_title": "THREADS TÜRKİYE / MURAT & ESRA İŞ BİRLİĞİ (CAN&KAN)",
         "main_sub": "YEREL VE GÜVENLİ ÇİFT YÖNLÜ PROFİL TAKİPÇİ SİSTEMİ // PWA MOBİL SÜRÜM ACTIVE",
         "main_hashtag": "#bendeğilbizyaptık",
         "load_batch": "📁 Ham .zip Dosyasını veya .json Dosyalarını Sürükleyin / Seçin",
@@ -76,7 +76,7 @@ DIL_PAKETI = {
         "logout_btn": "🔒 OTURUMU GÜVENLİ KAPAT (LOG-OUT)"
     },
     "EN": {
-        "main_title": "THREADS GLOBAL",
+        "main_title": "THREADS GLOBAL/ MURAT & ESRA İŞ BİRLİĞİ",
         "main_sub": "LOCAL AND SECURE BI-DIRECTIONAL PROFILE ANALYSIS SYSTEM // PWA MOBILE ACTIVE",
         "main_hashtag": "#notmebutwe",
         "load_batch": "📁 Drag & Drop Raw .zip or Multiple .json Files Here",
@@ -213,8 +213,11 @@ class AnalizMotoru:
 if "user_db" not in st.session_state:
     st.session_state.user_db = {
         "murat": "esra",
-        "esra": "cankan99",
-        "demo": "threads2026"
+        "esra": "murat",
+        "demo": "threads2026",
+        "ömür": "deniz",
+        "deniz": "ömür",
+        "rıdvan": "gönül"
     }
 
 if "logged_in" not in st.session_state:
@@ -228,7 +231,7 @@ if not st.session_state.logged_in:
         st.markdown("<h4 style='color:#3a7ebf; margin-top:0px;'><b>🔒 SİSTEME GÜVENLİ GİRİŞ</b></h4>", unsafe_allow_html=True)
         input_user = st.text_input("👤 Kullanıcı Adı", key="login_username_field").strip()
         input_pass = st.text_input("🔑 Şifre", type="password", key="login_password_field").strip()
-        login_click = st.button("SİSTEME BAĞLAN", use_container_width=True, type="primary")
+        login_click = st.button("SİSTEME GİRİŞ YAP", use_container_width=True, type="primary")
         
         if login_click:
             if input_user in st.session_state.user_db and st.session_state.user_db[input_user] == input_pass:
@@ -456,21 +459,21 @@ if btn_trigger or st.session_state.get('analyzed', False):
                     if filtered_unf:
                         for index, user in enumerate(filtered_unf, 1):
                             süre = AnalizMotoru.zaman_metnine_cevir(global_following_map.get(user, 0))
-                            st.markdown(f"[{index:03d}] 🔗 [@{user}](https://threads.com@{user}) &nbsp;&nbsp;&nbsp;&nbsp; <b>⌛ {süre}</b>", unsafe_allow_html=True)
+                            st.markdown(f"[{index:03d}] 🔗 [@{user}](https://threads.com/@{user}) &nbsp;&nbsp;&nbsp;&nbsp; <b>⌛ {süre}</b>", unsafe_allow_html=True)
                     else: st.info(DIL_PAKETI[aktif_dil]['perfect_sync'] if not clean_query else "Eşleşen kullanıcı bulunamadı.")
                 with t2:
                     filtered_fans = [u for u in sorted_fans if clean_query in u.lower()] if clean_query else sorted_fans
                     if filtered_fans:
                         for index, user in enumerate(filtered_fans, 1):
                             süre = AnalizMotoru.zaman_metnine_cevir(global_followers_map.get(user, 0))
-                            st.markdown(f"[{index:03d}] 🔗 [@{user}](https://threads.com@{user}) &nbsp;&nbsp;&nbsp;&nbsp; <b>⌛ {süre}</b>", unsafe_allow_html=True)
+                            st.markdown(f"[{index:03d}] 🔗 [@{user}](https://threads.com/@{user}) &nbsp;&nbsp;&nbsp;&nbsp; <b>⌛ {süre}</b>", unsafe_allow_html=True)
                     else: st.info(DIL_PAKETI[aktif_dil]['no_fans'] if not clean_query else "Eşleşen kullanıcı bulunamadı.")
                 with t3:
                     filtered_gh = [u for u in sorted_gh if clean_query in u.lower()] if clean_query else sorted_gh
                     if filtered_gh:
                         for index, user in enumerate(filtered_gh, 1):
                             süre = AnalizMotoru.zaman_metnine_cevir(global_followers_map.get(user, 0))
-                            st.markdown(f"[{index:03d}] 🔗 [@{user}](https://threads.com@{user}) &nbsp;&nbsp;&nbsp;&nbsp; <b>⌛ {süre}</b>", unsafe_allow_html=True)
+                            st.markdown(f"[{index:03d}] 🔗 [@{user}](https://threads.com/@{user}) &nbsp;&nbsp;&nbsp;&nbsp; <b>⌛ {süre}</b>", unsafe_allow_html=True)
                     else: st.info(DIL_PAKETI[aktif_dil]['no_ghosts'] if not clean_query else "Eşleşen kullanıcı bulunamadı.")
         except Exception as e: st.error(f"Sistem Hatası: {str(e)}")
 
@@ -492,4 +495,4 @@ if logout_click:
     st.rerun()
 
 st.write("")
-st.link_button(label=DIL_PAKETI[aktif_dil]['contact_btn'], url="https://threads.com@muratsenr", use_container_width=True)
+st.link_button(label=DIL_PAKETI[aktif_dil]['contact_btn'], url="https://threads.com/@muratsenr", use_container_width=True)
