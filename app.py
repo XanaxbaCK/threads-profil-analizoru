@@ -35,7 +35,7 @@ st.components.v1.html(
 DIL_PAKETI = {
     "TR": {
         "main_title": "THREADS TÜRKİYE / MURAT & ESRA İŞ BİRLİĞİ (CAN&KAN)",
-        "main_sub": "YEREL VE GÜVENLİ ÇİFT YÖNLÜ PROFİL TAKİPÇİ SİSTEMİ // PWA MOBİL SÜRÜM ACTIVE",
+        "main_sub": "YEREL VE GÜVENLİ ÇİFT YÖNLÜ PROFİL TAKİPÇİ SİSTEMI // PWA MOBİL SÜRÜM ACTIVE",
         "main_hashtag": "#bendeğilbizyaptık",
         "load_batch": "📁 Ham .zip Dosyasını veya .json Dosyalarını Sürükleyin / Seçin",
         "btn_analyze": "ANALİZİ BAŞLAT",
@@ -60,7 +60,7 @@ DIL_PAKETI = {
         "guide_step5": "4️⃣ Dosya formatını **JSON** (ÖNEMLİ!), medya kalitesini **Düşük** seçip talebi onaylayın.",
         "guide_step6": "5️⃣ E-postanıza gelen ham `.zip` dosyasını klasöre açmadan direkt yükleyebilir veya içindeki `connections/followers_and_following` klasöründen dosyaları seçebilirsiniz.",
         "contact_btn": "💬 YAPIMCI İLE İLETİŞİME GEÇ (@muratsenr)",
-        "player_title": "🎵 Arka Plan Mü─üni Zorla Koydurdu",
+        "player_title": "🎵 Arka Plan Müziğini Zorla Koydurdu",
         "search_placeholder": "🔍 Listede kullanıcı adı ara...",
         "chart_title": "📈 Profil Dağılım Grafiği",
         "sort_label": "⏳ Zaman Sıralaması",
@@ -74,7 +74,8 @@ DIL_PAKETI = {
         "login_success": "🔓 Erişim Yetkisi Onaylandı! Sistem yükleniyor...",
         "login_error": "❌ Hatalı Kullanıcı Adı veya Şifre! Lütfen tekrar deneyin.",
         "outdated_warning": "⏳ **DİKKAT: ESKİ VERİ SETİ ALGILANDI**\n\nYüklediğiniz veri paketleri en son {days} gün önce güncellenmiş görünüyor. En doğru sonuçlar için lütfen Threads verilerinizi yeniden indirin.",
-        "logout_btn": "🔒 OTURUMU GÜVENLİ KAPAT (ÇIKIŞ YAP)"
+        "logout_btn": "🔒 OTURUMU GÜVENLİ KAPAT (ÇIKIŞ YAP)",
+        "premium_notice": "👑 **PREMIUM ÖZELLİK KİLİTLİ:** Advanced grafik analizler, Excel indirme motoru ve kronolojik zaman sıralaması sadece Premium üyelere özeldir. Yetki yükseltmek için lütfen yöneticiyle iletişime geçin."
     },
     "EN": {
         "main_title": "THREADS GLOBAL / MURAT & ESRA İŞ BİRLİĞİ",
@@ -117,7 +118,8 @@ DIL_PAKETI = {
         "login_success": "🔓 Access Granted! Loading system...",
         "login_error": "❌ Invalid Username or Password! Please try again.",
         "outdated_warning": "⏳ **WARNING: OUTDATED DATA DETECTED**\n\nYour uploaded data files were last updated {days} days ago. For the most accurate results, please re-download from Threads.",
-        "logout_btn": "🔒 SECURE LOG-OUT"
+        "logout_btn": "🔒 SECURE LOG-OUT",
+        "premium_notice": "👑 **PREMIUM FEATURE LOCKED:** Advanced charts, Excel exports, and chronological sorting are restricted to Premium members."
     },
     "DE": {
         "main_title": "THREADS GLOBAL",
@@ -137,7 +139,7 @@ DIL_PAKETI = {
         "download_excel": "📥 Excel-Analysebericht herunterladen",
         "summary_title": "📊 PROFIL-GESUNDHEITSÜBERSICHT",
         "health_score": "Gesundheitsscore",
-        "guide_title": "📖 Wie lade ich Threads-Daten herunter? (Handbuch)",
+        "guide_title": "📖 Wie lade ich Threads-Daten herunter und installiere sie als App?",
         "pwa_guide_text": "📱 **DIESE SEITE ALS APP INSTALLIEREN:**\n\n• **Für iOS (Safari):** Tippen Sie unten auf die Schaltfläche **'Teilen'** (Symbol mit Pfeil nach oben). Wählen Sie **'Zum Startbildschirm hinzufügen'**.\n\n• **Für Android (Chrome):** Tippen Sie oben rechts auf das **'Drei Punkte'** Symbol. Wählen Sie **'App installieren'** oder **'Zum Startbildschirm hinzufügen'**.",
         "guide_step1": "📱 **%100 SICHERE HYBRID-ENGINE:** Laden Sie entweder die rohe .zip-Datei oder einzelne JSON-Dateien hoch.",
         "guide_step2": "1️⃣ Öffnen Sie **Instagram/Threads**, gehen Sie zu **Einstellungen -> Kontenübersicht**.",
@@ -161,7 +163,8 @@ DIL_PAKETI = {
         "login_success": "🔓 Zugriff gewährt! System wird geladen...",
         "login_error": "❌ Ungültiger Benutzername oder Passwort! Bitte versuchen Sie es erneut.",
         "outdated_warning": "⏳ **WARNUNG: VERALTETE DATEN ERKANNT**\n\nIhre Datendateien wurden vor {days} Tagen aktualisiert. Bitte laden Sie Ihre Daten neu herunter.",
-        "logout_btn": "🔒 SICHERER LOG-OUT"
+        "logout_btn": "🔒 SICHERER LOG-OUT",
+        "premium_notice": "👑 **PREMIUM-FUNKTION GESPERRT:** Erweiterte Diagramme, Excel-Exporte und chronologische Sortierung sind Premium-Mitgliedern vorbehalten."
     }
 }
 class AnalizMotoru:
@@ -212,16 +215,20 @@ class AnalizMotoru:
             if fark_gun > 540:
                 return True
         return False
-# --- 🔑 ÖZEL KULLANICI ADI VE ŞİFRE VERİ TABANI ---
+# --- 🔑 HAFİF BELLEK TABANLI SAAS VERİ TABANI YAPILANDIRMASI ---
 if "user_db" not in st.session_state:
     st.session_state.user_db = {
-        "murat": "esra",
-        "esra": "murat",
-        "demo": "threads2026",
-        "ömür": "deniz",
-        "deniz": "ömür",
-        "rıdvan": "gönül"
+        "murat": "esra",       # SÜPER ADMİN / YÖNETİCİ & PREMIUM
+        "esra": "murat",       # PREMIUM ÜYE (Yönetici Paneli Kilitli)
+        "demo": "threads2026", # Standart Kısıtlı Yetki
+        "ömür": "deniz",       # Standart Kısıtlı Yetki
+        "deniz": "ömür",       # Standart Kısıtlı Yetki
+        "rıdvan": "gönül"      # Standart Kısıtlı Yetki
     }
+
+# Canlı üyelik yetkilendirme listesi (Başlangıçta Murat ve Esra Premium atanır)
+if "premium_users" not in st.session_state:
+    st.session_state.premium_users = {"murat", "esra"}
 
 if "logged_in" not in st.session_state:
     st.session_state.logged_in = False
@@ -232,7 +239,7 @@ if not st.session_state.logged_in:
     
     with st.container(border=True):
         st.markdown("<h4 style='color:#3a7ebf; margin-top:0px;'><b>🔒 SİSTEME GÜVENLİ GİRİŞ</b></h4>", unsafe_allow_html=True)
-        input_user = st.text_input("👤 Kullanıcı Adı", key="login_username_field").strip()
+        input_user = st.text_input("👤 Kullanıcı Adı", key="login_username_field").strip().lower()
         input_pass = st.text_input("🔑 Şifre", type="password", key="login_password_field").strip()
         login_click = st.button("SİSTEME GİRİŞ YAP", use_container_width=True, type="primary")
         
@@ -240,7 +247,6 @@ if not st.session_state.logged_in:
             if input_user in st.session_state.user_db and st.session_state.user_db[input_user] == input_pass:
                 st.session_state.logged_in = True
                 st.session_state.current_active_user = input_user
-                st.success("🔓 Erişim Onaylandı! Sistem yükleniyor...")
                 st.rerun()
             else:
                 st.error("❌ Hatalı Kullanıcı Adı veya Şifre! Lütfen bilgilerinizi kontrol edin.")
@@ -377,26 +383,32 @@ if btn_trigger or st.session_state.get('analyzed', False):
                 m2.metric("Following", len(following_set))
                 m3.metric("Followers", len(followers_set))
 
-                # --- DEĞİŞİM KARŞILAŞTIRICISI PANELİ ---
-                if st.session_state.get('has_history', False):
-                    st.write("")
-                    st.markdown(f"##### {DIL_PAKETI[aktif_dil]['history_title']}")
-                    yeni_takipten_cikanlar = unfollowers - st.session_state.prev_unfollowers
-                    yeni_hayranlar = fans - st.session_state.prev_fans
-                    
-                    c1, c2 = st.columns(2)
-                    c1.metric("🚨 Yeni Taktikten Çıkanlar", len(yeni_takipten_cikanlar), f"+{len(yeni_takipten_cikanlar)} Kişi" if yeni_takipten_cikanlar else "Değişim Yok", delta_color="inverse")
-                    c2.metric("🛸 Yeni Kazanılan Hayranlar", len(yeni_hayranlar), f"+{len(yeni_hayranlar)} Kişi" if yeni_hayranlar else "Değişim Yok")
+                # --- 👑 PREMIUM KORUMALI PANEL ---
+                is_user_premium = (st.session_state.current_active_user in st.session_state.premium_users)
+                
+                if is_user_premium:
+                    if st.session_state.get('has_history', False):
+                        st.write("")
+                        st.markdown(f"##### {DIL_PAKETI[aktif_dil]['history_title']}")
+                        yeni_takipten_cikanlar = unfollowers - st.session_state.prev_unfollowers
+                        yeni_hayranlar = fans - st.session_state.prev_fans
+                        
+                        c1, c2 = st.columns(2)
+                        c1.metric("🚨 Yeni Taktikten Çıkanlar", len(yeni_takipten_cikanlar), f"+{len(yeni_takipten_cikanlar)} Kişi" if yeni_takipten_cikanlar else "Değişim Yok", delta_color="inverse")
+                        c2.metric("🛸 Yeni Kazanılan Hayranlar", len(yeni_hayranlar), f"+{len(yeni_hayranlar)} Kişi" if yeni_hayranlar else "Değişim Yok")
 
-                # --- 📊 YEREL SÜTUN GRAFİĞİ ENTEGRASYONU ---
-                st.write("")
-                st.markdown(f"##### {DIL_PAKETI[aktif_dil]['chart_title']}")
-                chart_data = {
-                    "Kategori": ["Takip Etmeyenler", "Karşılıklı", "Hayranlar", "Hayaletler"],
-                    "Sayı": [len(unfollowers), len(following_set & followers_set), len(fans), len(ghosts)]
-                }
-                st.bar_chart(data=chart_data, x="Kategori", y="Sayı", use_container_width=True)
-                st.write("")
+                    # --- 📊 PREMIUM KORUMALI SÜTUN GRAFİĞİ ENTEGRASYONU ---
+                    st.write("")
+                    st.markdown(f"##### {DIL_PAKETI[aktif_dil]['chart_title']}")
+                    chart_data = {
+                        "Kategori": ["Takip Etmeyenler", "Karşılıklı", "Hayranlar", "Hayaletler"],
+                        "Sayı": [len(unfollowers), len(following_set & followers_set), len(fans), len(ghosts)]
+                    }
+                    st.bar_chart(data=chart_data, x="Kategori", y="Sayı", use_container_width=True)
+                    st.write("")
+                else:
+                    st.write("")
+                    st.info(DIL_PAKETI[aktif_dil]['premium_notice'])
 
                 # --- BELLEKTE EXCEL OLUŞTURMA MOTORU ---
                 output_excel = io.BytesIO()
@@ -442,12 +454,17 @@ if btn_trigger or st.session_state.get('analyzed', False):
                 workbook.close()
                 output_excel.seek(0)
                 
-                st.download_button(label=DIL_PAKETI[aktif_dil]['download_excel'], data=output_excel, file_name="Threads_Detayli_Analiz_Raporu.xlsx", mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", use_container_width=True)
+                # Excel indirme premium koruması
+                if st.session_state.current_active_user in st.session_state.premium_users:
+                    st.download_button(label=DIL_PAKETI[aktif_dil]['download_excel'], data=output_excel, file_name="Threads_Detayli_Analiz_Raporu.xlsx", mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", use_container_width=True)
 
-                # --- KRONOLOJİK ZAMAN MOTORU ---
-                st.markdown(f"###### {DIL_PAKETI[aktif_dil]['sort_label']}")
-                sort_choice = st.radio(label="", options=[DIL_PAKETI[aktif_dil]['sort_newest'], DIL_PAKETI[aktif_dil]['sort_oldest']], horizontal=True, label_visibility="collapsed")
-                is_reverse = (sort_choice == DIL_PAKETI[aktif_dil]['sort_newest'])
+                # --- ⏳ KRONOLOJİK ZAMAN MOTORU (PREMIUM KORUMALI) ---
+                if st.session_state.current_active_user in st.session_state.premium_users:
+                    st.markdown(f"###### {DIL_PAKETI[aktif_dil]['sort_label']}")
+                    sort_choice = st.radio(label="", options=[DIL_PAKETI[aktif_dil]['sort_newest'], DIL_PAKETI[aktif_dil]['sort_oldest']], horizontal=True, label_visibility="collapsed")
+                    is_reverse = (sort_choice == DIL_PAKETI[aktif_dil]['sort_newest'])
+                else:
+                    is_reverse = True
 
                 # --- CANLI ARAMA ---
                 search_query = st.text_input("", placeholder=DIL_PAKETI[aktif_dil]['search_placeholder']).strip().lower()
@@ -483,12 +500,29 @@ if btn_trigger or st.session_state.get('analyzed', False):
 # --- LOG-OUT VE SİSTEM AYARLARI ALT ALANI ---
 st.write(""); st.divider()
 
-with st.expander("⚙️ Hesap Ayarları (Şifre Değiştir)", expanded=False):
+# --- 👑 SADECE MURAT'A ÖZEL SAAS CANLI ÜYE YÖNETİM PANELİ ---
+if st.session_state.current_active_user == "murat":
+    with st.expander("👑 Canlı Üye Yönetim Paneli", expanded=False):
+        st.markdown("##### 👤 Yeni Kullanıcı Tanımla / Düzenle")
+        c_user = st.text_input("Kullanıcı Adı Ekle", key="saas_new_user_input").strip().lower()
+        c_pass = st.text_input("Şifre Belirle", key="saas_new_pass_input").strip()
+        c_role = st.selectbox("Yetki Seviyesi", ["Standart (Kısıtlı)", "Premium (Limitsiz)"])
+        
+        save_member_btn = st.button("KULLANICIYI SİSTEME KAYDET", use_container_width=True)
+        if save_member_btn and c_user and c_pass:
+            st.session_state.user_db[c_user] = c_pass
+            if c_role == "Premium (Limitsiz)":
+                st.session_state.premium_users.add(c_user)
+            else:
+                st.session_state.premium_users.discard(c_user)
+            st.success(f"🎉 '@{c_user}' kullanıcısı {c_role} yetkisiyle veri tabanına eklendi!")
+
+with st.expander("⚙️ Hesap Ayarları (Kendi Şifreni Değiştir)", expanded=False):
     yeni_sifre_input = st.text_input("🔑 Yeni Şifrenizi Girin", type="password", key="change_password_box").strip()
     sifre_onay_btn = st.button("ŞİFREYİ GÜNCELLE", use_container_width=True)
     if sifre_onay_btn and yeni_sifre_input:
         st.session_state.user_db[st.session_state.current_active_user] = yeni_sifre_input
-        st.success("🎉 Şifreniz başarıyla güncellendi! Bir sonraki girişte aktif olacaktır.")
+        st.success("🎉 Şifreniz başarıyla güncellendi!")
 
 st.write("")
 logout_click = st.button(DIL_PAKETI[aktif_dil]['logout_btn'], use_container_width=True, type="secondary")
@@ -498,4 +532,4 @@ if logout_click:
     st.rerun()
 
 st.write("")
-st.link_button(label=DIL_PAKETI[aktif_dil]['contact_btn'], url="https://threads.com@muratsenr", use_container_width=True)
+st.link_button(label=DIL_PAKETI[aktif_dil]['contact_btn'], url="https://threads.com/@muratsenr", use_container_width=True)
