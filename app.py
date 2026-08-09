@@ -582,7 +582,7 @@ with st.expander("⚙️ Gelişmiş Hesap Ayarları (Profil ve Tercihler)", expa
     # 4. Şifre Değiştirme Alanı
     st.markdown("##### 🔑 Giriş Şifresini Değiştir")
     yeni_sifre_input = st.text_input("Yeni Şifrenizi Girin", type="password", key="change_password_box").strip()
-    sifre_onay_btn = st.button("ŞİFREYİ GÜNCELLE (İstediğiniz Şifreyi @muratsener Profili Üzerinden Bildiriniz", use_container_width=True)
+    sifre_onay_btn = st.button("ŞİFREYİ GÜNCELLE (İstediğiniz Şifreyi @muratsener Profili Üzerinden Bildiriniz)", use_container_width=True)
     if sifre_onay_btn and yeni_sifre_input:
         st.session_state.user_db[st.session_state.current_active_user] = yeni_sifre_input
         st.success("🎉 Şifreniz başarıyla güncellendi!")
