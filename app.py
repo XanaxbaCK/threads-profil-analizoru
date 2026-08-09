@@ -121,7 +121,7 @@ DIL_PAKETI = {
         "login_btn": "LOGIN",
         "login_success": "🔓 Access Granted! Loading system...",
         "login_error": "❌ Invalid Username or Password! Please try again.",
-        "outdated_warning": "⏳ **WARNING: OUTDATED DATA DETECTED**\n\nYour uploaded data files were last updated {days} days ago. For the most accurate results, please re-download from Threads.",
+        "outdated_warning": "⚠️ **WARNING: OUTDATED DATA DETECTED**\n\nYour uploaded data files were last updated {days} days ago. For the most accurate results, please re-download from Threads.",
         "logout_btn": "🔒 SECURE LOG-OUT",
         "premium_notice": "👑 **PREMIUM FEATURE LOCKED:** Advanced charts, Excel exports, and chronological sorting are restricted to Premium members.",
         "badge_premium": "👑 Premium Account (Unrestricted)",
@@ -274,90 +274,6 @@ st.caption(DIL_PAKETI[aktif_dil]['main_sub'])
 st.divider()
 
 st.caption(DIL_PAKETI[aktif_dil]['player_title'])
-st.link_button(label="▶️ YAPARKEN DİNLERSİNİZ YA (Göndermeli Şarkı)", url="https://youtube.com", use_container_width=True)
-
-with st.expander(DIL_PAKETI[aktif_dil]['guide_title'], expanded=False):
-    st.info(DIL_PAKETI[aktif_dil]['pwa_guide_text'])
-    st.markdown(DIL_PAKETI[aktif_dil]['guide_step1'])
-    st.markdown(DIL_PAKETI[aktif_dil]['guide_step2'])
-    st.markdown(DIL_PAKETI[aktif_dil]['guide_step3'])
-    st.markdown(DIL_PAKETI[aktif_dil]['guide_step4'])
-    st.markdown(DIL_PAKETI[aktif_dil]['guide_step5'])
-    st.markdown(DIL_PAKETI[aktif_dil]['guide_step6'])
-
-st.write("") 
-
-# --- 📁 HİBRİT DOSYA PANELİ (ZIP + JSON SÜRÜKLE / SEÇ) ---
-uploaded_inputs = st.file_uploader(DIL_PAKETI[aktif_dil]['load_batch'], type=["zip", "json"], accept_multiple_files=True)
-
-following_bytes = None
-followers_bytes = None
-
-if uploaded_inputs:
-    for item in uploaded_inputs:
-        if item.name.lower().endswith(".zip"):
-            try:
-                with zipfile.ZipFile(item) as z:
-                    for file_info in z.infolist():
-                        if "following.json" in file_info.filename.lower():
-                            following_bytes = z.read(file_info.filename)
-                        elif "followers.json" in file_info.filename.lower():
-                            followers_bytes = z.read(file_info.filename)
-            except Exception:
-                st.error("Zip Çözümleme Hatası! Lütfen geçerli bir Threads arşivi yükleyin.")
-        elif item.name.lower().endswith(".json"):
-            if "following" in item.name.lower():
-                following_bytes = item.read()
-            elif "followers" in item.name.lower():
-                followers_bytes = item.read()
-
-btn_trigger = st.button(DIL_PAKETI[aktif_dil]['btn_analyze'], use_container_width=True, type="primary")
-# --- TEMA SEÇİCİ ---
-col_theme, col_space = st.columns(2)
-with col_theme:
-    tema_secimi = st.selectbox("🌓 Tema Modu", ["Karanlık Gece Modu", "Premium Fildişi & Kemik Modu"], label_visibility="collapsed")
-
-if tema_secimi == "Premium Fildişi & Kemik Modu":
-    st.markdown("""
-        <style>
-        .stApp { background-color: #f9f6f0 !important; color: #1c1c1e !important; }
-        h1, h2, h3, h4, h5, h6, p, label, span, small { color: #1c1c1e !important; }
-        div[data-testid="stExpander"], div[data-testid="stFileUploader"], div[data-testid="stDataframe"] { background-color: #f1ede4 !important; border: 1px solid #e1dacb !important; }
-        .stMarkdown p { color: #1c1c1e !important; }
-        .stMarkdown b { color: #000000 !important; }
-        </style>
-        """, unsafe_allow_html=True)
-
-# --- ANA ARAYÜZ BAŞLANGICI VE ETİKETLER ---
-st.title("🎯 Threads Profil Takip Sistemi")
-
-aktif_u = st.session_state.current_active_user
-is_user_premium = (aktif_u in st.session_state.premium_users)
-
-col_user_welcome, col_user_badge = st.columns(2)
-with col_user_welcome:
-    st.markdown(f"👋 **{DIL_PAKETI['TR']['welcome_user'].format(user=aktif_u)}**")
-
-with col_user_badge:
-    if is_user_premium:
-        st.markdown(f"<p style='text-align: right; margin: 0; font-weight: bold; color: #2e7d32;'>{DIL_PAKETI['TR']['badge_premium']}</p>", unsafe_allow_html=True)
-    else:
-        st.markdown(f"<p style='text-align: right; margin: 0; font-weight: bold; color: #ef6c00;'>{DIL_PAKETI['TR']['badge_standard']}</p>", unsafe_allow_html=True)
-
-st.write("")
-
-col_lang, col_hashtag = st.columns(2)
-with col_lang:
-    aktif_dil = st.selectbox("🌐 Language / Dil", ["TR", "EN"])
-
-with col_hashtag:
-    st.markdown(f"<h4 style='text-align: right; color: #3a7ebf; margin-top: 5px;'>{DIL_PAKETI[aktif_dil]['main_hashtag']}</h4>", unsafe_allow_html=True)
-
-st.markdown(f"### {DIL_PAKETI[aktif_dil]['main_title']}")
-st.caption(DIL_PAKETI[aktif_dil]['main_sub'])
-st.divider()
-
-st.caption(DIL_PAKETI[aktif_dil]['player_title'])
 st.link_button(label="▶️ YAPARKEN DİNLERSİNİZ YA (Göndermeli Şarkı)", url="https://www.youtube.com/watch?v=fdFvJGKzPNQ", use_container_width=True)
 
 with st.expander(DIL_PAKETI[aktif_dil]['guide_title'], expanded=False):
@@ -396,12 +312,106 @@ if uploaded_inputs:
                 followers_bytes = item.read()
 
 btn_trigger = st.button(DIL_PAKETI[aktif_dil]['btn_analyze'], use_container_width=True, type="primary")
+if btn_trigger or st.session_state.get('analyzed', False):
+    if not following_bytes or not followers_bytes:
+        st.warning(DIL_PAKETI[aktif_dil]['input_error_msg'])
+    else:
+        try:
+            if 'unfollowers' not in st.session_state:
+                if 'current_unfollowers' in st.session_state:
+                    st.session_state.prev_unfollowers = st.session_state.current_unfollowers
+                    st.session_state.prev_fans = st.session_state.current_fans
+                    st.session_state.has_history = True
+                else:
+                    st.session_state.has_history = False
+
+                following_raw = json.loads(following_bytes.decode("utf-8"))
+                st.session_state.global_following_map = AnalizMotoru.akilli_süre_ayristir(following_raw)
+                
+                followers_raw = json.loads(followers_bytes.decode("utf-8"))
+                st.session_state.global_followers_map = AnalizMotoru.akilli_süre_ayristir(followers_raw)
+                    
+                st.session_state.following_set = set(st.session_state.global_following_map.keys())
+                st.session_state.followers_set = set(st.session_state.global_followers_map.keys())
+                
+                st.session_state.current_unfollowers = st.session_state.following_set - st.session_state.followers_set
+                st.session_state.current_fans = st.session_state.followers_set - st.session_state.following_set
+                st.session_state.ghosts = {u for u, ts in st.session_state.global_followers_map.items() if AnalizMotoru.bot_ve_pasiflik_kontrolü(u, ts)}
+                st.session_state.analyzed = True
+
+            global_following_map = st.session_state.global_following_map
+            global_followers_map = st.session_state.global_followers_map
+            following_set = st.session_state.following_set
+            followers_set = st.session_state.followers_set
+            unfollowers = st.session_state.current_unfollowers
+            fans = st.session_state.current_fans
+            ghosts = st.session_state.ghosts
+
+            if not following_set or not followers_set:
+                st.error(DIL_PAKETI[aktif_dil]['parse_error_msg'])
+            else:
+                # --- AKILLI DOSYA GÜNCELLİK DENETLEYİCİSİ SÜZGECİ ---
+                en_son_sinyal_zamani = max(list(global_following_map.values()) + list(global_followers_map.values()), default=0)
+                if en_son_sinyal_zamani > 0:
+                    gecen_gun = (datetime.now() - datetime.fromtimestamp(en_son_sinyal_zamani)).days
+                    if gecen_gun > 30:
+                        st.warning(DIL_PAKETI[aktif_dil]['outdated_warning'].replace("{days}", str(gecen_gun)))
+
+                toplam_bağ = len(following_set) + len(followers_set)
+                if toplam_bağ > 0:
+                    ceza_puanı = (len(unfollowers) / len(following_set)) * 40 if len(following_set) > 0 else 0
+                    ghost_ceza = (len(ghosts) / len(followers_set)) * 20 if len(followers_set) > 0 else 0
+                    denge_puanı = (min(len(followers_set), len(following_set)) / max(len(followers_set), len(following_set))) * 40
+                    health_score = max(0, min(100, int(100 - ceza_puanı - ghost_ceza + (denge_puanı * 0.1))))
+                else:
+                    health_score = 100
+                
+                durum_str = "MÜKEMMEL" if health_score > 85 else "STABİL" if health_score > 60 else "RİSKLİ"
+                
+                st.success(DIL_PAKETI[aktif_dil]['success_msg'])
+                st.subheader(DIL_PAKETI[aktif_dil]['summary_title'])
+                
+                m1, m2, m3 = st.columns(3)
+                m1.metric(DIL_PAKETI[aktif_dil]['health_score'], f"%{health_score}", durum_str)
+                m2.metric("Following", len(following_set))
+                m3.metric("Followers", len(followers_set))
+
+                # --- 👑 PREMIUM KORUMALI DEĞİŞİM KARŞILAŞTIRICISI VE GRAFİK PANELİ ---
+                if st.session_state.current_active_user in st.session_state.premium_users:
+                    if st.session_state.get('has_history', False):
+                        st.write("")
+                        st.markdown(f"##### {DIL_PAKETI[aktif_dil]['history_title']}")
+                        yeni_takipten_cikanlar = unfollowers - st.session_state.prev_unfollowers
+                        yeni_hayranlar = fans - st.session_state.prev_fans
+                        
+                        c1, c2 = st.columns(2)
+                        c1.metric("🚨 Yeni Taktikten Çıkanlar", len(yeni_takipten_cikanlar), f"+{len(yeni_takipten_cikanlar)} Kişi" if yeni_takipten_cikanlar else "Değişim Yok", delta_color="inverse")
+                        c2.metric("🛸 Yeni Kazanılan Hayranlar", len(yeni_hayranlar), f"+{len(yeni_hayranlar)} Kişi" if yeni_hayranlar else "Değişim Yok")
+
+                    st.write("")
+                    st.markdown(f"##### {DIL_PAKETI[aktif_dil]['chart_title']}")
+                    chart_data = {
+                        "Kategori": ["Takip Etmeyenler", "Karşılıklı", "Hayranlar", "Hayaletler"],
+                        "Sayı": [len(unfollowers), len(following_set & followers_set), len(fans), len(ghosts)]
+                    }
+                    st.bar_chart(data=chart_data, x="Kategori", y="Sayı", use_container_width=True)
+                    st.write("")
+                else:
+                    st.write("")
+                    st.info(DIL_PAKETI[aktif_dil]['premium_notice'])
+
+                # --- BELLEKTE EXCEL OLUŞTURMA MOTORU ---
+                output_excel = io.BytesIO()
+                workbook = xlsxwriter.Workbook(output_excel)
+                header_format = workbook.add_format({'bold': True, 'font_color': 'white', 'bg_color': '#1f4e78', 'border': 1, 'align': 'center'})
+                link_format = workbook.add_format({'font_color': 'blue', 'underline': True})
+                text_format = workbook.add_format({'align': 'left'})
                 sheet_unf = workbook.add_worksheet("Beni Takip Etmeyenler")
                 sheet_unf.write_row('A1', ['No', 'Kullanıcı Adı', 'Profil Linki', 'Süre'], header_format)
                 sorted_unf_excel = sorted(unfollowers, key=lambda x: global_following_map.get(x, 0))
                 for idx, user in enumerate(sorted_unf_excel, 1):
                     süre = AnalizMotoru.zaman_metnine_cevir(global_following_map.get(user, 0))
-                    p_url = f"https://threads.com@{user}"
+                    p_url = f"https://threads.com/@{user}"
                     sheet_unf.write(idx, 0, idx)
                     sheet_unf.write(idx, 1, f"@{user}", text_format)
                     sheet_unf.write_url(idx, 2, p_url, link_format, string=p_url)
@@ -413,7 +423,7 @@ btn_trigger = st.button(DIL_PAKETI[aktif_dil]['btn_analyze'], use_container_widt
                 sorted_fans_excel = sorted(fans, key=lambda x: global_followers_map.get(x, 0))
                 for idx, user in enumerate(sorted_fans_excel, 1):
                     süre = AnalizMotoru.zaman_metnine_cevir(global_followers_map.get(user, 0))
-                    p_url = f"https://threads.com@{user}"
+                    p_url = f"https://threads.com/@{user}"
                     sheet_fans.write(idx, 0, idx)
                     sheet_fans.write(idx, 1, f"@{user}", text_format)
                     sheet_fans.write_url(idx, 2, p_url, link_format, string=p_url)
@@ -425,7 +435,7 @@ btn_trigger = st.button(DIL_PAKETI[aktif_dil]['btn_analyze'], use_container_widt
                 sorted_gh_excel = sorted(ghosts, key=lambda x: global_followers_map.get(x, 0))
                 for idx, user in enumerate(sorted_gh_excel, 1):
                     süre = AnalizMotoru.zaman_metnine_cevir(global_followers_map.get(user, 0))
-                    p_url = f"https://threads.com@{user}"
+                    p_url = f"https://threads.com/@{user}"
                     sheet_gh.write(idx, 0, idx)
                     sheet_gh.write(idx, 1, f"@{user}", text_format)
                     sheet_gh.write_url(idx, 2, p_url, link_format, string=p_url)
@@ -542,6 +552,6 @@ if logout_click:
     st.session_state.analyzed = False
     st.rerun()
 
-# --- 💬 YAPIMCI SİBER İLETİŞİM BUTONU (KÖPRÜSÜ KORUNDU) ---
+# --- 💬 YAPIMCI SİBER İLETİŞİM BUTONU ---
 st.write("")
 st.link_button(label=DIL_PAKETI[aktif_dil]['contact_btn'], url="https://threads.com/@muratsenr", use_container_width=True)
