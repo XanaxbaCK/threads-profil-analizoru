@@ -82,8 +82,8 @@ DIL_PAKETI = {
         "welcome_user": "Hoş geldiniz, {user}"
     },
     "EN": {
-        "main_title": "THREADS GLOBAL / MURAT & ESRA İŞ BİRLİĞİ",
-        "main_sub": "LOCAL AND SECURE BI-DIRECTIONAL PROFILE ANALYSIS SYSTEM // PWA MOBILE",
+        "main_title": "THREADS GLOBAL / PRODUCKTİON MURAT & ESRA",
+        "main_sub": "LOCAL AND SECURE BI-DIRECTIONAL PROFILE ANALYSIS SYSTEM // MOBILE VERSİON",
         "main_hashtag": "#notmebutwe",
         "load_batch": "📁 Drag & Drop Raw .zip or Multiple .json Files Here",
         "btn_analyze": "START ANALYSIS",
@@ -102,7 +102,7 @@ DIL_PAKETI = {
         "guide_title": "📖 How to Download Threads Data and Install as App?",
         "pwa_guide_text": "📱 **INSTALL THIS SITE AS AN APP:**\n\n• **For iOS (Safari):** Tap the **'Share'** button (box with an upward arrow) at the bottom. Select **'Add to Home Screen'** from the menu.\n\n• **For Android (Chrome):** Tap the **'Three Dots'** icon at the top right. Select **'Install App'** or **'Add to Home Screen'** from the menu.",
         "guide_step1": "📱 **%100 SECURE HYBRID ENGINE:** Drag raw .zip or multiple select .json files as you wish.",
-        "guide_step2": "1️⃣ Open **Instagram/Threads**, go to **Settings -> Accounts Center**.",
+        "guide_step2": "1️⃣ Open **Threads**, go to **Settings -> Accounts Center**.",
         "guide_step3": "2️⃣ Follow **Your Information and Permissions -> Download Your Information**.",
         "guide_step4": "3️⃣ Click **Request a Download** and select only **Threads**.",
         "guide_step5": "4️⃣ Choose format as **JSON**, media quality as **Low** and submit.",
