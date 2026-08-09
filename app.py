@@ -31,6 +31,7 @@ st.components.v1.html(
     """,
     height=0,
 )
+
 # --- ÇOKLU DİL SÖZLÜĞÜ (TR / EN / DE) ---
 DIL_PAKETI = {
     "TR": {
@@ -73,7 +74,7 @@ DIL_PAKETI = {
         "login_success": "🔓 Erişim Yetkisi Onaylandı! Sistem yükleniyor...",
         "login_error": "❌ Hatalı Kullanıcı Adı veya Şifre! Lütfen tekrar deneyin.",
         "outdated_warning": "⏳ **DİKKAT: ESKİ VERİ SETİ ALGILANDI**\n\nYüklediğiniz veri paketleri en son {days} gün önce güncellenmiş görünüyor. En doğru sonuçlar için lütfen Threads verilerinizi yeniden indirin.",
-        "logout_btn": "🔒 OTURUMU GÜVENLİ KAPAT (LOG-OUT)"
+        "logout_btn": "🔒 OTURUMU GÜVENLİ KAPAT (ÇIKIŞ YAP)"
     },
     "EN": {
         "main_title": "THREADS GLOBAL/ MURAT & ESRA İŞ BİRLİĞİ",
