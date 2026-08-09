@@ -178,18 +178,20 @@ class AnalizMotoru:
                 return True
         return False
 # --- 🔑 GÜVENLİ VE KALICI DEĞİŞTİRİLEBİLİR KOD TABANLI VERİ TABANI ---
+# --- BU BLOK PANEL TARAFINDAN OTOMATİK ÜRETİLMİŞTİR ---
 if "user_db" not in st.session_state:
     st.session_state.user_db = {
-        "murat": "esra",       # SÜPER ADMİN / YÖNETİCİ & PREMIUM
-        "esra": "murat",       # PREMIUM ÜYE
-        "demo": "threads2026", # Standart Kısıtlı Yetki
-        "ömür": "deniz",       # Standart Kısıtlı Yetki
-        "deniz": "ömür",       # Standart Kısıtlı Yetki
-        "rıdvan": "gönül"      # Standart Kısıtlı Yetki
+        "murat": "esra",
+        "esra": "murat",
+        "demo": "threads2026",
+        "ömür": "deniz",
+        "deniz": "ömür",
+        "rıdvan": "gönül",
+        "irem": "irem"
     }
 
 if "premium_users" not in st.session_state:
-    st.session_state.premium_users = {"murat", "esra"}
+    st.session_state.premium_users = {"rıdvan", "ömür", "deniz", "esra", "murat", "irem"}
 
 if "logged_in" not in st.session_state:
     st.session_state.logged_in = False
