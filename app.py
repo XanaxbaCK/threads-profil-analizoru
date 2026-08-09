@@ -18,7 +18,6 @@ st.set_page_config(
 )
 
 # --- 📱 REAL PWA (ANA EKRANA EKLE) MOBİL UYGULAMA ENJEKTÖRÜ ---
-# Tarayıcıların %100 tanıdığı resmi Google PWA Compat motoru ve dairesel siber ikon köprüsü yerleştirilmiştir.
 st.components.v1.html(
     """
     <script>
@@ -36,7 +35,7 @@ st.components.v1.html(
 DIL_PAKETI = {
     "TR": {
         "main_title": "THREADS TÜRKİYE / MURAT & ESRA İŞ BİRLİĞİ (CAN&KAN)",
-        "main_sub": "YEREL VE GÜVENLİ ÇİFT YÖNLÜ PROFİL TAKİPÇİ SİSTEMİ // PWA MOBİL SÜRÜM ACTIVE",
+        "main_sub": "YEREL VE GÜVEN Lİ ÇİFT YÖNLÜ PROFİL TAKİPÇİ SİSTEMİ // PWA MOBİL SÜRÜM ACTIVE",
         "main_hashtag": "#bendeğilbizyaptık",
         "load_batch": "📁 Ham .zip Dosyasını veya .json Dosyalarını Sürükleyin / Seçin",
         "btn_analyze": "ANALİZİ BAŞLAT",
@@ -52,7 +51,7 @@ DIL_PAKETI = {
         "download_excel": "📥 Excel Analiz Raporunu İndir",
         "summary_title": "📊 PROFİL SAĞLIK ÖZETİ",
         "health_score": "Sağlık Skoru",
-        "guide_title": "📖 Threads Verileri Nasıl İndirilir ve Telefona Kurulur?",
+        "guide_title": "📖 Threads Verileri Nasıl İndirilir? (Kullanım Kılavuzu)",
         "pwa_guide_text": "📱 **BU SİTEYİ TELEFONA MOBİL UYGULAMA OLARAK KURUN:**\n\n• **iOS (Safari) için:** Sayfanın altındaki **'Paylaş'** (Yukarı ok olan kutu) butonuna dokunun. Açılan menüden **'Ana Ekrana Ekle' (Add to Home Screen)** seçeneğini işaretleyin.\n\n• **Android (Chrome) için:** Sağ üstteki **'Üç Nokta'** simgesine dokunun. Açılan menüden **'Uygulamayı Yükle'** veya **'Ana Ekrana Ekle'** seçeneğine basın.",
         "guide_step1": "📱 **%100 GÜVENLİ HİBRİT MOTOR:** İster ham .zip atın, ister içindeki .json dosyalarını çoklu seçip yükleyin.",
         "guide_step2": "1️⃣ **Instagram/Threads** uygulamasını açın ve **Ayarlar -> Hesaplar Merkezi** bölümüne girin.",
@@ -75,7 +74,8 @@ DIL_PAKETI = {
         "login_success": "🔓 Erişim Yetkisi Onaylandı! Sistem yükleniyor...",
         "login_error": "❌ Hatalı Kullanıcı Adı veya Şifre! Lütfen tekrar deneyin.",
         "outdated_warning": "⏳ **DİKKAT: ESKİ VERİ SETİ ALGILANDI**\n\nYüklediğiniz veri paketleri en son {days} gün önce güncellenmiş görünüyor. En doğru sonuçlar için lütfen Threads verilerinizi yeniden indirin.",
-        "logout_btn": "🔒 OTURUMU GÜVENLİ KAPAT (ÇIKIŞ YAP)"
+        "logout_btn": "🔒 OTURUMU GÜVENLİ KAPAT (ÇIKIŞ YAP)",
+        "batch_link_title": "📋 TOPLU TAKİPTEN ÇIKMA LİNK PANELİ"
     },
     "EN": {
         "main_title": "THREADS GLOBAL / MURAT & ESRA İŞ BİRLİĞİ",
@@ -118,7 +118,8 @@ DIL_PAKETI = {
         "login_success": "🔓 Access Granted! Loading system...",
         "login_error": "❌ Invalid Username or Password! Please try again.",
         "outdated_warning": "⏳ **WARNING: OUTDATED DATA DETECTED**\n\nYour uploaded data files were last updated {days} days ago. For the most accurate results, please re-download from Threads.",
-        "logout_btn": "🔒 SECURE LOG-OUT"
+        "logout_btn": "🔒 SECURE LOG-OUT",
+        "batch_link_title": "📋 BULK UNFOLLOW LINK PANEL"
     },
     "DE": {
         "main_title": "THREADS GLOBAL",
@@ -162,7 +163,8 @@ DIL_PAKETI = {
         "login_success": "🔓 Zugriff gewährt! System wird geladen...",
         "login_error": "❌ Ungültiger Benutzername oder Passwort! Bitte versuchen Sie es erneut.",
         "outdated_warning": "⏳ **WARNUNG: VERALTETE DATEN ERKANNT**\n\nIhre Datendateien wurden vor {days} Tagen aktualisiert. Bitte laden Sie Ihre Daten neu herunter.",
-        "logout_btn": "🔒 SICHERER LOG-OUT"
+        "logout_btn": "🔒 SICHERER LOG-OUT",
+        "batch_link_title": "📋 SEITEN-LINK PANEL FÜR UNFOLLOW"
     }
 }
 class AnalizMotoru:
@@ -247,7 +249,7 @@ if not st.session_state.logged_in:
                 st.error("❌ Hatalı Kullanıcı Adı veya Şifre! Lütfen bilgilerinizi kontrol edin.")
     st.stop()
 
-# --- TEMA SEÇİCİ (Güvenli Sütun Katsayısı Eklendi) ---
+# --- TEMA SEÇİCİ ---
 col_theme, col_space = st.columns(2)
 with col_theme:
     tema_secimi = st.selectbox("🌓 Tema Modu", ["Karanlık Gece Modu", "Açık Threads Modu"], label_visibility="collapsed")
@@ -278,9 +280,8 @@ st.divider()
 st.caption(DIL_PAKETI[aktif_dil]['player_title'])
 st.link_button(label="▶️ YAPARKEN DİNLERSİNİZ YA (Göndermeli Şarkı)", url="https://youtube.com", use_container_width=True)
 
-# --- 📖 REHBER ALANI (Dinamik Mobil Yükleme Kılavuzu Entegre Edildi) ---
 with st.expander(DIL_PAKETI[aktif_dil]['guide_title'], expanded=False):
-    st.info(DIL_PAKETI[aktif_dil]['pwa_guide_text']) # Mavi renkli mobil uygulama kurma paneli
+    st.info(DIL_PAKETI[aktif_dil]['pwa_guide_text'])
     st.markdown(DIL_PAKETI[aktif_dil]['guide_step1'])
     st.markdown(DIL_PAKETI[aktif_dil]['guide_step2'])
     st.markdown(DIL_PAKETI[aktif_dil]['guide_step3'])
@@ -471,16 +472,23 @@ if btn_trigger or st.session_state.get('analyzed', False):
                     filtered_fans = [u for u in sorted_fans if clean_query in u.lower()] if clean_query else sorted_fans
                     if filtered_fans:
                         for index, user in enumerate(filtered_fans, 1):
-                            süre = AnalizMotoru.zaman_metnine_cevir(global_followers_map.get(user, 0))
                             st.markdown(f"[{index:03d}] 🔗 [@{user}](https://threads.com@{user}) &nbsp;&nbsp;&nbsp;&nbsp; <b>⌛ {süre}</b>", unsafe_allow_html=True)
                     else: st.info(DIL_PAKETI[aktif_dil]['no_fans'] if not clean_query else "Eşleşen kullanıcı bulunamadı.")
                 with t3:
                     filtered_gh = [u for u in sorted_gh if clean_query in u.lower()] if clean_query else sorted_gh
                     if filtered_gh:
                         for index, user in enumerate(filtered_gh, 1):
-                            süre = AnalizMotoru.zaman_metnine_cevir(global_followers_map.get(user, 0))
                             st.markdown(f"[{index:03d}] 🔗 [@{user}](https://threads.com@{user}) &nbsp;&nbsp;&nbsp;&nbsp; <b>⌛ {süre}</b>", unsafe_allow_html=True)
                     else: st.info(DIL_PAKETI[aktif_dil]['no_ghosts'] if not clean_query else "Eşleşen kullanıcı bulunamadı.")
+
+                # --- 🔗 ÖZELLİK: TEK TIKLA KOPYALANABİLİR TOPLU LİNK KUTUSU (threads.com FORMATINDA) ---
+                if unfollowers:
+                    st.write("")
+                    st.markdown(f"##### {DIL_PAKETI[aktif_dil]['batch_link_title']}")
+                    # Sizi takip etmeyen tüm kullanıcı adlarını threads.com formatında temiz bir alt alta metne dönüştürür
+                    toplu_link_metni = "\n".join([f"https://threads.com@{u}" for u in sorted_unf])
+                    st.code(toplu_link_metni, language="text")
+
         except Exception as e: st.error(f"Sistem Hatası: {str(e)}")
 
 # --- LOG-OUT VE SİSTEM AYARLARI ALT ALANI ---
