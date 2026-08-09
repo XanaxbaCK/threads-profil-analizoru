@@ -220,10 +220,6 @@ if "user_db" not in st.session_state:
     st.session_state.user_db = {
         "murat": "esra",       # SÜPER ADMİN / YÖNETİCİ & PREMIUM
         "esra": "murat",       # PREMIUM ÜYE (Yönetici Paneli Kilitli)
-        "demo": "threads2026", # Standart Kısıtlı Yetki
-        "ömür": "deniz",       # Standart Kısıtlı Yetki
-        "deniz": "ömür",       # Standart Kısıtlı Yetki
-        "rıdvan": "gönül"      # Standart Kısıtlı Yetki
     }
 
 # Canlı üyelik yetkilendirme listesi (Başlangıçta Murat ve Esra Premium atanır)
@@ -281,7 +277,7 @@ st.caption(DIL_PAKETI[aktif_dil]['main_sub'])
 st.divider()
 
 st.caption(DIL_PAKETI[aktif_dil]['player_title'])
-st.link_button(label="▶️ YAPARKEN DİNLERSİNİZ YA (Göndermeli Şarkı)", url="https://youtube.com", use_container_width=True)
+st.link_button(label="▶️ YAPARKEN DİNLERSİNİZ YA (Göndermeli Şarkı)", url="https://www.youtube.com/watch?v=fdFvJGKzPNQ", use_container_width=True)
 
 with st.expander(DIL_PAKETI[aktif_dil]['guide_title'], expanded=False):
     st.info(DIL_PAKETI[aktif_dil]['pwa_guide_text'])
