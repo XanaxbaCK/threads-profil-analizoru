@@ -276,7 +276,7 @@ st.caption(DIL_PAKETI[aktif_dil]['main_sub'])
 st.divider()
 
 st.caption(DIL_PAKETI[aktif_dil]['player_title'])
-st.link_button(label="▶️ YAPARKEN DİNLERSİNİZ YA (Göndermeli Şarkı)", url="https://youtube.com", use_container_width=True)
+st.link_button(label="▶️ YAPARKEN DİNLERSİNİZ YA (Göndermeli Şarkı)", url="https://www.youtube.com/watch?v=fdFvJGKzPNQ", use_container_width=True)
 
 with st.expander(DIL_PAKETI[aktif_dil]['guide_title'], expanded=False):
     st.info(DIL_PAKETI[aktif_dil]['pwa_guide_text'])
