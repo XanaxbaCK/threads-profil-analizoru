@@ -181,17 +181,17 @@ class AnalizMotoru:
 # --- BU BLOK PANEL TARAFINDAN OTOMATİK ÜRETİLMİŞTİR ---
 if "user_db" not in st.session_state:
     st.session_state.user_db = {
-        "murat": "esra",
-        "esra": "murat",
-        "demo": "threads2026",
-        "ömür": "deniz",
-        "deniz": "ömür",
-        "rıdvan": "gönül",
-        "irem": "irem"
+        "Murat": "esra",
+        "Esra": "murat",
+        "Deneme": "deneme",
+        "Ömür": "deniz",
+        "Deniz": "ömür",
+        "Rıdvan": "gönül",
+        "İrem": "irem"
     }
 
 if "premium_users" not in st.session_state:
-    st.session_state.premium_users = {"rıdvan", "ömür", "deniz", "esra", "murat", "irem"}
+    st.session_state.premium_users = {"Rıdvan", "Ömür", "Deniz", "Esra", "Murat", "İrem"}
 
 if "logged_in" not in st.session_state:
     st.session_state.logged_in = False
