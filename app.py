@@ -35,7 +35,7 @@ st.components.v1.html(
 DIL_PAKETI = {
     "TR": {
         "main_title": "THREADS TÜRKİYE / MURAT & ESRA İŞ BİRLİĞİ (CAN&KAN)",
-        "main_sub": "YEREL VE GÜVENLİ ÇİFT YÖNLÜ PROFİL TAKİPÇİ SİSTEMI // PWA MOBİL SÜRÜM ACTIVE",
+        "main_sub": "YEREL VE GÜVENLİ ÇİFT YÖNLÜ PROFİL TAKİPÇİ SİSTEMİ // PWA MOBİL SÜRÜM ACTIVE",
         "main_hashtag": "#bendeğilbizyaptık",
         "load_batch": "📁 Ham .zip Dosyasını veya .json Dosyalarını Sürükleyin / Seçin",
         "btn_analyze": "ANALİZİ BAŞLAT",
@@ -75,7 +75,10 @@ DIL_PAKETI = {
         "login_error": "❌ Hatalı Kullanıcı Adı veya Şifre! Lütfen tekrar deneyin.",
         "outdated_warning": "⏳ **DİKKAT: ESKİ VERİ SETİ ALGILANDI**\n\nYüklediğiniz veri paketleri en son {days} gün önce güncellenmiş görünüyor. En doğru sonuçlar için lütfen Threads verilerinizi yeniden indirin.",
         "logout_btn": "🔒 OTURUMU GÜVENLİ KAPAT (ÇIKIŞ YAP)",
-        "premium_notice": "👑 **PREMIUM ÖZELLİK KİLİTLİ:** Advanced grafik analizler, Excel indirme motoru ve kronolojik zaman sıralaması sadece Premium üyelere özeldir. Yetki yükseltmek için lütfen yöneticiyle iletişime geçin."
+        "premium_notice": "👑 **PREMIUM ÖZELLİK KİLİTLİ:** Advanced grafik analizler, Excel indirme motoru ve kronolojik zaman sıralaması sadece Premium üyelere özeldir. Yetki yükseltmek için lütfen yöneticiyle iletişime geçin.",
+        "badge_premium": "👑 Premium Hesap (Sınırsız Erişim)",
+        "badge_standard": "👤 Standart Hesap (Kısıtlı Erişim)",
+        "welcome_user": "Hoş geldiniz, @{user}"
     },
     "EN": {
         "main_title": "THREADS GLOBAL / MURAT & ESRA İŞ BİRLİĞİ",
@@ -119,7 +122,10 @@ DIL_PAKETI = {
         "login_error": "❌ Invalid Username or Password! Please try again.",
         "outdated_warning": "⏳ **WARNING: OUTDATED DATA DETECTED**\n\nYour uploaded data files were last updated {days} days ago. For the most accurate results, please re-download from Threads.",
         "logout_btn": "🔒 SECURE LOG-OUT",
-        "premium_notice": "👑 **PREMIUM FEATURE LOCKED:** Advanced charts, Excel exports, and chronological sorting are restricted to Premium members."
+        "premium_notice": "👑 **PREMIUM FEATURE LOCKED:** Advanced charts, Excel exports, and chronological sorting are restricted to Premium members.",
+        "badge_premium": "👑 Premium Account (Unrestricted)",
+        "badge_standard": "👤 Standard Account (Restricted)",
+        "welcome_user": "Welcome, @{user}"
     },
     "DE": {
         "main_title": "THREADS GLOBAL",
@@ -162,9 +168,11 @@ DIL_PAKETI = {
         "login_btn": "EINLOGGEN",
         "login_success": "🔓 Zugriff gewährt! System wird geladen...",
         "login_error": "❌ Ungültiger Benutzername oder Passwort! Bitte versuchen Sie es erneut.",
-        "outdated_warning": "⏳ **WARNUNG: VERALTETE DATEN ERKANNT**\n\nIhre Datendateien wurden vor {days} Tagen aktualisiert. Bitte laden Sie Ihre Daten neu herunter.",
         "logout_btn": "🔒 SICHERER LOG-OUT",
-        "premium_notice": "👑 **PREMIUM-FUNKTION GESPERRT:** Erweiterte Diagramme, Excel-Exporte und chronologische Sortierung sind Premium-Mitgliedern vorbehalten."
+        "premium_notice": "👑 **PREMIUM-FUNKTION GESPERRT:** Erweiterte Diagramme, Excel-Exporte und chronologische Sortierung sind Premium-Mitgliedern vorbehalten.",
+        "badge_premium": "👑 Premium-Konto (Unbeschränkt)",
+        "badge_standard": "👤 Standard-Konto (Beschränkt)",
+        "welcome_user": "Willkommen, @{user}"
     }
 }
 class AnalizMotoru:
@@ -219,10 +227,13 @@ class AnalizMotoru:
 if "user_db" not in st.session_state:
     st.session_state.user_db = {
         "murat": "esra",       # SÜPER ADMİN / YÖNETİCİ & PREMIUM
-        "esra": "murat",       # PREMIUM ÜYE (Yönetici Paneli Kilitli)
+        "esra": "murat",       # PREMIUM ÜYE
+        "demo": "threads2026", # Standart Kısıtlı Yetki
+        "ömür": "deniz",       # Standart Kısıtlı Yetki
+        "deniz": "ömür",       # Standart Kısıtlı Yetki
+        "rıdvan": "gönül"      # Standart Kısıtlı Yetki
     }
 
-# Canlı üyelik yetkilendirme listesi (Başlangıçta Murat ve Esra Premium atanır)
 if "premium_users" not in st.session_state:
     st.session_state.premium_users = {"murat", "esra"}
 
@@ -265,6 +276,24 @@ if tema_secimi == "Açık Threads Modu":
 # --- ANA ARAYÜZ ---
 st.title("🎯 Threads Profil Takip Sistemi")
 
+# --- 👑 ÖZELLİK: DİNAMİK KULLANICI ÜYELİK TİPİ BİLGİLENDİRME ROZETLERİ ---
+aktif_u = st.session_state.current_active_user
+is_user_premium = (aktif_u in st.session_state.premium_users)
+
+col_user_welcome, col_user_badge = st.columns(2)
+with col_user_welcome:
+    st.markdown(f"👋 **{DIL_PAKETI['TR']['welcome_user'].format(user=aktif_u)}**") # Karşılama mesajı
+
+with col_user_badge:
+    if is_user_premium:
+        # Yeşil renkli Premium Rozeti
+        st.markdown(f"<p style='text-align: right; margin: 0; font-weight: bold; color: #2e7d32;'>{DIL_PAKETI['TR']['badge_premium']}</p>", unsafe_allow_html=True)
+    else:
+        # Sarı renkli Standart Rozeti
+        st.markdown(f"<p style='text-align: right; margin: 0; font-weight: bold; color: #ef6c00;'>{DIL_PAKETI['TR']['badge_standard']}</p>", unsafe_allow_html=True)
+
+st.write("")
+
 col_lang, col_hashtag = st.columns(2)
 with col_lang:
     aktif_dil = st.selectbox("🌐 Language / Dil", ["TR", "EN", "DE"])
@@ -277,7 +306,7 @@ st.caption(DIL_PAKETI[aktif_dil]['main_sub'])
 st.divider()
 
 st.caption(DIL_PAKETI[aktif_dil]['player_title'])
-st.link_button(label="▶️ YAPARKEN DİNLERSİNİZ YA (Göndermeli Şarkı)", url="https://www.youtube.com/watch?v=fdFvJGKzPNQ", use_container_width=True)
+st.link_button(label="▶️ YAPARKEN DİNLERSİNİZ YA (Göndermeli Şarkı)", url="https://youtube.com", use_container_width=True)
 
 with st.expander(DIL_PAKETI[aktif_dil]['guide_title'], expanded=False):
     st.info(DIL_PAKETI[aktif_dil]['pwa_guide_text'])
@@ -380,9 +409,7 @@ if btn_trigger or st.session_state.get('analyzed', False):
                 m3.metric("Followers", len(followers_set))
 
                 # --- 👑 PREMIUM KORUMALI PANEL ---
-                is_user_premium = (st.session_state.current_active_user in st.session_state.premium_users)
-                
-                if is_user_premium:
+                if st.session_state.current_active_user in st.session_state.premium_users:
                     if st.session_state.get('has_history', False):
                         st.write("")
                         st.markdown(f"##### {DIL_PAKETI[aktif_dil]['history_title']}")
@@ -417,7 +444,7 @@ if btn_trigger or st.session_state.get('analyzed', False):
                 sorted_unf_excel = sorted(unfollowers, key=lambda x: global_following_map.get(x, 0))
                 for idx, user in enumerate(sorted_unf_excel, 1):
                     süre = AnalizMotoru.zaman_metnine_cevir(global_following_map.get(user, 0))
-                    p_url = f"https://threads.com@{user}"
+                    p_url = f"https://threads.com/@{user}"
                     sheet_unf.write(idx, 0, idx)
                     sheet_unf.write(idx, 1, f"@{user}", text_format)
                     sheet_unf.write_url(idx, 2, p_url, link_format, string=p_url)
@@ -429,7 +456,7 @@ if btn_trigger or st.session_state.get('analyzed', False):
                 sorted_fans_excel = sorted(fans, key=lambda x: global_followers_map.get(x, 0))
                 for idx, user in enumerate(sorted_fans_excel, 1):
                     süre = AnalizMotoru.zaman_metnine_cevir(global_followers_map.get(user, 0))
-                    p_url = f"https://threads.com@{user}"
+                    p_url = f"https://threads.com/@{user}"
                     sheet_fans.write(idx, 0, idx)
                     sheet_fans.write(idx, 1, f"@{user}", text_format)
                     sheet_fans.write_url(idx, 2, p_url, link_format, string=p_url)
@@ -441,7 +468,7 @@ if btn_trigger or st.session_state.get('analyzed', False):
                 sorted_gh_excel = sorted(ghosts, key=lambda x: global_followers_map.get(x, 0))
                 for idx, user in enumerate(sorted_gh_excel, 1):
                     süre = AnalizMotoru.zaman_metnine_cevir(global_followers_map.get(user, 0))
-                    p_url = f"https://threads.com@{user}"
+                    p_url = f"https://threads.com/@{user}"
                     sheet_gh.write(idx, 0, idx)
                     sheet_gh.write(idx, 1, f"@{user}", text_format)
                     sheet_gh.write_url(idx, 2, p_url, link_format, string=p_url)
@@ -498,7 +525,7 @@ st.write(""); st.divider()
 
 # --- 👑 SADECE MURAT'A ÖZEL SAAS CANLI ÜYE YÖNETİM PANELİ ---
 if st.session_state.current_active_user == "murat":
-    with st.expander("👑 Canlı Üye Yönetim Paneli", expanded=False):
+    with st.expander("👑 SaaS Canlı Üye Yönetim Paneli", expanded=False):
         st.markdown("##### 👤 Yeni Kullanıcı Tanımla / Düzenle")
         c_user = st.text_input("Kullanıcı Adı Ekle", key="saas_new_user_input").strip().lower()
         c_pass = st.text_input("Şifre Belirle", key="saas_new_pass_input").strip()
