@@ -1,6 +1,7 @@
 import json
 import re
 import io
+import time
 import zipfile
 import urllib.parse
 from pathlib import Path
@@ -54,9 +55,9 @@ DIL_PAKETI = {
         "guide_title": "📖 Threads Verileri Nasıl İndirilir? (Kullanım Kılavuzu)",
         "pwa_guide_text": "📱 **BU SİTEYİ TELEFONA MOBİL UYGULAMA OLARAK KURUN:**\n\n• **iOS (Safari) için:** Sayfanın altındaki **'Paylaş'** (Yukarı ok olan kutu) butonuna dokunun. Açılan menüden **'Ana Ekrana Ekle' (Add to Home Screen)** seçeneğini işaretleyin.\n\n• **Android (Chrome) için:** Sağ üstteki **'Üç Nokta'** simgesine dokunun. Açılan menüden **'Uygulamayı Yükle'** veya **'Ana Ekrana Ekle'** seçeneğine basın.",
         "guide_step1": "📱 **%100 GÜVENLİ HİBRİT MOTOR:** İster ham .zip atın, ister içindeki .json dosyalarını çoklu seçip yükleyin.",
-        "guide_step2": "1️⃣ **Instagram/Threads** uygulamasını açın ve **Ayarlar -> Hesaplar Merkezi** bölümüne girin.",
+        "guide_step2": "1️⃣ **Threads** uygulamasını açın ve **Ayarlar -> Hesaplar Merkezi** bölümüne girin.",
         "guide_step3": "2️⃣ **Bilgilerin ve İzinlerin -> Bilgilerini İndir** adımlarını takip edin.",
-        "guide_step4": "3️⃣ **Indirme Talep Et** butonuna basın bir tek **Threads** seçeneğini işaretleyin.",
+        "guide_step4": "3️⃣ **Indirme Talep Et** butonuna basın ve sadece **Threads** seçeneğini işaretleyin.",
         "guide_step5": "4️⃣ Dosya formatını **JSON** (ÖNEMLİ!), medya kalitesini **Düşük** seçip talebi onaylayın.",
         "guide_step6": "5️⃣ E-postanıza gelen ham `.zip` dosyasını klasöre açmadan direkt yükleyebilir veya içindeki `connections/followers_and_following` klasöründen dosyaları seçebilirsiniz.",
         "contact_btn": "💬 YAPIMCI İLE İLETİŞİME GEÇ (@muratsenr)",
@@ -145,10 +146,10 @@ DIL_PAKETI = {
         "download_excel": "📥 Excel-Analysebericht herunterladen",
         "summary_title": "📊 PROFIL-GESUNDHEITSÜBERSICHT",
         "health_score": "Gesundheitsscore",
-        "guide_title": "📖 Wie lade ich Threads-Daten herunter und installiere sie als App?",
+        "guide_title": "📖 Wie lade ich Threads-Daten herunter? (Handbuch)",
         "pwa_guide_text": "📱 **DIESE SEITE ALS APP INSTALLIEREN:**\n\n• **Für iOS (Safari):** Tippen Sie unten auf die Schaltfläche **'Teilen'** (Symbol mit Pfeil nach oben). Wählen Sie **'Zum Startbildschirm hinzufügen'**.\n\n• **Für Android (Chrome):** Tippen Sie oben rechts auf das **'Drei Punkte'** Symbol. Wählen Sie **'App installieren'** oder **'Zum Startbildschirm hinzufügen'**.",
         "guide_step1": "📱 **%100 SICHERE HYBRID-ENGINE:** Laden Sie entweder die rohe .zip-Datei oder einzelne JSON-Dateien hoch.",
-        "guide_step2": "1️⃣ Öffnen Sie **Instagram/Threads**, gehen Sie zu **Einstellungen -> Kontenübersicht**.",
+        "guide_step2": "1️⃣ Öffnen Sie **Threads**, gehen Sie zu **Einstellungen -> Kontenübersicht**.",
         "guide_step3": "2️⃣ Folgen Sie **Deine Informationen und Berechtigungen -> Deine Informationen herunterladen**.",
         "guide_step4": "3️⃣ Klicken Sie auf **Download anfordern** und wählen Sie nur **Threads** aus.",
         "guide_step5": "4️⃣ Wählen Sie das Format **JSON** und die Medienqualität **Niedrig**.",
@@ -241,6 +242,22 @@ if "premium_users" not in st.session_state:
 if "logged_in" not in st.session_state:
     st.session_state.logged_in = False
 
+# --- ⏱️ ÖZELLİK: 5 DAKİKALIK OTOMATİK OTURUM ZAMAN AŞIMI GÜVENLİK MOTORU ---
+# Her buton tıklamasında veya sayfa hareketinde son işlem zamanını kontrol eder ve günceller
+SURE_SINIRI_SANIYE = 5 * 60 # 5 Dakika = 300 Saniye
+
+if st.session_state.logged_in:
+    su_anki_zaman = time.time()
+    if "last_activity_time" in st.session_state:
+        gecen_bos_sure = su_anki_zaman - st.session_state.last_activity_time
+        # Eğer kullanıcı 5 dakika boyunca hiçbir şey yapmadıysa oturumu patlat ve kilitle!
+        if gecen_bos_sure > SURE_SINIRI_SANIYE:
+            st.session_state.logged_in = False
+            st.session_state.analyzed = False
+            st.warning("⚠️ Güvenlik amacıyla 5 dakikalık işlem yapılmadığı için oturumunuz otomatik kapatılmıştır.")
+            st.stop()
+    st.session_state.last_activity_time = su_anki_zaman # Zaman sayacını tazele
+
 if not st.session_state.logged_in:
     st.markdown(f"### 🎯 Threads Profil Takip Sistemi")
     st.write("")
@@ -255,12 +272,14 @@ if not st.session_state.logged_in:
             if input_user in st.session_state.user_db and st.session_state.user_db[input_user] == input_pass:
                 st.session_state.logged_in = True
                 st.session_state.current_active_user = input_user
+                st.session_state.last_activity_time = time.time() # Zaman aşımı başlangıç damgası vur
+                st.success("🔓 Erişim Onaylandı! Sistem yükleniyor...")
                 st.rerun()
             else:
                 st.error("❌ Hatalı Kullanıcı Adı veya Şifre! Lütfen bilgilerinizi kontrol edin.")
     st.stop()
 
-# --- 🌓 ÖZELLİK REVIZE: PREMIUM SOFT FİLDİŞİ VE KEMİK TEMASI ENJEKTÖRÜ ---
+# --- TEMA SEÇİCİ ---
 col_theme, col_space = st.columns(2)
 with col_theme:
     tema_secimi = st.selectbox("🌓 Tema Modu", ["Karanlık Gece Modu", "Premium Fildişi & Kemik Modu"], label_visibility="collapsed")
@@ -268,13 +287,10 @@ with col_theme:
 if tema_secimi == "Premium Fildişi & Kemik Modu":
     st.markdown("""
         <style>
-        /* Gözü dinlendiren sıcak fildişi ve kemik arka plan dengesi */
         .stApp { background-color: #f9f6f0 !important; color: #1c1c1e !important; }
         h1, h2, h3, h4, h5, h6, p, label, span, small { color: #1c1c1e !important; }
-        /* Dosya yükleyici ve expander alanlarını minimalist fildişi griye boya */
         div[data-testid="stExpander"], div[data-testid="stFileUploader"], div[data-testid="stDataframe"] { background-color: #f1ede4 !important; border: 1px solid #e1dacb !important; }
         .stMarkdown p { color: #1c1c1e !important; }
-        /* Listelerdeki yazı okunabilirliğini sabitle */
         .stMarkdown b { color: #000000 !important; }
         </style>
         """, unsafe_allow_html=True)
@@ -309,7 +325,7 @@ st.caption(DIL_PAKETI[aktif_dil]['main_sub'])
 st.divider()
 
 st.caption(DIL_PAKETI[aktif_dil]['player_title'])
-st.link_button(label="▶️ YAPARKEN DİNLERSİNİZ YA (Göndermeli Şarkı)", url="https://youtube.com", use_container_width=True)
+st.link_button(label="▶️ YAPARKEN DİNLERSİNİZ YA (Göndermeli Şarkı)", url="https://www.youtube.com/watch?v=fdFvJGKzPNQ", use_container_width=True)
 
 with st.expander(DIL_PAKETI[aktif_dil]['guide_title'], expanded=False):
     st.info(DIL_PAKETI[aktif_dil]['pwa_guide_text'])
@@ -447,7 +463,7 @@ if btn_trigger or st.session_state.get('analyzed', False):
                 sorted_unf_excel = sorted(unfollowers, key=lambda x: global_following_map.get(x, 0))
                 for idx, user in enumerate(sorted_unf_excel, 1):
                     süre = AnalizMotoru.zaman_metnine_cevir(global_following_map.get(user, 0))
-                    p_url = f"https://threads.com@{user}"
+                    p_url = f"https://threads.com/@{user}"
                     sheet_unf.write(idx, 0, idx)
                     sheet_unf.write(idx, 1, f"@{user}", text_format)
                     sheet_unf.write_url(idx, 2, p_url, link_format, string=p_url)
@@ -459,7 +475,7 @@ if btn_trigger or st.session_state.get('analyzed', False):
                 sorted_fans_excel = sorted(fans, key=lambda x: global_followers_map.get(x, 0))
                 for idx, user in enumerate(sorted_fans_excel, 1):
                     süre = AnalizMotoru.zaman_metnine_cevir(global_followers_map.get(user, 0))
-                    p_url = f"https://threads.com@{user}"
+                    p_url = f"https://threads.com/@{user}"
                     sheet_fans.write(idx, 0, idx)
                     sheet_fans.write(idx, 1, f"@{user}", text_format)
                     sheet_fans.write_url(idx, 2, p_url, link_format, string=p_url)
@@ -471,7 +487,7 @@ if btn_trigger or st.session_state.get('analyzed', False):
                 sorted_gh_excel = sorted(ghosts, key=lambda x: global_followers_map.get(x, 0))
                 for idx, user in enumerate(sorted_gh_excel, 1):
                     süre = AnalizMotoru.zaman_metnine_cevir(global_followers_map.get(user, 0))
-                    p_url = f"https://threads.com@{user}"
+                    p_url = f"https://threads.com/@{user}"
                     sheet_gh.write(idx, 0, idx)
                     sheet_gh.write(idx, 1, f"@{user}", text_format)
                     sheet_gh.write_url(idx, 2, p_url, link_format, string=p_url)
@@ -506,20 +522,20 @@ if btn_trigger or st.session_state.get('analyzed', False):
                     if filtered_unf:
                         for index, user in enumerate(filtered_unf, 1):
                             süre = AnalizMotoru.zaman_metnine_cevir(global_following_map.get(user, 0))
-                            st.markdown(f"[{index:03d}] 🔗 [@{user}](https://threads.com@{user}) &nbsp;&nbsp;&nbsp;&nbsp; <b>⌛ {süre}</b>", unsafe_allow_html=True)
+                            st.markdown(f"[{index:03d}] 🔗 [@{user}](https://threads.com/@{user}) &nbsp;&nbsp;&nbsp;&nbsp; <b>⌛ {süre}</b>", unsafe_allow_html=True)
                     else: st.info(DIL_PAKETI[aktif_dil]['perfect_sync'] if not clean_query else "Eşleşen kullanıcı bulunamadı.")
                 with t2:
                     filtered_fans = [u for u in sorted_fans if clean_query in u.lower()] if clean_query else sorted_fans
                     if filtered_fans:
                         for index, user in enumerate(filtered_fans, 1):
-                            st.markdown(f"[{index:03d}] 🔗 [@{user}](https://threads.com@{user}) &nbsp;&nbsp;&nbsp;&nbsp; <b>⌛ {süre}</b>", unsafe_allow_html=True)
+                            st.markdown(f"[{index:03d}] 🔗 [@{user}](https://threads.com/@{user}) &nbsp;&nbsp;&nbsp;&nbsp; <b>⌛ {süre}</b>", unsafe_allow_html=True)
                     else: st.info(DIL_PAKETI[aktif_dil]['no_fans'] if not clean_query else "Eşleşen kullanıcı bulunamadı.")
                 with t3:
                     filtered_gh = [u for u in sorted_gh if clean_query in u.lower()] if clean_query else sorted_gh
                     if filtered_gh:
                         for index, user in enumerate(filtered_gh, 1):
                             süre = AnalizMotoru.zaman_metnine_cevir(global_followers_map.get(user, 0))
-                            st.markdown(f"[{index:03d}] 🔗 [@{user}](https://threads.com@{user}) &nbsp;&nbsp;&nbsp;&nbsp; <b>⌛ {süre}</b>", unsafe_allow_html=True)
+                            st.markdown(f"[{index:03d}] 🔗 [@{user}](https://threads.com/@{user}) &nbsp;&nbsp;&nbsp;&nbsp; <b>⌛ {süre}</b>", unsafe_allow_html=True)
                     else: st.info(DIL_PAKETI[aktif_dil]['no_ghosts'] if not clean_query else "Eşleşen kullanıcı bulunamadı.")
         except Exception as e: st.error(f"Sistem Hatası: {str(e)}")
 
@@ -558,4 +574,4 @@ if logout_click:
     st.rerun()
 
 st.write("")
-st.link_button(label=DIL_PAKETI[aktif_dil]['contact_btn'], url="https://threads.com@muratsenr", use_container_width=True)
+st.link_button(label=DIL_PAKETI[aktif_dil]['contact_btn'], url="https://threads.com/@muratsenr", use_container_width=True)
