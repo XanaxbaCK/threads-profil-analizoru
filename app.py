@@ -35,7 +35,7 @@ st.components.v1.html(
 DIL_PAKETI = {
     "TR": {
         "main_title": "THREADS TÜRKİYE / MURAT & ESRA İŞ BİRLİĞİ (CAN&KAN)",
-        "main_sub": "YEREL VE GÜVEN Lİ ÇİFT YÖNLÜ PROFİL TAKİPÇİ SİSTEMİ // PWA MOBİL SÜRÜM ACTIVE",
+        "main_sub": "YEREL VE GÜVENLİ ÇİFT YÖNLÜ PROFİL TAKİPÇİ SİSTEMİ // PWA MOBİL SÜRÜM ACTIVE",
         "main_hashtag": "#bendeğilbizyaptık",
         "load_batch": "📁 Ham .zip Dosyasını veya .json Dosyalarını Sürükleyin / Seçin",
         "btn_analyze": "ANALİZİ BAŞLAT",
@@ -54,13 +54,13 @@ DIL_PAKETI = {
         "guide_title": "📖 Threads Verileri Nasıl İndirilir? (Kullanım Kılavuzu)",
         "pwa_guide_text": "📱 **BU SİTEYİ TELEFONA MOBİL UYGULAMA OLARAK KURUN:**\n\n• **iOS (Safari) için:** Sayfanın altındaki **'Paylaş'** (Yukarı ok olan kutu) butonuna dokunun. Açılan menüden **'Ana Ekrana Ekle' (Add to Home Screen)** seçeneğini işaretleyin.\n\n• **Android (Chrome) için:** Sağ üstteki **'Üç Nokta'** simgesine dokunun. Açılan menüden **'Uygulamayı Yükle'** veya **'Ana Ekrana Ekle'** seçeneğine basın.",
         "guide_step1": "📱 **%100 GÜVENLİ HİBRİT MOTOR:** İster ham .zip atın, ister içindeki .json dosyalarını çoklu seçip yükleyin.",
-        "guide_step2": "1️⃣ **Threads** uygulamasını açın ve **Ayarlar -> Hesaplar Merkezi** bölümüne girin.",
+        "guide_step2": "1️⃣ **Instagram/Threads** uygulamasını açın ve **Ayarlar -> Hesaplar Merkezi** bölümüne girin.",
         "guide_step3": "2️⃣ **Bilgilerin ve İzinlerin -> Bilgilerini İndir** adımlarını takip edin.",
         "guide_step4": "3️⃣ **Indirme Talep Et** butonuna basın ve sadece **Threads** seçeneğini işaretleyin.",
         "guide_step5": "4️⃣ Dosya formatını **JSON** (ÖNEMLİ!), medya kalitesini **Düşük** seçip talebi onaylayın.",
         "guide_step6": "5️⃣ E-postanıza gelen ham `.zip` dosyasını klasöre açmadan direkt yükleyebilir veya içindeki `connections/followers_and_following` klasöründen dosyaları seçebilirsiniz.",
         "contact_btn": "💬 YAPIMCI İLE İLETİŞİME GEÇ (@muratsenr)",
-        "player_title": "🎵 Arka Plan Müziğini Zorla Koydurdu",
+        "player_title": "🎵 Arka Plan Mü─üni Zorla Koydurdu",
         "search_placeholder": "🔍 Listede kullanıcı adı ara...",
         "chart_title": "📈 Profil Dağılım Grafiği",
         "sort_label": "⏳ Zaman Sıralaması",
@@ -74,8 +74,7 @@ DIL_PAKETI = {
         "login_success": "🔓 Erişim Yetkisi Onaylandı! Sistem yükleniyor...",
         "login_error": "❌ Hatalı Kullanıcı Adı veya Şifre! Lütfen tekrar deneyin.",
         "outdated_warning": "⏳ **DİKKAT: ESKİ VERİ SETİ ALGILANDI**\n\nYüklediğiniz veri paketleri en son {days} gün önce güncellenmiş görünüyor. En doğru sonuçlar için lütfen Threads verilerinizi yeniden indirin.",
-        "logout_btn": "🔒 OTURUMU GÜVENLİ KAPAT (ÇIKIŞ YAP)",
-        "batch_link_title": "📋 TOPLU TAKİPTEN ÇIKMA LİNK PANELİ"
+        "logout_btn": "🔒 OTURUMU GÜVENLİ KAPAT (ÇIKIŞ YAP)"
     },
     "EN": {
         "main_title": "THREADS GLOBAL / MURAT & ESRA İŞ BİRLİĞİ",
@@ -118,8 +117,7 @@ DIL_PAKETI = {
         "login_success": "🔓 Access Granted! Loading system...",
         "login_error": "❌ Invalid Username or Password! Please try again.",
         "outdated_warning": "⏳ **WARNING: OUTDATED DATA DETECTED**\n\nYour uploaded data files were last updated {days} days ago. For the most accurate results, please re-download from Threads.",
-        "logout_btn": "🔒 SECURE LOG-OUT",
-        "batch_link_title": "📋 BULK UNFOLLOW LINK PANEL"
+        "logout_btn": "🔒 SECURE LOG-OUT"
     },
     "DE": {
         "main_title": "THREADS GLOBAL",
@@ -139,7 +137,7 @@ DIL_PAKETI = {
         "download_excel": "📥 Excel-Analysebericht herunterladen",
         "summary_title": "📊 PROFIL-GESUNDHEITSÜBERSICHT",
         "health_score": "Gesundheitsscore",
-        "guide_title": "📖 Wie lade ich Threads-Daten herunter und installiere sie als App?",
+        "guide_title": "📖 Wie lade ich Threads-Daten herunter? (Handbuch)",
         "pwa_guide_text": "📱 **DIESE SEITE ALS APP INSTALLIEREN:**\n\n• **Für iOS (Safari):** Tippen Sie unten auf die Schaltfläche **'Teilen'** (Symbol mit Pfeil nach oben). Wählen Sie **'Zum Startbildschirm hinzufügen'**.\n\n• **Für Android (Chrome):** Tippen Sie oben rechts auf das **'Drei Punkte'** Symbol. Wählen Sie **'App installieren'** oder **'Zum Startbildschirm hinzufügen'**.",
         "guide_step1": "📱 **%100 SICHERE HYBRID-ENGINE:** Laden Sie entweder die rohe .zip-Datei oder einzelne JSON-Dateien hoch.",
         "guide_step2": "1️⃣ Öffnen Sie **Instagram/Threads**, gehen Sie zu **Einstellungen -> Kontenübersicht**.",
@@ -163,8 +161,7 @@ DIL_PAKETI = {
         "login_success": "🔓 Zugriff gewährt! System wird geladen...",
         "login_error": "❌ Ungültiger Benutzername oder Passwort! Bitte versuchen Sie es erneut.",
         "outdated_warning": "⏳ **WARNUNG: VERALTETE DATEN ERKANNT**\n\nIhre Datendateien wurden vor {days} Tagen aktualisiert. Bitte laden Sie Ihre Daten neu herunter.",
-        "logout_btn": "🔒 SICHERER LOG-OUT",
-        "batch_link_title": "📋 SEITEN-LINK PANEL FÜR UNFOLLOW"
+        "logout_btn": "🔒 SICHERER LOG-OUT"
     }
 }
 class AnalizMotoru:
@@ -278,7 +275,7 @@ st.caption(DIL_PAKETI[aktif_dil]['main_sub'])
 st.divider()
 
 st.caption(DIL_PAKETI[aktif_dil]['player_title'])
-st.link_button(label="▶️ YAPARKEN DİNLERSİNİZ YA (Göndermeli Şarkı)", url="https://www.youtube.com/watch?v=fdFvJGKzPNQ", use_container_width=True)
+st.link_button(label="▶️ YAPARKEN DİNLERSİNİZ YA (Göndermeli Şarkı)", url="https://youtube.com", use_container_width=True)
 
 with st.expander(DIL_PAKETI[aktif_dil]['guide_title'], expanded=False):
     st.info(DIL_PAKETI[aktif_dil]['pwa_guide_text'])
@@ -412,7 +409,7 @@ if btn_trigger or st.session_state.get('analyzed', False):
                 sorted_unf_excel = sorted(unfollowers, key=lambda x: global_following_map.get(x, 0))
                 for idx, user in enumerate(sorted_unf_excel, 1):
                     süre = AnalizMotoru.zaman_metnine_cevir(global_following_map.get(user, 0))
-                    p_url = f"https://threads.com/@{user}"
+                    p_url = f"https://threads.com@{user}"
                     sheet_unf.write(idx, 0, idx)
                     sheet_unf.write(idx, 1, f"@{user}", text_format)
                     sheet_unf.write_url(idx, 2, p_url, link_format, string=p_url)
@@ -424,7 +421,7 @@ if btn_trigger or st.session_state.get('analyzed', False):
                 sorted_fans_excel = sorted(fans, key=lambda x: global_followers_map.get(x, 0))
                 for idx, user in enumerate(sorted_fans_excel, 1):
                     süre = AnalizMotoru.zaman_metnine_cevir(global_followers_map.get(user, 0))
-                    p_url = f"https://threads.com/@{user}"
+                    p_url = f"https://threads.com@{user}"
                     sheet_fans.write(idx, 0, idx)
                     sheet_fans.write(idx, 1, f"@{user}", text_format)
                     sheet_fans.write_url(idx, 2, p_url, link_format, string=p_url)
@@ -436,7 +433,7 @@ if btn_trigger or st.session_state.get('analyzed', False):
                 sorted_gh_excel = sorted(ghosts, key=lambda x: global_followers_map.get(x, 0))
                 for idx, user in enumerate(sorted_gh_excel, 1):
                     süre = AnalizMotoru.zaman_metnine_cevir(global_followers_map.get(user, 0))
-                    p_url = f"https://threads.com/@{user}"
+                    p_url = f"https://threads.com@{user}"
                     sheet_gh.write(idx, 0, idx)
                     sheet_gh.write(idx, 1, f"@{user}", text_format)
                     sheet_gh.write_url(idx, 2, p_url, link_format, string=p_url)
@@ -478,17 +475,9 @@ if btn_trigger or st.session_state.get('analyzed', False):
                     filtered_gh = [u for u in sorted_gh if clean_query in u.lower()] if clean_query else sorted_gh
                     if filtered_gh:
                         for index, user in enumerate(filtered_gh, 1):
+                            süre = AnalizMotoru.zaman_metnine_cevir(global_followers_map.get(user, 0))
                             st.markdown(f"[{index:03d}] 🔗 [@{user}](https://threads.com/@{user}) &nbsp;&nbsp;&nbsp;&nbsp; <b>⌛ {süre}</b>", unsafe_allow_html=True)
                     else: st.info(DIL_PAKETI[aktif_dil]['no_ghosts'] if not clean_query else "Eşleşen kullanıcı bulunamadı.")
-
-                # --- 🔗 ÖZELLİK: TEK TIKLA KOPYALANABİLİR TOPLU LİNK KUTUSU (threads.com FORMATINDA) ---
-                if unfollowers:
-                    st.write("")
-                    st.markdown(f"##### {DIL_PAKETI[aktif_dil]['batch_link_title']}")
-                    # Sizi takip etmeyen tüm kullanıcı adlarını threads.com formatında temiz bir alt alta metne dönüştürür
-                    toplu_link_metni = "\n".join([f"https://threads.com/@{u}" for u in sorted_unf])
-                    st.code(toplu_link_metni, language="text")
-
         except Exception as e: st.error(f"Sistem Hatası: {str(e)}")
 
 # --- LOG-OUT VE SİSTEM AYARLARI ALT ALANI ---
@@ -509,4 +498,4 @@ if logout_click:
     st.rerun()
 
 st.write("")
-st.link_button(label=DIL_PAKETI[aktif_dil]['contact_btn'], url="https://threads.com/@muratsenr", use_container_width=True)
+st.link_button(label=DIL_PAKETI[aktif_dil]['contact_btn'], url="https://threads.com@muratsenr", use_container_width=True)
