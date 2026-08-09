@@ -54,7 +54,7 @@ DIL_PAKETI = {
         "guide_title": "📖 Threads Verileri Nasıl İndirilir? (Kullanım Kılavuzu)",
         "pwa_guide_text": "📱 **BU SİTEYİ TELEFONA MOBİL UYGULAMA OLARAK KURUN:**\n\n• **iOS (Safari) için:** Sayfanın altındaki **'Paylaş'** (Yukarı ok olan kutu) butonuna dokunun. Açılan menüden **'Ana Ekrana Ekle' (Add to Home Screen)** seçeneğini işaretleyin.\n\n• **Android (Chrome) için:** Sağ üstteki **'Üç Nokta'** simgesine dokunun. Açılan menüden **'Uygulamayı Yükle'** veya **'Ana Ekrana Ekle'** seçeneğine basın.",
         "guide_step1": "📱 **%100 GÜVENLİ HİBRİT MOTOR:** İster ham .zip atın, ister içindeki .json dosyalarını çoklu seçip yükleyin.",
-        "guide_step2": "1️⃣ **Instagram/Threads** uygulamasını açın ve **Ayarlar -> Hesaplar Merkezi** bölümüne girin.",
+        "guide_step2": "1️⃣ **Threads** uygulamasını açın ve **Ayarlar -> Hesaplar Merkezi** bölümüne girin.",
         "guide_step3": "2️⃣ **Bilgilerin ve İzinlerin -> Bilgilerini İndir** adımlarını takip edin.",
         "guide_step4": "3️⃣ **Indirme Talep Et** butonuna basın ve sadece **Threads** seçeneğini işaretleyin.",
         "guide_step5": "4️⃣ Dosya formatını **JSON** (ÖNEMLİ!), medya kalitesini **Düşük** seçip talebi onaylayın.",
@@ -278,7 +278,7 @@ st.caption(DIL_PAKETI[aktif_dil]['main_sub'])
 st.divider()
 
 st.caption(DIL_PAKETI[aktif_dil]['player_title'])
-st.link_button(label="▶️ YAPARKEN DİNLERSİNİZ YA (Göndermeli Şarkı)", url="https://youtube.com", use_container_width=True)
+st.link_button(label="▶️ YAPARKEN DİNLERSİNİZ YA (Göndermeli Şarkı)", url="https://www.youtube.com/watch?v=fdFvJGKzPNQ", use_container_width=True)
 
 with st.expander(DIL_PAKETI[aktif_dil]['guide_title'], expanded=False):
     st.info(DIL_PAKETI[aktif_dil]['pwa_guide_text'])
@@ -412,7 +412,7 @@ if btn_trigger or st.session_state.get('analyzed', False):
                 sorted_unf_excel = sorted(unfollowers, key=lambda x: global_following_map.get(x, 0))
                 for idx, user in enumerate(sorted_unf_excel, 1):
                     süre = AnalizMotoru.zaman_metnine_cevir(global_following_map.get(user, 0))
-                    p_url = f"https://threads.com@{user}"
+                    p_url = f"https://threads.com/@{user}"
                     sheet_unf.write(idx, 0, idx)
                     sheet_unf.write(idx, 1, f"@{user}", text_format)
                     sheet_unf.write_url(idx, 2, p_url, link_format, string=p_url)
@@ -424,7 +424,7 @@ if btn_trigger or st.session_state.get('analyzed', False):
                 sorted_fans_excel = sorted(fans, key=lambda x: global_followers_map.get(x, 0))
                 for idx, user in enumerate(sorted_fans_excel, 1):
                     süre = AnalizMotoru.zaman_metnine_cevir(global_followers_map.get(user, 0))
-                    p_url = f"https://threads.com@{user}"
+                    p_url = f"https://threads.com/@{user}"
                     sheet_fans.write(idx, 0, idx)
                     sheet_fans.write(idx, 1, f"@{user}", text_format)
                     sheet_fans.write_url(idx, 2, p_url, link_format, string=p_url)
@@ -436,7 +436,7 @@ if btn_trigger or st.session_state.get('analyzed', False):
                 sorted_gh_excel = sorted(ghosts, key=lambda x: global_followers_map.get(x, 0))
                 for idx, user in enumerate(sorted_gh_excel, 1):
                     süre = AnalizMotoru.zaman_metnine_cevir(global_followers_map.get(user, 0))
-                    p_url = f"https://threads.com@{user}"
+                    p_url = f"https://threads.com/@{user}"
                     sheet_gh.write(idx, 0, idx)
                     sheet_gh.write(idx, 1, f"@{user}", text_format)
                     sheet_gh.write_url(idx, 2, p_url, link_format, string=p_url)
@@ -466,19 +466,19 @@ if btn_trigger or st.session_state.get('analyzed', False):
                     if filtered_unf:
                         for index, user in enumerate(filtered_unf, 1):
                             süre = AnalizMotoru.zaman_metnine_cevir(global_following_map.get(user, 0))
-                            st.markdown(f"[{index:03d}] 🔗 [@{user}](https://threads.com@{user}) &nbsp;&nbsp;&nbsp;&nbsp; <b>⌛ {süre}</b>", unsafe_allow_html=True)
+                            st.markdown(f"[{index:03d}] 🔗 [@{user}](https://threads.com/@{user}) &nbsp;&nbsp;&nbsp;&nbsp; <b>⌛ {süre}</b>", unsafe_allow_html=True)
                     else: st.info(DIL_PAKETI[aktif_dil]['perfect_sync'] if not clean_query else "Eşleşen kullanıcı bulunamadı.")
                 with t2:
                     filtered_fans = [u for u in sorted_fans if clean_query in u.lower()] if clean_query else sorted_fans
                     if filtered_fans:
                         for index, user in enumerate(filtered_fans, 1):
-                            st.markdown(f"[{index:03d}] 🔗 [@{user}](https://threads.com@{user}) &nbsp;&nbsp;&nbsp;&nbsp; <b>⌛ {süre}</b>", unsafe_allow_html=True)
+                            st.markdown(f"[{index:03d}] 🔗 [@{user}](https://threads.com/@{user}) &nbsp;&nbsp;&nbsp;&nbsp; <b>⌛ {süre}</b>", unsafe_allow_html=True)
                     else: st.info(DIL_PAKETI[aktif_dil]['no_fans'] if not clean_query else "Eşleşen kullanıcı bulunamadı.")
                 with t3:
                     filtered_gh = [u for u in sorted_gh if clean_query in u.lower()] if clean_query else sorted_gh
                     if filtered_gh:
                         for index, user in enumerate(filtered_gh, 1):
-                            st.markdown(f"[{index:03d}] 🔗 [@{user}](https://threads.com@{user}) &nbsp;&nbsp;&nbsp;&nbsp; <b>⌛ {süre}</b>", unsafe_allow_html=True)
+                            st.markdown(f"[{index:03d}] 🔗 [@{user}](https://threads.com/@{user}) &nbsp;&nbsp;&nbsp;&nbsp; <b>⌛ {süre}</b>", unsafe_allow_html=True)
                     else: st.info(DIL_PAKETI[aktif_dil]['no_ghosts'] if not clean_query else "Eşleşen kullanıcı bulunamadı.")
 
                 # --- 🔗 ÖZELLİK: TEK TIKLA KOPYALANABİLİR TOPLU LİNK KUTUSU (threads.com FORMATINDA) ---
@@ -486,7 +486,7 @@ if btn_trigger or st.session_state.get('analyzed', False):
                     st.write("")
                     st.markdown(f"##### {DIL_PAKETI[aktif_dil]['batch_link_title']}")
                     # Sizi takip etmeyen tüm kullanıcı adlarını threads.com formatında temiz bir alt alta metne dönüştürür
-                    toplu_link_metni = "\n".join([f"https://threads.com@{u}" for u in sorted_unf])
+                    toplu_link_metni = "\n".join([f"https://threads.com/@{u}" for u in sorted_unf])
                     st.code(toplu_link_metni, language="text")
 
         except Exception as e: st.error(f"Sistem Hatası: {str(e)}")
@@ -509,4 +509,4 @@ if logout_click:
     st.rerun()
 
 st.write("")
-st.link_button(label=DIL_PAKETI[aktif_dil]['contact_btn'], url="https://threads.com@muratsenr", use_container_width=True)
+st.link_button(label=DIL_PAKETI[aktif_dil]['contact_btn'], url="https://threads.com/@muratsenr", use_container_width=True)
