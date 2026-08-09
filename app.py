@@ -56,7 +56,7 @@ DIL_PAKETI = {
         "guide_step1": "📱 **%100 GÜVENLİ HİBRİT MOTOR:** İster ham .zip atın, ister içindeki .json dosyalarını çoklu seçip yükleyin.",
         "guide_step2": "1️⃣ **Instagram/Threads** uygulamasını açın ve **Ayarlar -> Hesaplar Merkezi** bölümüne girin.",
         "guide_step3": "2️⃣ **Bilgilerin ve İzinlerin -> Bilgilerini İndir** adımlarını takip edin.",
-        "guide_step4": "3️⃣ **Indirme Talep Et** butonuna basın ve sadece **Threads** seçeneğini işaretleyin.",
+        "guide_step4": "3️⃣ **Indirme Talep Et** butonuna basın bir tek **Threads** seçeneğini işaretleyin.",
         "guide_step5": "4️⃣ Dosya formatını **JSON** (ÖNEMLİ!), medya kalitesini **Düşük** seçip talebi onaylayın.",
         "guide_step6": "5️⃣ E-postanıza gelen ham `.zip` dosyasını klasöre açmadan direkt yükleyebilir veya içindeki `connections/followers_and_following` klasöründen dosyaları seçebilirsiniz.",
         "contact_btn": "💬 YAPIMCI İLE İLETİŞİME GEÇ (@muratsenr)",
@@ -168,6 +168,7 @@ DIL_PAKETI = {
         "login_btn": "EINLOGGEN",
         "login_success": "🔓 Zugriff gewährt! System wird geladen...",
         "login_error": "❌ Ungültiger Benutzername oder Passwort! Bitte versuchen Sie es erneut.",
+        "outdated_warning": "⏳ **WARNUNG: VERALTETE DATEN ERKANNT**\n\nIhre Datendateien wurden vor {days} Tagen aktualisiert. Bitte laden Sie Ihre Daten neu herunter.",
         "logout_btn": "🔒 SICHERER LOG-OUT",
         "premium_notice": "👑 **PREMIUM-FUNKTION GESPERRT:** Erweiterte Diagramme, Excel-Exporte und chronologische Sortierung sind Premium-Mitgliedern vorbehalten.",
         "badge_premium": "👑 Premium-Konto (Unbeschränkt)",
@@ -259,37 +260,39 @@ if not st.session_state.logged_in:
                 st.error("❌ Hatalı Kullanıcı Adı veya Şifre! Lütfen bilgilerinizi kontrol edin.")
     st.stop()
 
-# --- TEMA SEÇİCİ ---
+# --- 🌓 ÖZELLİK REVIZE: PREMIUM SOFT FİLDİŞİ VE KEMİK TEMASI ENJEKTÖRÜ ---
 col_theme, col_space = st.columns(2)
 with col_theme:
-    tema_secimi = st.selectbox("🌓 Tema Modu", ["Karanlık Gece Modu", "Açık Threads Modu"], label_visibility="collapsed")
+    tema_secimi = st.selectbox("🌓 Tema Modu", ["Karanlık Gece Modu", "Premium Fildişi & Kemik Modu"], label_visibility="collapsed")
 
-if tema_secimi == "Açık Threads Modu":
+if tema_secimi == "Premium Fildişi & Kemik Modu":
     st.markdown("""
         <style>
-        .stApp { background-color: #ffffff !important; color: #000000 !important; }
-        h1, h2, h3, h4, h5, h6, p, label, span { color: #000000 !important; }
-        div[data-testid="stExpander"], div[data-testid="stFileUploader"] { background-color: #f3f4f6 !important; border: 1px solid #e5e7eb !important; }
+        /* Gözü dinlendiren sıcak fildişi ve kemik arka plan dengesi */
+        .stApp { background-color: #f9f6f0 !important; color: #1c1c1e !important; }
+        h1, h2, h3, h4, h5, h6, p, label, span, small { color: #1c1c1e !important; }
+        /* Dosya yükleyici ve expander alanlarını minimalist fildişi griye boya */
+        div[data-testid="stExpander"], div[data-testid="stFileUploader"], div[data-testid="stDataframe"] { background-color: #f1ede4 !important; border: 1px solid #e1dacb !important; }
+        .stMarkdown p { color: #1c1c1e !important; }
+        /* Listelerdeki yazı okunabilirliğini sabitle */
+        .stMarkdown b { color: #000000 !important; }
         </style>
         """, unsafe_allow_html=True)
 
 # --- ANA ARAYÜZ ---
 st.title("🎯 Threads Profil Takip Sistemi")
 
-# --- 👑 ÖZELLİK: DİNAMİK KULLANICI ÜYELİK TİPİ BİLGİLENDİRME ROZETLERİ ---
 aktif_u = st.session_state.current_active_user
 is_user_premium = (aktif_u in st.session_state.premium_users)
 
 col_user_welcome, col_user_badge = st.columns(2)
 with col_user_welcome:
-    st.markdown(f"👋 **{DIL_PAKETI['TR']['welcome_user'].format(user=aktif_u)}**") # Karşılama mesajı
+    st.markdown(f"👋 **{DIL_PAKETI['TR']['welcome_user'].format(user=aktif_u)}**")
 
 with col_user_badge:
     if is_user_premium:
-        # Yeşil renkli Premium Rozeti
         st.markdown(f"<p style='text-align: right; margin: 0; font-weight: bold; color: #2e7d32;'>{DIL_PAKETI['TR']['badge_premium']}</p>", unsafe_allow_html=True)
     else:
-        # Sarı renkli Standart Rozeti
         st.markdown(f"<p style='text-align: right; margin: 0; font-weight: bold; color: #ef6c00;'>{DIL_PAKETI['TR']['badge_standard']}</p>", unsafe_allow_html=True)
 
 st.write("")
@@ -444,7 +447,7 @@ if btn_trigger or st.session_state.get('analyzed', False):
                 sorted_unf_excel = sorted(unfollowers, key=lambda x: global_following_map.get(x, 0))
                 for idx, user in enumerate(sorted_unf_excel, 1):
                     süre = AnalizMotoru.zaman_metnine_cevir(global_following_map.get(user, 0))
-                    p_url = f"https://threads.com/@{user}"
+                    p_url = f"https://threads.com@{user}"
                     sheet_unf.write(idx, 0, idx)
                     sheet_unf.write(idx, 1, f"@{user}", text_format)
                     sheet_unf.write_url(idx, 2, p_url, link_format, string=p_url)
@@ -456,7 +459,7 @@ if btn_trigger or st.session_state.get('analyzed', False):
                 sorted_fans_excel = sorted(fans, key=lambda x: global_followers_map.get(x, 0))
                 for idx, user in enumerate(sorted_fans_excel, 1):
                     süre = AnalizMotoru.zaman_metnine_cevir(global_followers_map.get(user, 0))
-                    p_url = f"https://threads.com/@{user}"
+                    p_url = f"https://threads.com@{user}"
                     sheet_fans.write(idx, 0, idx)
                     sheet_fans.write(idx, 1, f"@{user}", text_format)
                     sheet_fans.write_url(idx, 2, p_url, link_format, string=p_url)
@@ -468,7 +471,7 @@ if btn_trigger or st.session_state.get('analyzed', False):
                 sorted_gh_excel = sorted(ghosts, key=lambda x: global_followers_map.get(x, 0))
                 for idx, user in enumerate(sorted_gh_excel, 1):
                     süre = AnalizMotoru.zaman_metnine_cevir(global_followers_map.get(user, 0))
-                    p_url = f"https://threads.com/@{user}"
+                    p_url = f"https://threads.com@{user}"
                     sheet_gh.write(idx, 0, idx)
                     sheet_gh.write(idx, 1, f"@{user}", text_format)
                     sheet_gh.write_url(idx, 2, p_url, link_format, string=p_url)
@@ -503,20 +506,20 @@ if btn_trigger or st.session_state.get('analyzed', False):
                     if filtered_unf:
                         for index, user in enumerate(filtered_unf, 1):
                             süre = AnalizMotoru.zaman_metnine_cevir(global_following_map.get(user, 0))
-                            st.markdown(f"[{index:03d}] 🔗 [@{user}](https://threads.com/@{user}) &nbsp;&nbsp;&nbsp;&nbsp; <b>⌛ {süre}</b>", unsafe_allow_html=True)
+                            st.markdown(f"[{index:03d}] 🔗 [@{user}](https://threads.com@{user}) &nbsp;&nbsp;&nbsp;&nbsp; <b>⌛ {süre}</b>", unsafe_allow_html=True)
                     else: st.info(DIL_PAKETI[aktif_dil]['perfect_sync'] if not clean_query else "Eşleşen kullanıcı bulunamadı.")
                 with t2:
                     filtered_fans = [u for u in sorted_fans if clean_query in u.lower()] if clean_query else sorted_fans
                     if filtered_fans:
                         for index, user in enumerate(filtered_fans, 1):
-                            st.markdown(f"[{index:03d}] 🔗 [@{user}](https://threads.com/@{user}) &nbsp;&nbsp;&nbsp;&nbsp; <b>⌛ {süre}</b>", unsafe_allow_html=True)
+                            st.markdown(f"[{index:03d}] 🔗 [@{user}](https://threads.com@{user}) &nbsp;&nbsp;&nbsp;&nbsp; <b>⌛ {süre}</b>", unsafe_allow_html=True)
                     else: st.info(DIL_PAKETI[aktif_dil]['no_fans'] if not clean_query else "Eşleşen kullanıcı bulunamadı.")
                 with t3:
                     filtered_gh = [u for u in sorted_gh if clean_query in u.lower()] if clean_query else sorted_gh
                     if filtered_gh:
                         for index, user in enumerate(filtered_gh, 1):
                             süre = AnalizMotoru.zaman_metnine_cevir(global_followers_map.get(user, 0))
-                            st.markdown(f"[{index:03d}] 🔗 [@{user}](https://threads.com/@{user}) &nbsp;&nbsp;&nbsp;&nbsp; <b>⌛ {süre}</b>", unsafe_allow_html=True)
+                            st.markdown(f"[{index:03d}] 🔗 [@{user}](https://threads.com@{user}) &nbsp;&nbsp;&nbsp;&nbsp; <b>⌛ {süre}</b>", unsafe_allow_html=True)
                     else: st.info(DIL_PAKETI[aktif_dil]['no_ghosts'] if not clean_query else "Eşleşen kullanıcı bulunamadı.")
         except Exception as e: st.error(f"Sistem Hatası: {str(e)}")
 
@@ -555,4 +558,4 @@ if logout_click:
     st.rerun()
 
 st.write("")
-st.link_button(label=DIL_PAKETI[aktif_dil]['contact_btn'], url="https://threads.com/@muratsenr", use_container_width=True)
+st.link_button(label=DIL_PAKETI[aktif_dil]['contact_btn'], url="https://threads.com@muratsenr", use_container_width=True)
