@@ -55,7 +55,7 @@ DIL_PAKETI = {
         "guide_title": "📖 Threads Verileri Nasıl İndirilir? (Kullanım Kılavuzu)",
         "pwa_guide_text": "📱 **BU SİTEYİ TELEFONA MOBİL UYGULAMA OLARAK KURUN:**\n\n• **iOS (Safari) için:** Sayfanın altındaki **'Paylaş'** (Yukarı ok olan kutu) butonuna dokunun. Açılan menüden **'Ana Ekrana Ekle' (Add to Home Screen)** seçeneğini işaretleyin.\n\n• **Android (Chrome) için:** Sağ üstteki **'Üç Nokta'** simgesine dokunun. Açılan menüden **'Uygulamayı Yükle'** veya **'Ana Ekrana Ekle'** seçeneğine basın.",
         "guide_step1": "📱 **%100 GÜVENLİ HİBRİT MOTOR:** İster ham .zip atın, ister içindeki .json dosyalarını çoklu seçip yükleyin.",
-        "guide_step2": "1️⃣ **Threads** uygulamasını açın ve **Ayarlar -> Hesaplar Merkezi** bölümüne girin.",
+        "guide_step2": "1️⃣ **Instagram/Threads** uygulamasını açın ve **Ayarlar -> Hesaplar Merkezi** bölümüne girin.",
         "guide_step3": "2️⃣ **Bilgilerin ve İzinlerin -> Bilgilerini İndir** adımlarını takip edin.",
         "guide_step4": "3️⃣ **Indirme Talep Et** butonuna basın ve sadece **Threads** seçeneğini işaretleyin.",
         "guide_step5": "4️⃣ Dosya formatını **JSON** (ÖNEMLİ!), medya kalitesini **Düşük** seçip talebi onaylayın.",
@@ -177,7 +177,7 @@ class AnalizMotoru:
             if fark_gun > 540:
                 return True
         return False
-# --- 🔑 HAFİF BELLEK TABANLI SAAS VERİ TABANI YAPILANDIRMASI ---
+# --- 🔑 GÜVENLİ VE KALICI DEĞİŞTİRİLEBİLİR KOD TABANLI VERİ TABANI ---
 if "user_db" not in st.session_state:
     st.session_state.user_db = {
         "murat": "esra",       # SÜPER ADMİN / YÖNETİCİ & PREMIUM
@@ -274,7 +274,7 @@ st.caption(DIL_PAKETI[aktif_dil]['main_sub'])
 st.divider()
 
 st.caption(DIL_PAKETI[aktif_dil]['player_title'])
-st.link_button(label="▶️ YAPARKEN DİNLERSİNİZ YA (Göndermeli Şarkı)", url="https://www.youtube.com/watch?v=fdFvJGKzPNQ", use_container_width=True)
+st.link_button(label="▶️ YAPARKEN DİNLERSİNİZ YA (Göndermeli Şarkı)", url="https://youtube.com", use_container_width=True)
 
 with st.expander(DIL_PAKETI[aktif_dil]['guide_title'], expanded=False):
     st.info(DIL_PAKETI[aktif_dil]['pwa_guide_text'])
@@ -491,7 +491,7 @@ st.write(""); st.divider()
 
 # --- 👑 SADECE MURAT'A ÖZEL GELİŞMİŞ SAAS CANLI ÜYE YÖNETİM MERKEZİ ---
 if st.session_state.current_active_user == "murat":
-    with st.expander("👑 Üye Yönetim Paneli", expanded=False):
+    with st.expander("👑 Canlı Üye Yönetim Paneli", expanded=False):
         # 1. BÖLÜM: YENİ ÜYE EKLEME VE ŞİFRE OLUŞTURMA
         st.markdown("##### 👤 Yeni Kullanıcı Tanımla / Şifre Oluştur")
         c_user = st.text_input("Kullanıcı Adı Ekle", key="saas_new_user_input").strip().lower()
@@ -537,6 +537,29 @@ if st.session_state.current_active_user == "murat":
                     st.session_state.premium_users.discard(secilen_üye)
                 st.success(f"🎉 '@{secilen_üye}' üyelik ve şifre konfigürasyonları başarıyla güncellendi!")
                 st.rerun()
+
+        st.divider()
+        
+        # --- 💾 YAKLAŞIM A: DİNAMİK KALICI KOD GÜNCELLEME MOTORU ---
+        st.markdown("##### 💾 Kalıcı Kod Güncelleme Bloğu")
+        st.caption("Yenileme (Refresh) sonrası üyelerin silinmemesi için aşağıdaki kodu kopyalayın ve Parça 5'teki ilgili veri tabanı alanıyla değiştirin.")
+        
+        dict_str = "    st.session_state.user_db = {\n"
+        dict_str += ",\n".join([f'        "{uk}": "{up}"' for uk, up in st.session_state.user_db.items()])
+        dict_str += "\n    }"
+        
+        set_str = "    st.session_state.premium_users = {"
+        set_str += ", ".join([f'"{pu}"' for pu in st.session_state.premium_users])
+        set_str += "}"
+        
+        full_sync_code = f"""# --- BU BLOK PANEL TARAFINDAN OTOMATİK ÜRETİLMİŞTİR ---
+if "user_db" not in st.session_state:
+{dict_str}
+
+if "premium_users" not in st.session_state:
+{set_str}"""
+        
+        st.code(full_sync_code, language="python")
 
 with st.expander("⚙️ Hesap Ayarları (Kendi Şifreni Değiştir)", expanded=False):
     yeni_sifre_input = st.text_input("🔑 Yeni Şifrenizi Girin", type="password", key="change_password_box").strip()
