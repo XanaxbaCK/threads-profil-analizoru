@@ -36,7 +36,7 @@ st.components.v1.html(
 DIL_PAKETI = {
     "TR": {
         "main_title": "THREADS TÜRKİYE / MURAT & ESRA İŞ BİRLİĞİ (CAN&KAN)",
-        "main_sub": "YEREL VE GÜVENLİ ÇİFT YÖNLÜ PROFİL TAKİPÇİ SİSTEMİ // PWA MOBİL SÜRÜM ACTIVE",
+        "main_sub": "YEREL VE GÜVENLİ ÇİFT YÖNLÜ PROFİL TAKİPÇİ SİSTEMİ // MOBİL SÜRÜM ",
         "main_hashtag": "#bendeğilbizyaptık",
         "load_batch": "📁 Ham .zip Dosyasını veya .json Dosyalarını Sürükleyin / Seçin",
         "btn_analyze": "ANALİZİ BAŞLAT",
@@ -79,11 +79,11 @@ DIL_PAKETI = {
         "premium_notice": "👑 **PREMIUM ÖZELLİK KİLİTLİ:** Advanced grafik analizler, Excel indirme motoru ve kronolojik zaman sıralaması sadece Premium üyelere özeldir. Yetki yükseltmek için lütfen yöneticiyle iletişime geçin.",
         "badge_premium": "👑 Premium Hesap (Sınırsız Erişim)",
         "badge_standard": "👤 Standart Hesap (Kısıtlı Erişim)",
-        "welcome_user": "Hoş geldiniz, @{user}"
+        "welcome_user": "Hoş geldiniz, {user}"
     },
     "EN": {
         "main_title": "THREADS GLOBAL / MURAT & ESRA İŞ BİRLİĞİ",
-        "main_sub": "LOCAL AND SECURE BI-DIRECTIONAL PROFILE ANALYSIS SYSTEM // PWA MOBILE ACTIVE",
+        "main_sub": "LOCAL AND SECURE BI-DIRECTIONAL PROFILE ANALYSIS SYSTEM // PWA MOBILE",
         "main_hashtag": "#notmebutwe",
         "load_batch": "📁 Drag & Drop Raw .zip or Multiple .json Files Here",
         "btn_analyze": "START ANALYSIS",
@@ -126,7 +126,7 @@ DIL_PAKETI = {
         "premium_notice": "👑 **PREMIUM FEATURE LOCKED:** Advanced charts, Excel exports, and chronological sorting are restricted to Premium members.",
         "badge_premium": "👑 Premium Account (Unrestricted)",
         "badge_standard": "👤 Standard Account (Restricted)",
-        "welcome_user": "Welcome, @{user}"
+        "welcome_user": "Welcome, {user}"
     }
 }
 class AnalizMotoru:
