@@ -63,7 +63,7 @@ DIL_PAKETI = {
         "contact_btn": "💬 YAPIMCI İLE İLETİŞİME GEÇ (@muratsenr)",
         "search_placeholder": "🔍 Listede kullanıcı adı ara...",
         "chart_title": "📈 Profil Dağılım Grafiği",
-        "sort_label": "🌓 Zaman Sıralaması",
+        "sort_label": "⏳ Zaman Sıralaması",
         "sort_newest": "Önce En Yeni (Kronolojik)",
         "sort_oldest": "Önce En Eski (Nostaljik)",
         "history_title": "⏳ ŞU ANDA AKTİF DEĞİŞİM KARŞILAŞTIRICISI",
@@ -80,7 +80,8 @@ DIL_PAKETI = {
         "badge_standard": "👤 Standart Hesap (Kısıtlı Erişim)",
         "welcome_user": "Hoş geldiniz, {user}"
     },
-    "EN": {
+
+        "EN": {
         "main_title": "THREADS GLOBAL / MURAT ŞENER PRODUCER",
         "main_sub": "LOCAL AND SECURE BI-DIRECTIONAL PROFILE ANALYSIS SYSTEM // MOBILE ACT",
         "main_hashtag": "#notmebutwe",
@@ -107,7 +108,6 @@ DIL_PAKETI = {
         "guide_step5": "4️⃣ Choose format as **JSON**, media quality as **Low** and submit.",
         "guide_step6": "5️⃣ Upload the raw `.zip` file from your email directly, or browse and extract files inside connections folder.",
         "contact_btn": "💬 CONTACT DEVELOPER (@muratsenr)",
-        "player_title": "🎵 Background Music: Cankan - Yaranamadım",
         "search_placeholder": "🔍 Search username in list...",
         "chart_title": "📈 Profile Distribution Chart",
         "sort_label": "⏳ Time Sorting",
@@ -128,6 +128,7 @@ DIL_PAKETI = {
         "welcome_user": "Welcome, {user}"
     }
 }
+
 class AnalizMotoru:
     """Kullanıcı adlarını, zaman damgalarını, bot riskini ve Sağlık Skorunu hesaplayan ana motor."""
     @staticmethod
@@ -273,7 +274,7 @@ st.markdown(f"### {DIL_PAKETI[aktif_dil]['main_title']}")
 st.caption(DIL_PAKETI[aktif_dil]['main_sub'])
 st.divider()
 
-st.markdown(f"##### {DIL_PAKETI[aktif_dil]['player_title']}")
+# --- 🎵 ŞARKI BUTONU BAŞLIĞI TEMİZLENDİ VE SADECE BUTON BIRAKILDI ---
 st.link_button(label="▶️ YAPARKEN DİNLERSİNİZ BELKİ (Göndermeli Şarkı)", url="https://youtube.com", use_container_width=True)
 
 with st.expander(DIL_PAKETI[aktif_dil]['guide_title'], expanded=False):
@@ -312,6 +313,7 @@ if uploaded_inputs:
                 followers_bytes = item.read()
 
 btn_trigger = st.button(DIL_PAKETI[aktif_dil]['btn_analyze'], use_container_width=True, type="primary")
+
 if btn_trigger or st.session_state.get('analyzed', False):
     if not following_bytes or not followers_bytes:
         st.warning(DIL_PAKETI[aktif_dil]['input_error_msg'])
