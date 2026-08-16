@@ -64,7 +64,7 @@ DIL_PAKETI = {
         "player_title": "🎵 Arka Plan Müziğini Zorla Koydurdu",
         "search_placeholder": "🔍 Listede kullanıcı adı ara...",
         "chart_title": "📈 Profil Dağılım Grafiği",
-        "sort_label": "⏳ Zaman Sıralaması",
+        "sort_label": "🌓 Zaman Sıralaması",
         "sort_newest": "Önce En Yeni (Kronolojik)",
         "sort_oldest": "Önce En Eski (Nostaljik)",
         "history_title": "⏳ ŞU ANDA AKTİF DEĞİŞİM KARŞILAŞTIRICISI",
@@ -191,7 +191,7 @@ if "user_db" not in st.session_state:
     }
 
 if "premium_users" not in st.session_state:
-    st.session_state.premium_users = {"murat", "esra", "ömür", "deniz", "rıdvan", "irem","sinem"}
+    st.session_state.premium_users = {"murat", "esra", "ömür", "deniz", "rıdvan", "irem", "sinem"}
 
 if "logged_in" not in st.session_state:
     st.session_state.logged_in = False
@@ -218,7 +218,7 @@ if not st.session_state.logged_in:
         st.markdown("<h4 style='color:#3a7ebf; margin-top:0px;'><b>🔒 SİSTEME GÜVENLİ GİRİŞ</b></h4>", unsafe_allow_html=True)
         input_user = st.text_input("👤 Kullanıcı Adı", key="login_username_field").strip().lower()
         input_pass = st.text_input("🔑 Şifre", type="password", key="login_password_field").strip()
-        login_click = st.button("GİRİŞ YAP", use_container_width=True, type="primary")
+        login_click = st.button("SİSTEME GİRİŞ YAP", use_container_width=True, type="primary")
         
         if login_click:
             if input_user in st.session_state.user_db and st.session_state.user_db[input_user] == input_pass:
@@ -274,8 +274,8 @@ st.markdown(f"### {DIL_PAKETI[aktif_dil]['main_title']}")
 st.caption(DIL_PAKETI[aktif_dil]['main_sub'])
 st.divider()
 
-st.caption(DIL_PAKETI[aktif_dil]['player_title'])
-st.link_button(label="▶️ YAPARKEN DİNLERSİNİZ BELKİ (Göndermeli Şarkı)", url="https://www.youtube.com/watch?v=fdFvJGKzPNQ", use_container_width=True)
+st.markdown(f"##### {DIL_PAKETI[aktif_dil]['player_title']}")
+st.link_button(label="▶️ YAPARKEN DİNLERSİNİZ BELKİ (Göndermeli Şarkı)", url="https://youtube.com", use_container_width=True)
 
 with st.expander(DIL_PAKETI[aktif_dil]['guide_title'], expanded=False):
     st.info(DIL_PAKETI[aktif_dil]['pwa_guide_text'])
@@ -378,7 +378,40 @@ if btn_trigger or st.session_state.get('analyzed', False):
                 m2.metric("Following", len(following_set))
                 m3.metric("Followers", len(followers_set))
 
-                # --- 👑 PREMIUM KORUMALI PANEL ---
+                # --- 🚨 ÖZELLİK 3: ALGORİTMA GÜVENLİK PUANI VE SHADOWBAN RİSKİ ---
+                total_f = len(followers_set) if len(followers_set) > 0 else 1
+                risk_orani = (len(ghosts) + len(unfollowers)) / total_f
+                if risk_orani > 0.45:
+                    s_status, s_color, s_desc = "⚠️ CRITICAL SHADOWBAN RISK", "#d32f2f", "Profilinizdeki hayalet hesap ve vefasız takipçi oranı kritik seviyede! Threads algoritmaları erişiminizi kısıtlıyor olabilir."
+                elif risk_orani > 0.20:
+                    s_status, s_color, s_desc = "⚡ ALGORİTMA SINIRDA", "#f57c00", "Hesabınız sınırda duruyor. Organik erişim gücünüzün düşmemesi için pasif ve bot hesapları temizlemeniz önerilir."
+                else:
+                    s_status, s_color, s_desc = "🛡️ ALGORİTMA GÜVENLİ", "#388e3c", "Tebrikler! Profil süzgeciniz temiz. Threads arama ve keşfet algoritmaları kitle sağlığınızı olumlu puanlıyor."
+
+                # --- 📸 ÖZELLİK 4: THREADS ÖZET VİRAL PAYLAŞIM KARTI ---
+                card_bg = "#121212" if st.session_state.sabit_tema == "Karanlık Gece Modu" else "#f1ede4"
+                card_text = "#ffffff" if st.session_state.sabit_tema == "Karanlık Gece Modu" else "#1c1c1e"
+                
+                st.markdown(f"""
+                <div style='background-color:{card_bg}; border:2px solid #3a7ebf; border-radius:15px; padding:25px; margin-top:15px; text-align:center; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto;'>
+                    <h3 style='color:#3a7ebf; margin-bottom:5px; font-weight:bold;'>🎯 THREADS KARNENİZ</h3>
+                    <p style='color:{card_text}; font-size:14px; margin-top:0px;'>@ {st.session_state.current_active_user} &nbsp;|&nbsp; {datetime.now().strftime('%Y-%m-%d')}</p>
+                    <hr style='border:0; border-top:1px solid #3a7ebf; margin:15px 0;'>
+                    <div style='display:flex; justify-content:space-around; margin:20px 0;'>
+                        <div><span style='font-size:12px; color:#888;'>SAĞLIK SKORU</span><br><b style='font-size:26px; color:#3a7ebf;'>%{health_score}</b></div>
+                        <div><span style='font-size:12px; color:#888;'>FOLLOWERS</span><br><b style='font-size:26px; color:{card_text};'>{len(followers_set)}</b></div>
+                        <div><span style='font-size:12px; color:#888;'>FOLLOWING</span><br><b style='font-size:26px; color:{card_text};'>{len(following_set)}</b></div>
+                    </div>
+                    <div style='background:rgba(58,126,191,0.1); border-radius:8px; padding:12px; margin-top:15px;'>
+                        <span style='font-size:15px; font-weight:bold; color:{s_color};'>{s_status}</span><br>
+                        <p style='font-size:12px; color:{card_text}; margin:5px 0 0 0; line-height:1.4;'>{s_desc}</p>
+                    </div>
+                    <p style='font-size:10px; color:#888; margin-top:20px; font-style:italic;'>📸 Ekran görüntüsü alıp Threads'te @{st.session_state.current_active_user} etiketleyerek paylaş!</p>
+                </div>
+                """, unsafe_allow_html=True)
+                st.write("")
+
+                # --- 👑 PREMIUM KORUMALI PANEL SÜRECİ ---
                 if st.session_state.current_active_user in st.session_state.premium_users:
                     if st.session_state.get('has_history', False):
                         st.write("")
@@ -401,13 +434,13 @@ if btn_trigger or st.session_state.get('analyzed', False):
                 else:
                     st.write("")
                     st.info(DIL_PAKETI[aktif_dil]['premium_notice'])
-
                 # --- BELLEKTE EXCEL OLUŞTURMA MOTORU ---
                 output_excel = io.BytesIO()
                 workbook = xlsxwriter.Workbook(output_excel)
                 header_format = workbook.add_format({'bold': True, 'font_color': 'white', 'bg_color': '#1f4e78', 'border': 1, 'align': 'center'})
                 link_format = workbook.add_format({'font_color': 'blue', 'underline': True})
                 text_format = workbook.add_format({'align': 'left'})
+
                 sheet_unf = workbook.add_worksheet("Beni Takip Etmeyenler")
                 sheet_unf.write_row('A1', ['No', 'Kullanıcı Adı', 'Profil Linki', 'Süre'], header_format)
                 sorted_unf_excel = sorted(unfollowers, key=lambda x: global_following_map.get(x, 0))
@@ -491,6 +524,21 @@ if btn_trigger or st.session_state.get('analyzed', False):
 # --- LOG-OUT VE SİSTEM AYARLARI ALT ALANI ---
 st.write(""); st.divider()
 
+# --- DİNAMİK YEDEKLEME FONKSİYONU (YAKLAŞIM A) ---
+def kod_uret():
+    dict_str = "    st.session_state.user_db = {\n"
+    dict_str += ",\n".join([f'        "{uk}": "{up}"' for uk, up in st.session_state.user_db.items()])
+    dict_str += "\n    }"
+    set_str = "    st.session_state.premium_users = {"
+    set_str += ", ".join([f'"{pu}"' for pu in st.session_state.premium_users])
+    set_str += "}"
+    return f"""# --- BU BLOK PANEL TARAFINDAN OTOMATİK ÜRETİLMİŞTİR ---
+if "user_db" not in st.session_state:
+{dict_str}
+
+if "premium_users" not in st.session_state:
+{set_str}"""
+
 # --- 👑 SADECE MURAT'A ÖZEL GELİŞMİŞ SAAS CANLI ÜYE YÖNETİM MERKEZİ ---
 if st.session_state.current_active_user == "murat":
     with st.expander("👑 Canlı Üye Yönetim Paneli", expanded=False):
@@ -522,7 +570,7 @@ if st.session_state.current_active_user == "murat":
         secilen_üye = st.selectbox("Düzenlenecek Üyeyi Seçin", list(st.session_state.user_db.keys()))
         
         if secilen_üye:
-            g_pass = st.text_input(f"@{secilen_üye} İçin Yeni Şifre (Boş bırakılırsa değişmez)", type="password")
+            g_pass = st.text_input(f"@{secilen_üye} İçin Yeni Şifre (Boş bırakılırsa değişmez)", type="password", key="saas_edit_pass")
             su_anki_rol_idx = 1 if secilen_üye in st.session_state.premium_users else 0
             g_role = st.radio(f"@{secilen_üye} Yetki Seviyesini Değiştir", ["Standart (Kısıtlı)", "Premium (Limitsiz)"], index=su_anki_rol_idx, horizontal=True)
             
@@ -539,23 +587,10 @@ if st.session_state.current_active_user == "murat":
 
         st.divider()
         st.markdown("##### 💾 Kalıcı Kod Güncelleme Bloğu")
-        dict_str = "    st.session_state.user_db = {\n"
-        dict_str += ",\n".join([f'        "{uk}": "{up}"' for uk, up in st.session_state.user_db.items()])
-        dict_str += "\n    }"
-        set_str = "    st.session_state.premium_users = {"
-        set_str += ", ".join([f'"{pu}"' for pu in st.session_state.premium_users])
-        set_str += "}"
-        full_sync_code = f"""# --- BU BLOK PANEL TARAFINDAN OTOMATİK ÜRETİLMİŞTİR ---
-if "user_db" not in st.session_state:
-{dict_str}
+        st.code(kod_uret(), language="python")
 
-if "premium_users" not in st.session_state:
-{set_str}"""
-        st.code(full_sync_code, language="python")
-
-# --- REVIZE Gelişmiş Hesap Ayarları Kutusu ---
+# --- Gelişmiş Hesap Ayarları Kutusu ---
 with st.expander("⚙️ Gelişmiş Hesap Ayarları (Profil ve Tercihler)", expanded=False):
-    # 1. Profil Bilgileri Kartı
     st.markdown("##### 📊 Profil Bilgileri Kartı")
     st.write(f"• **Kullanıcı Adınız:** `@{st.session_state.current_active_user}`")
     st.write(f"• **Erişim Seviyeniz:** {'👑 Premium (Limitsiz)' if is_user_premium else '👤 Standart (Kısıtlı)'}")
@@ -563,7 +598,6 @@ with st.expander("⚙️ Gelişmiş Hesap Ayarları (Profil ve Tercihler)", expa
     
     st.divider()
     
-    # 2. Otomatik Tema Sabitleyici
     st.markdown("##### 🌓 Otomatik Tema Sabitleyici")
     secilen_sabit = st.radio("Sistem temasını sabitleyin:", ["Karanlık Gece Modu", "Premium Fildişi & Kemik Modu"], index=0 if st.session_state.sabit_tema == "Karanlık Gece Modu" else 1)
     if secilen_sabit != st.session_state.sabit_tema:
@@ -573,26 +607,30 @@ with st.expander("⚙️ Gelişmiş Hesap Ayarları (Profil ve Tercihler)", expa
         
     st.divider()
     
-    # 3. Bildirim ve Tercih Yönetimi
     st.markdown("##### 🔔 Bildirim ve Tercih Yönetimi")
     st.session_state.chk_outdated_alert = st.checkbox("Yüklenen Threads verilerim 30 günden eskiyse beni uyar", value=st.session_state.get("chk_outdated_alert", True))
     st.checkbox("Yeni analiz motoru güncellemelerini ana ekranda göster", value=True)
     
     st.divider()
     
-    # 4. Şifre Değiştirme Alanı
     st.markdown("##### 🔑 Giriş Şifresini Değiştir")
     yeni_sifre_input = st.text_input("Yeni Şifrenizi Girin", type="password", key="change_password_box").strip()
     sifre_onay_btn = st.button("ŞİFREYİ GÜNCELLE (İstediğiniz Şifreyi @muratsener Profili Üzerinden Bildiriniz)", use_container_width=True)
-    if sifre_onay_btn and yeni_sifre_input:
-        st.session_state.user_db[st.session_state.current_active_user] = yeni_sifre_input
-        st.success("🎉 Şifreniz başarıyla güncellendi!")
+    
+    if (sifre_onay_btn and yeni_sifre_input) or st.session_state.get("sifre_degisti_mi", False):
+        if sifre_onay_btn and yeni_sifre_input:
+            st.session_state.user_db[st.session_state.current_active_user] = yeni_sifre_input
+            st.session_state.sifre_degisti_mi = True
+            st.success("🎉 Şifreniz başarıyla güncellendi!")
+        
+        st.write("")
+        st.warning("💾 **ŞİFRENİZİ KALICI YAPIN:** Sayfa yenilendiğinde şifrenizin sıfırlanmaması için aşağıdaki kodu kopyalayıp admin panelinize iletin veya `app.py` dosyanızdaki **Parça 5**'e yapıştırın.")
+        st.code(kod_uret(), language="python")
 
-# --- 🗑️ REVIZE: GÜVENLİ OTURUMU KAPAT VE TÜM VERİLERİ TEMİZLE (DEEP CLEAN) ---
+# --- 🗑️ GÜVENLİ OTURUMU KAPAT VE TÜM VERİLERİ TEMİZLE ---
 st.write("")
 logout_click = st.button("🗑️ OTURUMU KAPAT VE TÜM VERİLERİ TEMİZLE (DEEP CLEAN)", use_container_width=True, type="secondary")
 if logout_click:
-    # Derin temizlik için session hafızasındaki tüm kritik verileri ve yüklenen dosyaları uçur
     for key in list(st.session_state.keys()):
         del st.session_state[key]
     st.session_state.logged_in = False
