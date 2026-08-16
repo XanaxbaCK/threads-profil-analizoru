@@ -35,7 +35,7 @@ st.components.v1.html(
 # --- ÇOKLU DİL SÖZLÜĞÜ (TR / EN) ---
 DIL_PAKETI = {
     "TR": {
-        "main_title": "THREADS TÜRKİYE / MURAT & ESRA İŞ BİRLİĞİ (CAN&KAN)",
+        "main_title": "THREADS TÜRKİYE / MURAT ŞENER ",
         "main_sub": "YEREL VE GÜVENLİ ÇİFT YÖNLÜ PROFİL TAKİPÇİ SİSTEMİ // MOBİL SÜRÜM",
         "main_hashtag": "#bendeğilbizyaptık",
         "load_batch": "📁 Ham .zip Dosyasını veya .json Dosyalarını Sürükleyin / Seçin",
@@ -58,7 +58,7 @@ DIL_PAKETI = {
         "guide_step2": "1️⃣ **Threads** uygulamasını açın ve **Ayarlar -> Hesaplar Merkezi** bölümüne girin.",
         "guide_step3": "2️⃣ **Bilgilerin ve İzinlerin -> Bilgilerini İndir** adımlarını takip edin.",
         "guide_step4": "3️⃣ **Indirme Talep Et** butonuna basın ve sadece **Threads** seçeneğini işaretleyin.",
-        "guide_step5": "4️⃣ Dosya formatını **JSON** (ÖNEMLİ!), medya kalitesini **Düşük** seçip talebi onaylayın.",
+        "guide_step5": "4️⃣ Dosya formatını **JSON** (ÖNEMLİ!), medya kalitesini **Düşük** Tarih aralığını da **En Baştan** (ÖNEMLİ!) seçip talebi onaylayın.",
         "guide_step6": "5️⃣ E-postanıza gelen ham `.zip` dosyasını klasöre açmadan direkt yükleyebilir veya içindeki `connections/followers_and_following` klasöründen dosyaları seçebilirsiniz.",
         "contact_btn": "💬 YAPIMCI İLE İLETİŞİME GEÇ (@muratsenr)",
         "player_title": "🎵 Arka Plan Müziğini Zorla Koydurdu",
@@ -82,7 +82,7 @@ DIL_PAKETI = {
         "welcome_user": "Hoş geldiniz, {user}"
     },
     "EN": {
-        "main_title": "THREADS GLOBAL / MURAT & ESRA PRODUCER",
+        "main_title": "THREADS GLOBAL / MURAT ŞENER PRODUCER",
         "main_sub": "LOCAL AND SECURE BI-DIRECTIONAL PROFILE ANALYSIS SYSTEM // MOBILE ACT",
         "main_hashtag": "#notmebutwe",
         "load_batch": "📁 Drag & Drop Raw .zip or Multiple .json Files Here",
@@ -180,17 +180,18 @@ class AnalizMotoru:
 # --- 🔑 GÜVENLİ VE KALICI DEĞİŞTİRİLEBİLİR KOD TABANLI VERİ TABANI ---
 if "user_db" not in st.session_state:
     st.session_state.user_db = {
-        "murat": "esra",
-        "esra": "murat",
-        "demo": "threads2026",
+        "murat": "snr",
+        "esra": "esra",
+        "demo": "demo",
         "ömür": "deniz",
         "deniz": "ömür",
         "rıdvan": "gönül",
         "irem": "irem",
+        "sinem": "sinem"
     }
 
 if "premium_users" not in st.session_state:
-    st.session_state.premium_users = {"murat", "esra", "ömür", "deniz", "rıdvan", "irem"}
+    st.session_state.premium_users = {"murat", "esra", "ömür", "deniz", "rıdvan", "irem","sinem"}
 
 if "logged_in" not in st.session_state:
     st.session_state.logged_in = False
@@ -217,7 +218,7 @@ if not st.session_state.logged_in:
         st.markdown("<h4 style='color:#3a7ebf; margin-top:0px;'><b>🔒 SİSTEME GÜVENLİ GİRİŞ</b></h4>", unsafe_allow_html=True)
         input_user = st.text_input("👤 Kullanıcı Adı", key="login_username_field").strip().lower()
         input_pass = st.text_input("🔑 Şifre", type="password", key="login_password_field").strip()
-        login_click = st.button("SİSTEME GİRİŞ YAP", use_container_width=True, type="primary")
+        login_click = st.button("GİRİŞ YAP", use_container_width=True, type="primary")
         
         if login_click:
             if input_user in st.session_state.user_db and st.session_state.user_db[input_user] == input_pass:
@@ -274,7 +275,7 @@ st.caption(DIL_PAKETI[aktif_dil]['main_sub'])
 st.divider()
 
 st.caption(DIL_PAKETI[aktif_dil]['player_title'])
-st.link_button(label="▶️ YAPARKEN DİNLERSİNİZ YA (Göndermeli Şarkı)", url="https://www.youtube.com/watch?v=fdFvJGKzPNQ", use_container_width=True)
+st.link_button(label="▶️ YAPARKEN DİNLERSİNİZ BELKİ (Göndermeli Şarkı)", url="https://www.youtube.com/watch?v=fdFvJGKzPNQ", use_container_width=True)
 
 with st.expander(DIL_PAKETI[aktif_dil]['guide_title'], expanded=False):
     st.info(DIL_PAKETI[aktif_dil]['pwa_guide_text'])
