@@ -383,7 +383,7 @@ if btn_trigger or st.session_state.get('analyzed', False):
                 total_f = len(followers_set) if len(followers_set) > 0 else 1
                 risk_orani = (len(ghosts) + len(unfollowers)) / total_f
                 if risk_orani > 0.45:
-                    s_status, s_color, s_desc = "⚠️ CRITICAL SHADOWBAN RISK", "#d32f2f", "Profilinizdeki hayalet hesap ve vefasız takipçi oranı kritik seviyede! Threads algoritmaları erişiminizi kısıtlıyor olabilir."
+                    s_status, s_color, s_desc = "⚠️ CRITICAL SHWBAN RISK", "#d32f2f", "Profilinizdeki hayalet hesap ve vefasız takipçi oranı kritik seviyede! Threads algoritmaları erişiminizi kısıtlıyor olabilir."
                 elif risk_orani > 0.20:
                     s_status, s_color, s_desc = "⚡ ALGORİTMA SINIRDA", "#f57c00", "Hesabınız sınırda duruyor. Organik erişim gücünüzün düşmemesi için pasif ve bot hesapları temizlemeniz önerilir."
                 else:
@@ -395,7 +395,7 @@ if btn_trigger or st.session_state.get('analyzed', False):
                 
                 st.markdown(f"""
                 <div style='background-color:{card_bg}; border:2px solid #3a7ebf; border-radius:15px; padding:25px; margin-top:15px; text-align:center; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto;'>
-                    <h3 style='color:#3a7ebf; margin-bottom:5px; font-weight:bold;'>🎯 THREADS KARNENİZ</h3>
+                    <h3 style='color:#3a7ebf; margin-bottom:5px; font-weight:bold;'>🎯 THREADS DURUM</h3>
                     <p style='color:{card_text}; font-size:14px; margin-top:0px;'>@ {st.session_state.current_active_user} &nbsp;|&nbsp; {datetime.now().strftime('%Y-%m-%d')}</p>
                     <hr style='border:0; border-top:1px solid #3a7ebf; margin:15px 0;'>
                     <div style='display:flex; justify-content:space-around; margin:20px 0;'>
