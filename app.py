@@ -61,7 +61,6 @@ DIL_PAKETI = {
         "guide_step5": "4️⃣ Dosya formatını **JSON** (ÖNEMLİ!), medya kalitesini **Düşük** Tarih aralığını da **En Baştan** (ÖNEMLİ!) seçip talebi onaylayın.",
         "guide_step6": "5️⃣ E-postanıza gelen ham `.zip` dosyasını klasöre açmadan direkt yükleyebilir veya içindeki `connections/followers_and_following` klasöründen dosyaları seçebilirsiniz.",
         "contact_btn": "💬 YAPIMCI İLE İLETİŞİME GEÇ (@muratsenr)",
-        "player_title": "🎵 Arka Plan Müziğini Zorla Koydurdu",
         "search_placeholder": "🔍 Listede kullanıcı adı ara...",
         "chart_title": "📈 Profil Dağılım Grafiği",
         "sort_label": "🌓 Zaman Sıralaması",
