@@ -400,14 +400,14 @@ if btn_trigger or st.session_state.get('analyzed', False):
                     <hr style='border:0; border-top:1px solid #3a7ebf; margin:15px 0;'>
                     <div style='display:flex; justify-content:space-around; margin:20px 0;'>
                         <div><span style='font-size:12px; color:#888;'>SAĞLIK SKORU</span><br><b style='font-size:26px; color:#3a7ebf;'>%{health_score}</b></div>
-                        <div><span style='font-size:12px; color:#888;'>FOLLOWERS</span><br><b style='font-size:26px; color:{card_text};'>{len(followers_set)}</b></div>
-                        <div><span style='font-size:12px; color:#888;'>FOLLOWING</span><br><b style='font-size:26px; color:{card_text};'>{len(following_set)}</b></div>
+                        <div><span style='font-size:12px; color:#888;'>TAKİPÇİLER</span><br><b style='font-size:26px; color:{card_text};'>{len(followers_set)}</b></div>
+                        <div><span style='font-size:12px; color:#888;'>TAKİP ETTİKLERİN</span><br><b style='font-size:26px; color:{card_text};'>{len(following_set)}</b></div>
                     </div>
                     <div style='background:rgba(58,126,191,0.1); border-radius:8px; padding:12px; margin-top:15px;'>
                         <span style='font-size:15px; font-weight:bold; color:{s_color};'>{s_status}</span><br>
                         <p style='font-size:12px; color:{card_text}; margin:5px 0 0 0; line-height:1.4;'>{s_desc}</p>
                     </div>
-                    <p style='font-size:10px; color:#888; margin-top:20px; font-style:italic;'>📸 Ekran görüntüsü alıp Threads'te @{st.session_state.current_active_user} etiketleyerek paylaş!</p>
+                    <p style='font-size:10px; color:#888; margin-top:20px; font-style:italic;'>📸 Ekran görüntüsü alıp Threads'te @muratsenr{st.session_state.current_active_user} etiketleyerek paylaş!</p>
                 </div>
                 """, unsafe_allow_html=True)
                 st.write("")
