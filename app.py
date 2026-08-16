@@ -36,7 +36,7 @@ st.components.v1.html(
 DIL_PAKETI = {
     "TR": {
         "main_title": "THREADS TÜRKİYE / MURAT ŞENER ",
-        "main_sub": "YEREL VE GÜVENLİ ÇİFT YÖNLÜ PROFİL TAKİPÇİ SİSTEMİ // MOBİL SÜRÜM",
+        "main_sub": "YEREL VE GÜVENLİ ÇİFT YÖNLÜ PROFİL TAKİPÇİ SİSTEMİ // MOBİL & WEB SÜRÜM",
         "main_hashtag": "#bendeğilbizyaptık",
         "load_batch": "📁 Ham .zip Dosyasını veya .json Dosyalarını Sürükleyin / Seçin",
         "btn_analyze": "ANALİZİ BAŞLAT",
@@ -83,7 +83,7 @@ DIL_PAKETI = {
 
         "EN": {
         "main_title": "THREADS GLOBAL / MURAT ŞENER PRODUCER",
-        "main_sub": "LOCAL AND SECURE BI-DIRECTIONAL PROFILE ANALYSIS SYSTEM // MOBILE ACT",
+        "main_sub": "LOCAL AND SECURE BI-DIRECTIONAL PROFILE ANALYSIS SYSTEM // MOBILE ACT & WEB",
         "main_hashtag": "#notmebutwe",
         "load_batch": "📁 Drag & Drop Raw .zip or Multiple .json Files Here",
         "btn_analyze": "START ANALYSIS",
