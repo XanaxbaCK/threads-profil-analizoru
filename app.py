@@ -193,7 +193,7 @@ if "user_db" not in st.session_state:
     }
 
 if "premium_users" not in st.session_state:
-    st.session_state.premium_users = {"murat", "esra", "ömür", "deniz", "rıdvan", "irem", "sinemk","elisa","alkan"}
+    st.session_state.premium_users = {"murat", "esra", "ömür", "deniz", "rıdvan", "irem", "sinemk","elisa","alkan",}
 
 if "logged_in" not in st.session_state:
     st.session_state.logged_in = False
