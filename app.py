@@ -189,7 +189,7 @@ if "user_db" not in st.session_state:
         "irem": "irem",
         "sinemk": "sinem",
         "elisa": "elisa",
-        "alkan": "alkan"
+        "alkan": "alkan",
     }
 
 if "premium_users" not in st.session_state:
