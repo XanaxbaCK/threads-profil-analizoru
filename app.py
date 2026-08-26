@@ -180,21 +180,17 @@ class AnalizMotoru:
 # --- 🔑 GÜVENLİ VE KALICI DEĞİŞTİRİLEBİLİR KOD TABANLI VERİ TABANI ---
 if "user_db" not in st.session_state:
     st.session_state.user_db = {
-        "murat": "snr",
-        "esra": "esra",
+        "murat": "snr", 
         "demo": "demo",
-        "ömür": "deniz",
-        "deniz": "ömür",
-        "rıdvan": "gönül",
-        "irem": "irem",
         "sinemk": "sinem",
         "elisa": "elisa",
         "alkan": "alkan",
         "büşra": "büşra",
+        "azad": "azad",
     }
 
 if "premium_users" not in st.session_state:
-    st.session_state.premium_users = {"murat", "esra", "ömür", "deniz", "rıdvan", "irem", "sinemk","elisa","alkan","büşra",}
+    st.session_state.premium_users = {"murat","sinemk","elisa","alkan","büşra","azad",}
 
 if "logged_in" not in st.session_state:
     st.session_state.logged_in = False
