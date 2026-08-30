@@ -44,7 +44,7 @@ DIL_PAKETI = {
         "tab_fans": "Geri Takip Etmediklerim",
         "tab_my_following": "Benim Takip Ettiklerim",
         "tab_ghosts": "Hayalet (Ghost) Hesaplar",
-        "input_error_msg": "Analiz için veri havuzunda en az 'followers.json' and 'following.json' bulunmalıdır.",
+        "input_error_msg": "Analiz için veri havuzunda en az 'followers.json' ve 'following.json' bulunmalıdır.",
         "parse_error_msg": "Yüklenen JSON şeması siber motor tarafından çözümlenemedi.",
         "success_msg": "Dosyalar tarandı, Excel raporları köprü linkleriyle üretildi!",
         "perfect_sync": "🎉 [KUSURSUZ SENKRONİZASYON]: Herkes sizi geri takip ediyor!",
@@ -76,7 +76,7 @@ DIL_PAKETI = {
         "login_success": "🔓 Erişim Yetkisi Onaylandı! Sistem yükleniyor...",
         "login_error": "❌ Hatalı Kullanıcı Adı veya Şifre! Lütfen tekrar deneyin.",
         "outdated_warning": "⏳ **DİKKAT: ESKİ VERİ SETİ ALGILANDI**\n\nYüklediğiniz veri paketleri en son {days} gün önce güncellenmiş görünüyor. En doğru sonuçlar için lütfen Threads verilerinizi yeniden indirin.",
-        "logout_btn": "🔒 OTURUMU GÜVENLİ KAPAT (ÇIKIŞ YAP)",
+        "logout_btn": "🔒 OTURUMU GÜVEN GİRİŞİ KAPAT (ÇIKIŞ YAP)",
         "premium_notice": "👑 **PREMIUM ÖZELLİK KİLİTLİ:** Advanced grafik analizler, Excel indirme motoru ve kronolojik zaman sıralaması sadece Premium üyelere özeldir. Yetki yükseltmek için lütfen yöneticiyle iletişime geçin.",
         "badge_premium": "👑 Premium Hesap (Sınırsız Erişim)",
         "badge_standard": "👤 Standart Hesap (Kısıtlı Erişim)",
@@ -185,6 +185,17 @@ class AnalizMotoru:
             fark_gun = (datetime.now() - datetime.fromtimestamp(timestamp)).days
             if fark_gun > 540: return True
         return False
+
+    # --- 🚨 YENİ: ÇOKLU TOPLU LİNK AÇICI SİBER JAVASCRIPT MOTORU ---
+    @staticmethod
+    def toplu_link_ac(kullanici_listesi: List[str], limit: int):
+        if not kullanici_listesi: return
+        hedef_liste = kullanici_listesi[:limit]
+        js_kodları = ""
+        for u in hedef_liste:
+            js_kodları += f"window.open('https://threads.com@{u}', '_blank');\n"
+        
+        st.components.v1.html(f"<script>{js_kodları}</script>", height=0, width=0)
 # --- 🔑 GÜVENLİ VE KALICI DEĞİŞTİRİLEBİLİR KOD TABANLI VERİ TABANI ---
 if "user_db" not in st.session_state:
     st.session_state.user_db = {"murat": "snr", "demo": "demo", "alkan": "alkan", "büşra": "büşra", "azat": "azat"}
@@ -194,6 +205,10 @@ if "premium_users" not in st.session_state:
 
 if "islem_yapilanlar" not in st.session_state:
     st.session_state.islem_yapilanlar = set()
+
+# --- 🚨 YENİ: TAKİPTEN ÇIKANLAR CANLI GEÇMİŞ HAFIZASI ---
+if "unfollowed_history" not in st.session_state:
+    st.session_state.unfollowed_history = set()
 
 if "logged_in" not in st.session_state:
     st.session_state.logged_in = False
@@ -232,7 +247,7 @@ with col_lang: aktif_dil = st.selectbox("🌐 Language / Dil", ["TR", "EN"])
 with col_hashtag: st.markdown(f"<h4 style='text-align: right; color: #3a7ebf; margin-top: 5px;'>{DIL_PAKETI[aktif_dil]['main_hashtag']}</h4>", unsafe_allow_html=True)
 
 st.markdown(f"### {DIL_PAKETI[aktif_dil]['main_title']}"); st.caption(DIL_PAKETI[aktif_dil]['main_sub']); st.divider()
-st.link_button(label="▶️ YAPARKEN DİNLERSİNİZ BELKİ (Göndermeli Şarkı)", url="https://www.youtube.com/watch?v=7S-E0spllUM", use_container_width=True)
+st.link_button(label="▶️ YAPARKEN DİNLERSİNİZ BELKİ (Göndermeli Şarkı)", url="https://youtube.com", use_container_width=True)
 
 with st.expander(DIL_PAKETI[aktif_dil]['guide_title'], expanded=False):
     st.info(DIL_PAKETI[aktif_dil]['pwa_guide_text'])
@@ -260,10 +275,19 @@ if st.button(DIL_PAKETI[aktif_dil]['btn_analyze'], use_container_width=True, typ
     else:
         try:
             if 'unfollowers' not in st.session_state:
+                # Hafıza karşılaştırması için eski takipçi kümesini koruma altına alma
+                eski_takipciler = st.session_state.get("followers_set", set())
+
                 st.session_state.global_following_map = AnalizMotoru.akilli_süre_ayristir(json.loads(siber_json_coz(following_bytes)))
                 st.session_state.global_followers_map = AnalizMotoru.akilli_süre_ayristir(json.loads(siber_json_coz(followers_bytes)))
                 st.session_state.following_set, st.session_state.followers_set = set(st.session_state.global_following_map.keys()), set(st.session_state.global_followers_map.keys())
                 
+                # --- 🚨 YENİ: UNFOLLOW (TAKİPTEN ÇIKANLAR) TESPİT ALGORİTMASI ---
+                if len(eski_takipciler) > 0:
+                    yeni_unfollowers = eski_takipciler - st.session_state.followers_set
+                    if yeni_unfollowers:
+                        st.session_state.unfollowed_history.update(yeni_unfollowers)
+
                 st.session_state.current_unfollowers = st.session_state.following_set - st.session_state.followers_set
                 st.session_state.current_fans = st.session_state.followers_set - st.session_state.following_set
                 st.session_state.current_my_following = st.session_state.following_set
@@ -310,7 +334,6 @@ if st.button(DIL_PAKETI[aktif_dil]['btn_analyze'], use_container_width=True, typ
 
                 if st.session_state.current_active_user in st.session_state.premium_users:
                     st.write(""); st.markdown(f"##### {DIL_PAKETI[aktif_dil]['chart_title']}")
-                    # --- 🚨 GÜNCELLEME: BAR GRAFİK ETKİLEŞİMDEN ARINDIRILDI ---
                     st.bar_chart(data={"Kategori": ["Takip Etmeyenler", "Karşılıklı", "Hayranlar", "Takip Ettiklerim", "Hayaletler"], "Sayı": [len(dinamik_unfollowers), len(dinamik_my_following & (followers_set - islem_yapilanlar)), len(dinamik_fans), len(dinamik_my_following), len(dinamik_ghosts)]}, x="Kategori", y="Sayı", use_container_width=True)
                 st.info(DIL_PAKETI[aktif_dil]['premium_notice'])
                 output_excel = io.BytesIO()
@@ -320,25 +343,25 @@ if st.button(DIL_PAKETI[aktif_dil]['btn_analyze'], use_container_width=True, typ
                 sheet_unf = workbook.add_worksheet("Beni Takip Etmeyenler")
                 sheet_unf.write_row('A1', ['No', 'Kullanıcı Adı', 'Profil Linki', 'Süre'], header_format)
                 for idx, user in enumerate(sorted(dinamik_unfollowers, key=lambda x: global_following_map.get(x, 0)), 1):
-                    sheet_unf.write_row(idx, 0, [idx, f"@{user}", f"https://threads.com/@{user}", AnalizMotoru.zaman_metnine_cevir(global_following_map.get(user, 0))])
+                    sheet_unf.write_row(idx, 0, [idx, f"@{user}", f"https://threads.com@{user}", AnalizMotoru.zaman_metnine_cevir(global_following_map.get(user, 0))])
                 sheet_unf.set_column('B:C', 25); sheet_unf.set_column('C:C', 45)
 
                 sheet_fans = workbook.add_worksheet("Geri Takip Etmediklerim")
                 sheet_fans.write_row('A1', ['No', 'Kullanıcı Adı', 'Profil Linki', 'Süre'], header_format)
                 for idx, user in enumerate(sorted(dinamik_fans, key=lambda x: global_followers_map.get(x, 0)), 1):
-                    sheet_fans.write_row(idx, 0, [idx, f"@{user}", f"https://threads.com/@{user}", AnalizMotoru.zaman_metnine_cevir(global_followers_map.get(user, 0))])
+                    sheet_fans.write_row(idx, 0, [idx, f"@{user}", f"https://threads.com@{user}", AnalizMotoru.zaman_metnine_cevir(global_followers_map.get(user, 0))])
                 sheet_fans.set_column('B:C', 25); sheet_fans.set_column('C:C', 45)
 
                 sheet_my_f = workbook.add_worksheet("Benim Takip Ettiklerim")
                 sheet_my_f.write_row('A1', ['No', 'Kullanıcı Adı', 'Profil Linki', 'Süre'], header_format)
                 for idx, user in enumerate(sorted(dinamik_my_following, key=lambda x: global_following_map.get(x, 0)), 1):
-                    sheet_my_f.write_row(idx, 0, [idx, f"@{user}", f"https://threads.com/@{user}", AnalizMotoru.zaman_metnine_cevir(global_following_map.get(user, 0))])
+                    sheet_my_f.write_row(idx, 0, [idx, f"@{user}", f"https://threads.com@{user}", AnalizMotoru.zaman_metnine_cevir(global_following_map.get(user, 0))])
                 sheet_my_f.set_column('B:C', 25); sheet_my_f.set_column('C:C', 45)
 
                 sheet_gh = workbook.add_worksheet("Hayalet Hesaplar")
                 sheet_gh.write_row('A1', ['No', 'Kullanıcı Adı', 'Profil Linki', 'Süre'], header_format)
                 for idx, user in enumerate(sorted(dinamik_ghosts, key=lambda x: global_followers_map.get(x, 0)), 1):
-                    sheet_gh.write_row(idx, 0, [idx, f"@{user}", f"https://threads.com/@{user}", AnalizMotoru.zaman_metnine_cevir(global_followers_map.get(user, 0))])
+                    sheet_gh.write_row(idx, 0, [idx, f"@{user}", f"https://threads.com@{user}", AnalizMotoru.zaman_metnine_cevir(global_followers_map.get(user, 0))])
                 sheet_gh.set_column('B:C', 25); sheet_gh.set_column('C:C', 45); workbook.close(); output_excel.seek(0)
                 
                 if st.session_state.current_active_user in st.session_state.premium_users:
@@ -351,19 +374,29 @@ if st.button(DIL_PAKETI[aktif_dil]['btn_analyze'], use_container_width=True, typ
                 sorted_my_following = sorted(dinamik_my_following, key=lambda x: global_following_map.get(x, 0), reverse=is_reverse)
                 sorted_gh = sorted(dinamik_ghosts, key=lambda x: global_followers_map.get(x, 0), reverse=is_reverse)
 
-                # --- 🚨 GÜNCELLEME: 4 NET SEKMELİ KUSURSUZ YAPIYA GEÇİLDİ ---
                 t1, t2, t3, t4 = st.tabs([DIL_PAKETI[aktif_dil]['tab_unfollowers'], DIL_PAKETI[aktif_dil]['tab_fans'], DIL_PAKETI[aktif_dil]['tab_my_following'], DIL_PAKETI[aktif_dil]['tab_ghosts']])
                 
                 def render_list(target_list, prefix, is_following_map=True):
                     fil = [u for u in target_list if clean_query in u.lower()] if clean_query else target_list
+                    
+                    # --- 🚨 YENİ: ÇOKLU TOPLU LİNK AÇICI MOBİL BUTONLARI ENJEKTE EDİLDİ ---
                     if fil:
+                        lc1, lc2, _ = st.columns([0.35, 0.35, 0.30])
+                        with lc1:
+                            if st.button("🚀 İlk 5 Profili Aç", key=f"toplu_5_{prefix}", use_container_width=True):
+                                AnalizMotoru.toplu_link_ac(fil, 5)
+                        with lc2:
+                            if st.button("🚀 İlk 10 Profili Aç", key=f"toplu_10_{prefix}", use_container_width=True):
+                                AnalizMotoru.toplu_link_ac(fil, 10)
+                        st.write("")
+
                         for index, user in enumerate(fil, 1):
                             c_item, c_btn = st.columns([0.75, 0.25])
                             with c_item:
                                 ts_v = global_following_map.get(user, 0) if is_following_map else global_followers_map.get(user, 0)
-                                st.markdown(f"[{index:03d}] 🔗 [@{user}](https://threads.com/@{user}) &nbsp;&nbsp;&nbsp;&nbsp; <b>⌛ {AnalizMotoru.zaman_metnine_cevir(ts_v)}</b>", unsafe_allow_html=True)
+                                st.markdown(f"[{index:03d}] 🔗 [@{user}](https://threads.com@{user}) &nbsp;&nbsp;&nbsp;&nbsp; <b>⌛ {AnalizMotoru.zaman_metnine_cevir(ts_v)}</b>", unsafe_allow_html=True)
                             with c_btn:
-                                if st.button("Listeden Kaldır", key=f"btn_done_{prefix}_{user}_{index}"):
+                                if st.button("✔️ İşlem Yapıldı", key=f"btn_done_{prefix}_{user}_{index}"):
                                     st.session_state.islem_yapilanlar.add(user)
                                     st.rerun()
                     else: st.info("Gösterilecek hesap kalmadı.")
@@ -376,12 +409,13 @@ if st.button(DIL_PAKETI[aktif_dil]['btn_analyze'], use_container_width=True, typ
 
 st.write(""); st.divider()
 
+# --- 📋 1. KATALOG: İŞLEM YAPILANLARIN LİSTESİ ---
 with st.expander(f"📋 İşlem Yapılanların Listesi ({len(st.session_state.islem_yapilanlar)})", expanded=False):
     if len(st.session_state.islem_yapilanlar) > 0:
         st.markdown("<p style='color:#3a7ebf; font-weight:bold;'>✔️ İŞLEM YAPILAN HESAPLAR</p>", unsafe_allow_html=True)
         for i_idx, i_user in enumerate(sorted(list(st.session_state.islem_yapilanlar)), 1):
             col_u_name, col_undo = st.columns([0.75, 0.25])
-            with col_u_name: st.markdown(f"[{i_idx:03d}] 🔗 [@{i_user}](https://threads.com/@{i_user})", unsafe_allow_html=True)
+            with col_u_name: st.markdown(f"[{i_idx:03d}] 🔗 [@{i_user}](https://threads.com@{i_user})", unsafe_allow_html=True)
             with col_undo:
                 if st.button("↩️ Geri Al", key=f"undo_{i_user}_{i_idx}"):
                     st.session_state.islem_yapilanlar.discard(i_user)
@@ -389,6 +423,15 @@ with st.expander(f"📋 İşlem Yapılanların Listesi ({len(st.session_state.is
         st.divider()
     if st.button("🔄 Tüm İşlem Yapılan Listesini Sıfırla", use_container_width=True):
         st.session_state.islem_yapilanlar.clear(); st.success("Tüm hesaplar listelere geri yüklendi!"); st.rerun()
+
+# --- 🚨 2. KATALOG: YENİ EKLENEN TAKİPTEN ÇIKANLAR CANLI GEÇMİŞİ ---
+with st.expander(f"🚨 Takipten Çıkanlar Canlı Geçmişi ({len(st.session_state.unfollowed_history)})", expanded=False):
+    if len(st.session_state.unfollowed_history) > 0:
+        st.markdown("<p style='color:#d32f2f; font-weight:bold;'>⚠️ SİZİ YAKIN ZAMANDA TAKİPTEN ÇIKARANLAR</p>", unsafe_allow_html=True)
+        for h_idx, h_user in enumerate(sorted(list(st.session_state.unfollowed_history)), 1):
+            st.markdown(f"[{h_idx:03d}] 🚨 [@{h_user}](https://threads.com@{h_user})", unsafe_allow_html=True)
+    else:
+        st.info("Bu oturumda henüz sizi takipten çıkaran bir hesap algılanmadı. Yeni dosya yüklediğinizde geçmiş hafızası tetiklenecektir.")
 
 if is_user_premium and aktif_u == "murat":
     with st.expander("👑 SaaS Üye Paneli (Admin)", expanded=False):
@@ -417,4 +460,4 @@ if st.button("🗑️ OTURUMU KAPAT VE TÜM VERİLERİ TEMİZLE (DEEP CLEAN)", u
     st.cache_data.clear()
     for k in list(st.session_state.keys()): del st.session_state[k]
     st.session_state.logged_in, st.session_state.analyzed = False, False; st.rerun()
-st.write(""); st.link_button(label=DIL_PAKETI[aktif_dil]['contact_btn'], url="https://threads.com/@muratsenr", use_container_width=True)
+st.write(""); st.link_button(label=DIL_PAKETI[aktif_dil]['contact_btn'], url="https://threads.com@muratsenr", use_container_width=True)
