@@ -233,7 +233,6 @@ if not st.session_state.logged_in:
         input_user = st.text_input("👤 Kullanıcı Adı", key="login_username_field").strip().lower()
         input_pass = st.text_input("🔑 Şifre", type="password", key="login_password_field").strip()
         if st.button("SİSTEME GİRİŞ YAP", use_container_width=True, type="primary"):
-            # --- 🚨 SYNTAX ERROR OPERATÖRÜ "and" OLARAK DÜZELTİLDİ ---
             if input_user in st.session_state.user_db and st.session_state.user_db[input_user] == input_pass:
                 st.session_state.logged_in = True
                 st.session_state.current_active_user = input_user
@@ -407,11 +406,12 @@ if st.button(DIL_PAKETI[aktif_dil]['btn_analyze'], use_container_width=True, typ
 
                 t1, t2, t3, t4, t5 = st.tabs([DIL_PAKETI[aktif_dil]['tab_unfollowers'], DIL_PAKETI[aktif_dil]['tab_fans'], DIL_PAKETI[aktif_dil]['tab_my_following'], DIL_PAKETI[aktif_dil]['tab_no_interaction'], DIL_PAKETI[aktif_dil]['tab_ghosts']])
                 
+                # --- ⚙️ NİZAMİ VE HATASIZ [4, 1] SÜTUN PARAMETRESİ ENJEKTE EDİLDİ ---
                 def render_list(target_list, prefix, is_following_map=True):
                     fil = [u for u in target_list if clean_query in u.lower()] if clean_query else target_list
                     if fil:
                         for index, user in enumerate(fil, 1):
-                            c_item, c_btn = st.columns()
+                            c_item, c_btn = st.columns([4, 1])
                             with c_item:
                                 ts_v = global_following_map.get(user, 0) if is_following_map else global_followers_map.get(user, 0)
                                 st.markdown(f"[{index:03d}] 🔗 [@{user}](https://threads.com@{user}) &nbsp;&nbsp;&nbsp;&nbsp; <b>⌛ {AnalizMotoru.zaman_metnine_cevir(ts_v)}</b>", unsafe_allow_html=True)
@@ -430,12 +430,12 @@ if st.button(DIL_PAKETI[aktif_dil]['btn_analyze'], use_container_width=True, typ
 
 st.write(""); st.divider()
 
-# --- 🚨 1. SIRAYA ALINAN BAĞIMSIZ LİSTE KATALOĞU ---
+# --- 🚨 1. SIRADAKİ KATALOGDA DA PARAMETRE NİZAMİ HALE GETİRİLDİ [4, 1] ---
 with st.expander(f"📋 İşlem Yapılanların Listesi ({len(st.session_state.islem_yapilanlar)})", expanded=False):
     if len(st.session_state.islem_yapilanlar) > 0:
         st.markdown("<p style='color:#3a7ebf; font-weight:bold;'>✔️ İŞLEM YAPILAN HESAPLAR</p>", unsafe_allow_html=True)
         for i_idx, i_user in enumerate(sorted(list(st.session_state.islem_yapilanlar)), 1):
-            col_u_name, col_undo = st.columns()
+            col_u_name, col_undo = st.columns([4, 1])
             with col_u_name: st.markdown(f"[{i_idx:03d}] 🔗 [@{i_user}](https://threads.com@{i_user})", unsafe_allow_html=True)
             with col_undo:
                 if st.button("↩️ Geri Al", key=f"undo_{i_user}_{i_idx}"):
