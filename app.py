@@ -38,20 +38,18 @@ DIL_PAKETI = {
         "main_title": "THREADS TÜRKİYE / MURAT ŞENER ",
         "main_sub": "YEREL VE GÜVENLİ ÇİFT YÖNLÜ PROFİL TAKİPÇİ SİSTEMİ // MOBİL & WEB SÜRÜM",
         "main_hashtag": "#bendeğilbizyaptık",
-        "load_batch": "📁 Ham .zip / .json (followers, following, likes, comments) Dosyalarını Yükleyin",
+        "load_batch": "📁 Ham .zip / .json (followers, following) Dosyalarını Yükleyin",
         "btn_analyze": "ANALİZİ BAŞLAT",
         "tab_unfollowers": "Beni Takip Etmeyenler",
         "tab_fans": "Geri Takip Etmediklerim",
         "tab_my_following": "Benim Takip Ettiklerim",
-        "tab_no_interaction": "Beğeni ve Yorum Atmayanlar (15 Günlük)",
         "tab_ghosts": "Hayalet (Ghost) Hesaplar",
-        "input_error_msg": "Analiz için veri havuzunda en az 'followers.json' ve 'following.json' bulunmalıdır. Etkileşim için 'likes.json' ve 'comments.json' ekleyebilirsiniz.",
+        "input_error_msg": "Analiz için veri havuzunda en az 'followers.json' and 'following.json' bulunmalıdır.",
         "parse_error_msg": "Yüklenen JSON şeması siber motor tarafından çözümlenemedi.",
-        "success_msg": "Dosyalar tarandı, Excel ve TXT raporları köprü linkleriyle üretildi!",
+        "success_msg": "Dosyalar tarandı, Excel raporları köprü linkleriyle üretildi!",
         "perfect_sync": "🎉 [KUSURSUZ SENKRONİZASYON]: Herkes sizi geri takip ediyor!",
         "no_fans": "🎯 [HAYRAN YOK]: Takip ettiğiniz herkesi siz de geri takip ediyorsunuz.",
         "no_my_following": "📢 [TAKİP LİSTESİ BOŞ]: Takip ettiğiniz hiç kimse bulunamadı.",
-        "no_interaction_msg": "🔥 [SÜPER ETKİLEŞİM]: Son 15 günde tüm takipçileriniz beğeni veya yorum attı!",
         "no_ghosts": "🛡️ [TEMİZ PROFİL]: Profilinizde hayalet veya bot hesap algılanmadı.",
         "download_excel": "📥 Excel Analiz Raporunu İndir",
         "summary_title": "📊 PROFİL SAĞLIK ÖZETİ",
@@ -66,7 +64,7 @@ DIL_PAKETI = {
         "guide_step6": "5️⃣ E-postanıza gelen ham `.zip` dosyasını klasöre açmadan direkt yükleyebilir veya içindeki `connections/followers_and_following` klasöründen dosyaları seçebilirsiniz.",
         "contact_btn": "💬 YAPIMCI İLE İLETİŞİME GEÇ (@muratsenr)",
         "search_placeholder": "🔍 Listede kullanıcı adı ara...",
-        "chart_title": "📈 Profil Analiz ve Etkileşim Dağılımı",
+        "chart_title": "📈 Profil Analiz Dağılımı",
         "sort_label": "⏳ Zaman Sıralaması",
         "sort_newest": "Önce En Yeni (Kronolojik)",
         "sort_oldest": "Önce En Eski (Nostaljik)",
@@ -88,20 +86,18 @@ DIL_PAKETI = {
         "main_title": "THREADS GLOBAL / MURAT ŞENER PRODUCER",
         "main_sub": "LOCAL AND SECURE BI-DIRECTIONAL PROFILE ANALYSIS SYSTEM // MOBILE ACT & WEB",
         "main_hashtag": "#notmebutwe",
-        "load_batch": "📁 Upload Raw .zip or Multiple .json (followers, following, likes, comments) Files",
+        "load_batch": "📁 Upload Raw .zip or Multiple .json (followers, following) Files",
         "btn_analyze": "START ANALYSIS",
         "tab_unfollowers": "Not Following Me Back",
         "tab_fans": "I Am Not Following Back",
         "tab_my_following": "Whom I Follow",
-        "tab_no_interaction": "No Likes & Comments (15 Days)",
         "tab_ghosts": "Ghost / Inactive Accounts",
-        "input_error_msg": "Analysis requires at least 'followers.json' and 'following.json' in the pool. You can add 'likes.json' and 'comments.json' for interaction data.",
+        "input_error_msg": "Analysis requires at least 'followers.json' and 'following.json' in the pool.",
         "parse_error_msg": "The uploaded JSON schema could not be resolved by the engine.",
-        "success_msg": "Files scanned, Excel and TXT reports generated with clickable links!",
+        "success_msg": "Files scanned, Excel reports generated with clickable links!",
         "perfect_sync": "🎉 [PERFECT SYNC]: Everyone is following you back!",
         "no_fans": "🎯 [NO FANS]: You are following back everyone who follows you.",
         "no_my_following": "📢 [FOLLOWING LIST EMPTY]: No accounts found in your following list.",
-        "no_interaction_msg": "🔥 [SUPER ENGAGEMENT]: All your followers liked or commented in the last 15 days!",
         "no_ghosts": "🛡️ [CLEAN PROFILE]: No ghost or bot accounts detected on your profile.",
         "download_excel": "📥 Download Excel Analysis Report",
         "summary_title": "📊 PROFILE HEALTH SUMMARY",
@@ -116,7 +112,7 @@ DIL_PAKETI = {
         "guide_step6": "5️⃣ Upload the raw `.zip` file from your email directly, or browse and extract files inside connections folder.",
         "contact_btn": "💬 CONTACT DEVELOPER (@muratsenr)",
         "search_placeholder": "🔍 Search username in list...",
-        "chart_title": "📈 Profile Interaction Chart",
+        "chart_title": "📈 Profile Analysis Distribution",
         "sort_label": "⏳ Time Sorting",
         "sort_newest": "Newest First (Chronological)",
         "sort_oldest": "Oldest First",
@@ -189,39 +185,6 @@ class AnalizMotoru:
             fark_gun = (datetime.now() - datetime.fromtimestamp(timestamp)).days
             if fark_gun > 540: return True
         return False
-
-    @staticmethod
-    def yorum_etkileşimi_ara(data: Any, sınır_timestamp: int, aktif_kullanıcı_adı: str) -> set:
-        """🚨 HAKİKİ ETKİLEŞİM MOTORU: Sadece size gelen yorum ve aksiyon sahiplerini yakalar."""
-        etkilesim_verenler = set()
-        
-        def tara(d):
-            if isinstance(d, dict):
-                # Meta şemasında yorum yazarını veya title bilgisini süzme
-                user_val = None
-                ts_val = d.get("timestamp", 0)
-                
-                # Yorum yapan kişinin datasını ve zamanını yakalama
-                if "string_list_data" in d and isinstance(d["string_list_data"], list):
-                    for s in d["string_list_data"]:
-                        if isinstance(s, dict) and "value" in s:
-                            val = str(s["value"]).strip()
-                            if val and not val.isdigit() and not val.startswith("http"):
-                                user_val = val
-                            ts_val = s.get("timestamp", ts_val)
-                
-                # Eğer zaman damgası son 15 gün içindeyse listeye ekle
-                if user_val and ts_val >= sınır_timestamp:
-                    clean_u = user_val.replace("@", "").strip()
-                    if clean_u and clean_u.lower() != aktif_kullanıcı_adı.lower():
-                        etkilesim_verenler.add(clean_u)
-                        
-                for v in d.values(): tara(v)
-            elif isinstance(d, list):
-                for item in d: tara(item)
-                
-        tara(data)
-        return etkilesim_verenler
 # --- 🔑 GÜVENLİ VE KALICI DEĞİŞTİRİLEBİLİR KOD TABANLI VERİ TABANI ---
 if "user_db" not in st.session_state:
     st.session_state.user_db = {"murat": "snr", "demo": "demo", "alkan": "alkan", "büşra": "büşra", "azat": "azat"}
@@ -276,7 +239,7 @@ with st.expander(DIL_PAKETI[aktif_dil]['guide_title'], expanded=False):
     for s in ['guide_step1', 'guide_step2', 'guide_step3', 'guide_step4', 'guide_step5', 'guide_step6']: st.markdown(DIL_PAKETI[aktif_dil][s])
 
 uploaded_inputs = st.file_uploader(DIL_PAKETI[aktif_dil]['load_batch'], type=["zip", "json"], accept_multiple_files=True)
-following_bytes, followers_bytes, likes_bytes, comments_bytes = None, None, None, None
+following_bytes, followers_bytes = None, None
 
 if uploaded_inputs:
     for item in uploaded_inputs:
@@ -287,26 +250,16 @@ if uploaded_inputs:
                         fname = f_info.filename.lower()
                         if "following.json" in fname: following_bytes = z.read(f_info.filename)
                         elif "followers.json" in fname: followers_bytes = z.read(f_info.filename)
-                        elif "likes.json" in fname: likes_bytes = z.read(f_info.filename)
-                        elif "comments.json" in fname: comments_bytes = z.read(f_info.filename)
             except Exception: st.error("Zip Çözümleme Hatası!")
         elif item.name.lower().endswith(".json"):
             fname = item.name.lower()
             if "following" in fname: following_bytes = item.read()
             elif "followers" in fname: followers_bytes = item.read()
-            elif "likes" in fname: likes_bytes = item.read()
-            elif "comments" in fname: comments_bytes = item.read()
 if st.button(DIL_PAKETI[aktif_dil]['btn_analyze'], use_container_width=True, type="primary") or st.session_state.get('analyzed', False):
     if not following_bytes or not followers_bytes: st.warning(DIL_PAKETI[aktif_dil]['input_error_msg'])
     else:
         try:
             if 'unfollowers' not in st.session_state:
-                if 'current_unfollowers' in st.session_state:
-                    st.session_state.prev_unfollowers, st.session_state.prev_fans = st.session_state.current_unfollowers, st.session_state.current_fans
-                    st.session_state.prev_my_following, st.session_state.prev_no_interaction = st.session_state.current_my_following, st.session_state.current_no_interaction
-                    st.session_state.has_history = True
-                else: st.session_state.has_history = False
-
                 st.session_state.global_following_map = AnalizMotoru.akilli_süre_ayristir(json.loads(siber_json_coz(following_bytes)))
                 st.session_state.global_followers_map = AnalizMotoru.akilli_süre_ayristir(json.loads(siber_json_coz(followers_bytes)))
                 st.session_state.following_set, st.session_state.followers_set = set(st.session_state.global_following_map.keys()), set(st.session_state.global_followers_map.keys())
@@ -314,21 +267,12 @@ if st.button(DIL_PAKETI[aktif_dil]['btn_analyze'], use_container_width=True, typ
                 st.session_state.current_unfollowers = st.session_state.following_set - st.session_state.followers_set
                 st.session_state.current_fans = st.session_state.followers_set - st.session_state.following_set
                 st.session_state.current_my_following = st.session_state.following_set
-                
-                # --- 🚨 %100 NOKTA ATIŞI: SADECE HAKİKİ ETKİLEŞİM SAHİPLERİNİ SÜZEN MOTOR ---
-                sınır_ts = int((datetime.now() - timedelta(days=15)).timestamp())
-                etkileşim_verenler = set()
-                
-                if comments_bytes: 
-                    etkileşim_verenler.update(AnalizMotoru.yorum_etkileşimi_ara(json.loads(siber_json_coz(comments_bytes)), sınır_ts, aktif_u))
-                
-                st.session_state.current_no_interaction = st.session_state.followers_set - etkileşim_verenler
                 st.session_state.ghosts = {u for u, ts in st.session_state.global_followers_map.items() if AnalizMotoru.bot_ve_pasiflik_kontrolü(u, ts)}
                 st.session_state.analyzed = True
 
             global_following_map, global_followers_map = st.session_state.global_following_map, st.session_state.global_followers_map
             following_set, followers_set = st.session_state.following_set, st.session_state.followers_set
-            unfollowers, fans, my_following, no_interaction, ghosts = st.session_state.current_unfollowers, st.session_state.current_fans, st.session_state.current_my_following, st.session_state.current_no_interaction, st.session_state.ghosts
+            unfollowers, fans, my_following, ghosts = st.session_state.current_unfollowers, st.session_state.current_fans, st.session_state.current_my_following, st.session_state.ghosts
 
             if not following_set or not followers_set: st.error(DIL_PAKETI[aktif_dil]['parse_error_msg'])
             else:
@@ -342,7 +286,6 @@ if st.button(DIL_PAKETI[aktif_dil]['btn_analyze'], use_container_width=True, typ
                 dinamik_unfollowers = unfollowers - islem_yapilanlar
                 dinamik_fans = fans - islem_yapilanlar
                 dinamik_my_following = my_following - islem_yapilanlar
-                dinamik_no_interaction = no_interaction - islem_yapilanlar
                 dinamik_ghosts = ghosts - islem_yapilanlar
 
                 aktif_following_count = len(dinamik_my_following)
@@ -367,12 +310,12 @@ if st.button(DIL_PAKETI[aktif_dil]['btn_analyze'], use_container_width=True, typ
 
                 if st.session_state.current_active_user in st.session_state.premium_users:
                     st.write(""); st.markdown(f"##### {DIL_PAKETI[aktif_dil]['chart_title']}")
-                    st.bar_chart(data={"Kategori": ["Takip Etmeyenler", "Karşılıklı", "Hayranlar", "Takip Ettiklerim", "Etkileşimsiz", "Hayaletler"], "Sayı": [len(dinamik_unfollowers), len(dinamik_my_following & (followers_set - islem_yapilanlar)), len(dinamik_fans), len(dinamik_my_following), len(dinamik_no_interaction), len(dinamik_ghosts)]}, x="Kategori", y="Sayı", use_container_width=True)
+                    # --- 🚨 GÜNCELLEME: BAR GRAFİK ETKİLEŞİMDEN ARINDIRILDI ---
+                    st.bar_chart(data={"Kategori": ["Takip Etmeyenler", "Karşılıklı", "Hayranlar", "Takip Ettiklerim", "Hayaletler"], "Sayı": [len(dinamik_unfollowers), len(dinamik_my_following & (followers_set - islem_yapilanlar)), len(dinamik_fans), len(dinamik_my_following), len(dinamik_ghosts)]}, x="Kategori", y="Sayı", use_container_width=True)
                 st.info(DIL_PAKETI[aktif_dil]['premium_notice'])
                 output_excel = io.BytesIO()
                 workbook = xlsxwriter.Workbook(output_excel)
                 header_format = workbook.add_format({'bold': True, 'font_color': 'white', 'bg_color': '#1f4e78', 'border': 1, 'align': 'center'})
-                text_format = workbook.add_format({'align': 'left'})
 
                 sheet_unf = workbook.add_worksheet("Beni Takip Etmeyenler")
                 sheet_unf.write_row('A1', ['No', 'Kullanıcı Adı', 'Profil Linki', 'Süre'], header_format)
@@ -392,12 +335,6 @@ if st.button(DIL_PAKETI[aktif_dil]['btn_analyze'], use_container_width=True, typ
                     sheet_my_f.write_row(idx, 0, [idx, f"@{user}", f"https://threads.com@{user}", AnalizMotoru.zaman_metnine_cevir(global_following_map.get(user, 0))])
                 sheet_my_f.set_column('B:C', 25); sheet_my_f.set_column('C:C', 45)
 
-                sheet_inter = workbook.add_worksheet("Etkileşim Vermeyenler")
-                sheet_inter.write_row('A1', ['No', 'Kullanıcı Adı', 'Profil Linki', 'Durum'], header_format)
-                for idx, user in enumerate(sorted(dinamik_no_interaction, key=lambda x: global_followers_map.get(x, 0)), 1):
-                    sheet_inter.write_row(idx, 0, [idx, f"@{user}", f"https://threads.com@{user}", "Son 15 Gün Etkileşimsiz"])
-                sheet_inter.set_column('B:C', 25); sheet_inter.set_column('C:C', 45)
-
                 sheet_gh = workbook.add_worksheet("Hayalet Hesaplar")
                 sheet_gh.write_row('A1', ['No', 'Kullanıcı Adı', 'Profil Linki', 'Süre'], header_format)
                 for idx, user in enumerate(sorted(dinamik_ghosts, key=lambda x: global_followers_map.get(x, 0)), 1):
@@ -412,10 +349,10 @@ if st.button(DIL_PAKETI[aktif_dil]['btn_analyze'], use_container_width=True, typ
                 sorted_unf = sorted(dinamik_unfollowers, key=lambda x: global_following_map.get(x, 0), reverse=is_reverse)
                 sorted_fans = sorted(dinamik_fans, key=lambda x: global_followers_map.get(x, 0), reverse=is_reverse)
                 sorted_my_following = sorted(dinamik_my_following, key=lambda x: global_following_map.get(x, 0), reverse=is_reverse)
-                sorted_no_inter = sorted(dinamik_no_interaction, key=lambda x: global_followers_map.get(x, 0), reverse=is_reverse)
                 sorted_gh = sorted(dinamik_ghosts, key=lambda x: global_followers_map.get(x, 0), reverse=is_reverse)
 
-                t1, t2, t3, t4, t5 = st.tabs([DIL_PAKETI[aktif_dil]['tab_unfollowers'], DIL_PAKETI[aktif_dil]['tab_fans'], DIL_PAKETI[aktif_dil]['tab_my_following'], DIL_PAKETI[aktif_dil]['tab_no_interaction'], DIL_PAKETI[aktif_dil]['tab_ghosts']])
+                # --- 🚨 GÜNCELLEME: 4 NET SEKMELİ KUSURSUZ YAPIYA GEÇİLDİ ---
+                t1, t2, t3, t4 = st.tabs([DIL_PAKETI[aktif_dil]['tab_unfollowers'], DIL_PAKETI[aktif_dil]['tab_fans'], DIL_PAKETI[aktif_dil]['tab_my_following'], DIL_PAKETI[aktif_dil]['tab_ghosts']])
                 
                 def render_list(target_list, prefix, is_following_map=True):
                     fil = [u for u in target_list if clean_query in u.lower()] if clean_query else target_list
@@ -434,8 +371,7 @@ if st.button(DIL_PAKETI[aktif_dil]['btn_analyze'], use_container_width=True, typ
                 with t1: render_list(sorted_unf, "unf", is_following_map=True)
                 with t2: render_list(sorted_fans, "fans", is_following_map=False)
                 with t3: render_list(sorted_my_following, "myf", is_following_map=True)
-                with t4: render_list(sorted_no_inter, "no_int", is_following_map=False)
-                with t5: render_list(sorted_gh, "ghost", is_following_map=False)
+                with t4: render_list(sorted_gh, "ghost", is_following_map=False)
         except Exception as e: st.error(f"Sistem Hatası: {str(e)}")
 
 st.write(""); st.divider()
