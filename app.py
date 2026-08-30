@@ -57,7 +57,7 @@ DIL_PAKETI = {
         "summary_title": "📊 PROFİL SAĞLIK ÖZETİ",
         "health_score": "Sağlık Skoru",
         "guide_title": "📖 Threads Verileri Nasıl İndirilir? (Kullanım Kılavuzu) LÜTFEN OKUYUNUZ!",
-        "pwa_guide_text": "📱 **BU SİTEYİ TELEFONA MOBİL UYGULAMA OLARAK KURABİLMEK İCHİN:**\n\n• **iOS (Safari) için:** Sayfanın altındaki **'Paylaş'** (Yukarı ok olan kutu) butonuna dokunun. Açılan menüden **'Ana Ekrana Ekle' (Add to Home Screen)** seçeneğini işaretleyin.\n\n• **Android (Chrome) için:** Sağ üstteki **'Üç Nokta'** simgesine dokunun. Açılan menüden **'Uygulamayı Yükle'** veya **'Ana Ekrana Ekle'** seçeneğine basın.",
+        "pwa_guide_text": "📱 **BU SİTEYİ TELEFONA MOBİL UYGULAMA OLARAK KURABİLMEK İÇİN:**\n\n• **iOS (Safari) için:** Sayfanın altındaki **'Paylaş'** (Yukarı ok olan kutu) butonuna dokunun. Açılan menüden **'Ana Ekrana Ekle' (Add to Home Screen)** seçeneğini işaretleyin.\n\n• **Android (Chrome) için:** Sağ üstteki **'Üç Nokta'** simgesine dokunun. Açılan menüden **'Uygulamayı Yükle'** veya **'Ana Ekrana Ekle'** seçeneğine basın.",
         "guide_step1": "📱 **%100 GÜVENLİ YÜKLEME:** İster ham .zip atın, ister içindeki .json dosyalarını çoklu seçip yükleyin.",
         "guide_step2": "1️⃣ **Threads** uygulamasını açın ve **Ayarlar -> Hesaplar Merkezi** bölümüne girin.",
         "guide_step3": "2️⃣ **Bilgilerin ve İzinlerin -> Bilgilerini İndir** adımlarını takip edin.",
@@ -323,7 +323,6 @@ if st.button(DIL_PAKETI[aktif_dil]['btn_analyze'], use_container_width=True, typ
                         gecen_gun = (datetime.now() - datetime.fromtimestamp(en_son_sinyal)).days
                         if gecen_gun > 30: st.warning(DIL_PAKETI[aktif_dil]['outdated_warning'].replace("{days}", str(gecen_gun)))
 
-                # --- 🚨 %100 NET VE DİNAMİK FORMÜLASYON MOTORU ENJEKTE EDİLDİ ---
                 islem_yapilanlar = st.session_state.islem_yapilanlar
                 dinamik_unfollowers = unfollowers - islem_yapilanlar
                 dinamik_fans = fans - islem_yapilanlar
@@ -413,11 +412,12 @@ if st.button(DIL_PAKETI[aktif_dil]['btn_analyze'], use_container_width=True, typ
 
                 t1, t2, t3, t4, t5 = st.tabs([DIL_PAKETI[aktif_dil]['tab_unfollowers'], DIL_PAKETI[aktif_dil]['tab_fans'], DIL_PAKETI[aktif_dil]['tab_my_following'], DIL_PAKETI[aktif_dil]['tab_no_interaction'], DIL_PAKETI[aktif_dil]['tab_ghosts']])
                 
+                # --- ⚙️ SPEC HATASI [4, 1] ORANIYLA KESİN OLARAK ÇÖZÜLDÜ ---
                 def render_list(target_list, prefix, is_following_map=True):
                     fil = [u for u in target_list if clean_query in u.lower()] if clean_query else target_list
                     if fil:
                         for index, user in enumerate(fil, 1):
-                            c_item, c_btn = st.columns()
+                            c_item, c_btn = st.columns([4, 1])
                             with c_item:
                                 ts_v = global_following_map.get(user, 0) if is_following_map else global_followers_map.get(user, 0)
                                 st.markdown(f"[{index:03d}] 🔗 [@{user}](https://threads.com@{user}) &nbsp;&nbsp;&nbsp;&nbsp; <b>⌛ {AnalizMotoru.zaman_metnine_cevir(ts_v)}</b>", unsafe_allow_html=True)
