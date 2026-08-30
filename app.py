@@ -57,7 +57,7 @@ DIL_PAKETI = {
         "summary_title": "📊 PROFİL SAĞLIK ÖZETİ",
         "health_score": "Sağlık Skoru",
         "guide_title": "📖 Threads Verileri Nasıl İndirilir? (Kullanım Kılavuzu) LÜTFEN OKUYUNUZ!",
-        "pwa_guide_text": "📱 **BU SİTEYİ TELEFONA MOBİL UYGULAMA OLARAK KURABİLMEK İÇİN:**\n\n• **iOS (Safari) için:** Sayfanın altındaki **'Paylaş'** (Yukarı ok olan kutu) butonuna dokunun. Açılan menüden **'Ana Ekrana Ekle' (Add to Home Screen)** seçeneğini işaretleyin.\n\n• **Android (Chrome) için:** Sağ üstteki **'Üç Nokta'** simgesine dokunun. Açılan menüden **'Uygulamayı Yükle'** veya **'Ana Ekrana Ekle'** seçeneceğine basın.",
+        "pwa_guide_text": "📱 **BU SİTEYİ TELEFONA MOBİL UYGULAMA OLARAK KURABİLMEK İÇİN:**\n\n• **iOS (Safari) için:** Sayfanın altındaki **'Paylaş'** (Yukarı ok olan kutu) butonuna dokunun. Açılan menüden **'Ana Ekrana Ekle' (Add to Home Screen)** seçeneğini işaretleyin.\n\n• **Android (Chrome) için:** Sağ üstteki **'Üç Nokta'** simgesine dokunun. Açılan menüden **'Uygulamayı Yükle'** veya **'Ana Ekrana Ekle'** seçeneğine basın.",
         "guide_step1": "📱 **%100 GÜVENLİ YÜKLEME:** İster ham .zip atın, ister içindeki .json dosyalarını çoklu seçip yükleyin.",
         "guide_step2": "1️⃣ **Threads** uygulamasını açın ve **Ayarlar -> Hesaplar Merkezi** bölümüne girin.",
         "guide_step3": "2️⃣ **Bilgilerin ve İzinlerin -> Bilgilerini İndir** adımlarını takip edin.",
@@ -191,43 +191,37 @@ class AnalizMotoru:
         return False
 
     @staticmethod
-    def etkileşim_verenleri_ayıkla(data: Any, sınır_timestamp: int, aktif_kullanıcı_adı: str) -> set:
-        """🚨 SADECE SİZİN PROFİLİNİZE VE GÖNDERİLERİNİZE GELEN AKSİYONLARI AYIKLAYAN SİBER FİLTRE"""
-        aktif_kullanıcılar = set()
-        hedef_patern = rf"@{aktif_kullanıcı_adı}\b|gönderini\b|yorumunu\b"
-
+    def yorum_etkileşimi_ara(data: Any, sınır_timestamp: int, aktif_kullanıcı_adı: str) -> set:
+        """🚨 HAKİKİ ETKİLEŞİM MOTORU: Sadece size gelen yorum ve aksiyon sahiplerini yakalar."""
+        etkilesim_verenler = set()
+        
         def tara(d):
             if isinstance(d, dict):
-                user_val, ts_val, geçerli_aksiyon = None, 0, False
+                # Meta şemasında yorum yazarını veya title bilgisini süzme
+                user_val = None
+                ts_val = d.get("timestamp", 0)
                 
-                # Meta JSON şemasında etkileşimin kime yapıldığını belirten siber süzgeç
-                if "title" in d and isinstance(d["title"], str):
-                    title_metni = d["title"].lower()
-                    if re.search(hedef_patern, title_metni):
-                        geçerli_aksiyon = True
-                
+                # Yorum yapan kişinin datasını ve zamanını yakalama
                 if "string_list_data" in d and isinstance(d["string_list_data"], list):
                     for s in d["string_list_data"]:
                         if isinstance(s, dict) and "value" in s:
-                            val_str = s["value"].strip()
-                            # Eğer link veya sayı değilse, aksiyonu gerçekleştiren profildir
-                            if val_str and not val_str.isdigit() and not val_str.startswith("http"):
-                                user_val = val_str
+                            val = str(s["value"]).strip()
+                            if val and not val.isdigit() and not val.startswith("http"):
+                                user_val = val
                             ts_val = s.get("timestamp", ts_val)
                 
-                ts_val = d.get("timestamp", ts_val)
-                
-                if geçerli_aksiyon and user_val and ts_val >= sınır_timestamp:
-                    clean_user = user_val.replace("@", "").strip()
-                    if clean_user and clean_user.lower() != aktif_kullanıcı_adı.lower():
-                        aktif_kullanıcılar.add(clean_user)
+                # Eğer zaman damgası son 15 gün içindeyse listeye ekle
+                if user_val and ts_val >= sınır_timestamp:
+                    clean_u = user_val.replace("@", "").strip()
+                    if clean_u and clean_u.lower() != aktif_kullanıcı_adı.lower():
+                        etkilesim_verenler.add(clean_u)
                         
                 for v in d.values(): tara(v)
             elif isinstance(d, list):
                 for item in d: tara(item)
                 
         tara(data)
-        return aktif_kullanıcılar
+        return etkilesim_verenler
 # --- 🔑 GÜVENLİ VE KALICI DEĞİŞTİRİLEBİLİR KOD TABANLI VERİ TABANI ---
 if "user_db" not in st.session_state:
     st.session_state.user_db = {"murat": "snr", "demo": "demo", "alkan": "alkan", "büşra": "büşra", "azat": "azat"}
@@ -321,13 +315,12 @@ if st.button(DIL_PAKETI[aktif_dil]['btn_analyze'], use_container_width=True, typ
                 st.session_state.current_fans = st.session_state.followers_set - st.session_state.following_set
                 st.session_state.current_my_following = st.session_state.following_set
                 
-                # --- 🚨 SADECE SİZE GELEN ETKİLEŞİMLERİ SÜZEN GÜNCEL KİLİT SİSTEMİ ---
+                # --- 🚨 %100 NOKTA ATIŞI: SADECE HAKİKİ ETKİLEŞİM SAHİPLERİNİ SÜZEN MOTOR ---
                 sınır_ts = int((datetime.now() - timedelta(days=15)).timestamp())
                 etkileşim_verenler = set()
-                if likes_bytes: 
-                    etkileşim_verenler.update(AnalizMotoru.etkileşim_verenleri_ayıkla(json.loads(siber_json_coz(likes_bytes)), sınır_ts, aktif_u))
+                
                 if comments_bytes: 
-                    etkileşim_verenler.update(AnalizMotoru.etkileşim_verenleri_ayıkla(json.loads(siber_json_coz(comments_bytes)), sınır_ts, aktif_u))
+                    etkileşim_verenler.update(AnalizMotoru.yorum_etkileşimi_ara(json.loads(siber_json_coz(comments_bytes)), sınır_ts, aktif_u))
                 
                 st.session_state.current_no_interaction = st.session_state.followers_set - etkileşim_verenler
                 st.session_state.ghosts = {u for u, ts in st.session_state.global_followers_map.items() if AnalizMotoru.bot_ve_pasiflik_kontrolü(u, ts)}
