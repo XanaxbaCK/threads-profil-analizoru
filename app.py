@@ -108,7 +108,7 @@ DIL_PAKETI = {
         "health_score": "Health Score",
         "guide_title": "📖 How to Download Threads Data and Install as App?",
         "pwa_guide_text": "📱 **INSTALL THIS SITE AS AN APP:**\n\n• **For iOS (Safari):** Tap the **'Share'** button (box with an upward arrow) at the bottom. Select **'Add to Home Screen'** from the menu.\n\n• **For Android (Chrome):** Tap the **'Three Dots'** icon at the top right. Select **'Install App'** or **'Add to Home Screen'** from the menu.",
-        "guide_step1": "📱 **%100 SECURE HYBRID ENGINE:** Drag raw .zip or multiple select .json files as you wish.",
+        "guide_step1": "📱 **%100 SECURE HARDWARE ENGINE:** Drag raw .zip or multiple select .json files as you wish.",
         "guide_step2": "1️⃣ Open **Threads**, go to **Settings -> Accounts Center**.",
         "guide_step3": "2️⃣ Follow **Your Information and Permissions -> Download Your Information**.",
         "guide_step4": "3️⃣ Click **Request a Download** and select only **Threads**.",
@@ -200,7 +200,7 @@ class AnalizMotoru:
             if isinstance(d, dict):
                 user_val, ts_val = None, 0
                 if "title" in d and isinstance(d["title"], str): user_val = d["title"].strip()
-                elif "string_list_data" in d and isinstance(d["string_list_data"], list):
+                elif "string_list_data" in d security = isinstance(d["string_list_data"], list):
                     for s in d["string_list_data"]:
                         if isinstance(s, dict) and "value" in s:
                             user_val = s["value"].strip()
@@ -412,7 +412,7 @@ if st.button(DIL_PAKETI[aktif_dil]['btn_analyze'], use_container_width=True, typ
                     fil = [u for u in target_list if clean_query in u.lower()] if clean_query else target_list
                     if fil:
                         for index, user in enumerate(fil, 1):
-                            c_item, c_btn = st.columns([4, 1])
+                            c_item, c_btn = st.columns()
                             with c_item:
                                 ts_v = global_following_map.get(user, 0) if is_following_map else global_followers_map.get(user, 0)
                                 st.markdown(f"[{index:03d}] 🔗 [@{user}](https://threads.com@{user}) &nbsp;&nbsp;&nbsp;&nbsp; <b>⌛ {AnalizMotoru.zaman_metnine_cevir(ts_v)}</b>", unsafe_allow_html=True)
@@ -444,26 +444,6 @@ if is_user_premium and aktif_u == "murat":
 
 with st.expander("⚙️ Gelişmiş Hesap Ayarları", expanded=False):
     st.write(f"• **User:** `@{aktif_u}` | **Role:** `{'👑 Premium' if is_user_premium else '👤 Standart'}`")
-    st.write(f"• **İşlem Yapılan Toplam Hesap:** `{len(st.session_state.islem_yapilanlar)}` adet")
-    
-    # --- 🚨 YENİ: İŞLEM YAPILAN KİŞİLERİN LİSTESİ PANELİ ---
-    if len(st.session_state.islem_yapilanlar) > 0:
-        show_list = st.toggle("📋 İşlem Yapılan Kişilerin Listesini Göster", value=False)
-        if show_list:
-            st.markdown("<p style='color:#3a7ebf; font-weight:bold;'>✔️ İŞLEM YAPILAN HESAPLAR</p>", unsafe_allow_html=True)
-            for i_idx, i_user in enumerate(sorted(list(st.session_state.islem_yapilanlar)), 1):
-                col_u_name, col_undo = st.columns([4, 1])
-                with col_u_name:
-                    st.markdown(f"[{i_idx:03d}] 🔗 [@{i_user}](https://threads.com@{i_user})", unsafe_allow_html=True)
-                with col_undo:
-                    if st.button("↩️ Geri Al", key=f"undo_{i_user}_{i_idx}"):
-                        st.session_state.islem_yapilanlar.discard(i_user)
-                        st.rerun()
-            st.divider()
-
-    if st.button("🔄 Tüm İşlem Yapılan Listesini Sıfırla"):
-        st.session_state.islem_yapilanlar.clear(); st.success("Tüm hesaplar listelere geri yüklendi!"); st.rerun()
-    st.divider()
     if st.radio("Sistem Teması", ["Karanlık Gece Modu", "Premium Fildişi & Kemik Modu"], index=0 if st.session_state.sabit_tema == "Karanlık Gece Modu" else 1) != st.session_state.sabit_tema:
         st.session_state.sabit_tema = "Karanlık Gece Modu" if st.session_state.sabit_tema != "Karanlık Gece Modu" else "Premium Fildişi & Kemik Modu"
         st.success("Tema Değişti!"); st.rerun()
@@ -471,6 +451,21 @@ with st.expander("⚙️ Gelişmiş Hesap Ayarları", expanded=False):
     st.divider(); yeni_sifre = st.text_input("Yeni Şifre Girişi", type="password", key="change_password_box").strip()
     if st.button("ŞİFREYİ GÜNCELLE", use_container_width=True) and yeni_sifre:
         st.session_state.user_db[aktif_u] = yeni_sifre; st.success("Şifre güncellendi!"); st.code(kod_uret(), language="python")
+
+# --- 🚨 Gelişmiş Hesap Ayarlarından Çıkarılan, Bağımsız Yeni Expander Kataloğu ---
+with st.expander(f"📋 İşlem Yapılanların Listesi ({len(st.session_state.islem_yapilanlar)})", expanded=False):
+    if len(st.session_state.islem_yapilanlar) > 0:
+        st.markdown("<p style='color:#3a7ebf; font-weight:bold;'>✔️ İŞLEM YAPILAN HESAPLAR</p>", unsafe_allow_html=True)
+        for i_idx, i_user in enumerate(sorted(list(st.session_state.islem_yapilanlar)), 1):
+            col_u_name, col_undo = st.columns()
+            with col_u_name: st.markdown(f"[{i_idx:03d}] 🔗 [@{i_user}](https://threads.com@{i_user})", unsafe_allow_html=True)
+            with col_undo:
+                if st.button("↩️ Geri Al", key=f"undo_{i_user}_{i_idx}"):
+                    st.session_state.islem_yapilanlar.discard(i_user)
+                    st.rerun()
+        st.divider()
+    if st.button("🔄 Tüm İşlem Yapılan Listesini Sıfırla", use_container_width=True):
+        st.session_state.islem_yapilanlar.clear(); st.success("Tüm hesaplar listelere geri yüklendi!"); st.rerun()
 
 st.write("")
 if st.button("🗑️ OTURUMU KAPAT VE TÜM VERİLERİ TEMİZLE (DEEP CLEAN)", use_container_width=True, type="secondary"):
