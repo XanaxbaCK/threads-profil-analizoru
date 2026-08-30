@@ -42,12 +42,14 @@ DIL_PAKETI = {
         "btn_analyze": "ANALİZİ BAŞLAT",
         "tab_unfollowers": "Beni Takip Etmeyenler",
         "tab_fans": "Geri Takip Etmediklerim",
+        "tab_my_following": "Benim Takip Ettiklerim",
         "tab_ghosts": "Hayalet (Ghost) Hesaplar",
         "input_error_msg": "Analiz için veri havuzunda hem 'followers.json' hem de 'following.json' bulunmalıdır. Lütfen doğru dosya veya .zip yükleyin.",
         "parse_error_msg": "Yüklenen JSON şeması siber motor tarafından çözümlenemedi.",
         "success_msg": "Dosyalar tarandı, Excel ve TXT raporları köprü linkleriyle üretildi!",
         "perfect_sync": "🎉 [KUSURSUZ SENKRONİZASYON]: Herkes sizi geri takip ediyor!",
         "no_fans": "🎯 [HAYRAN YOK]: Takip ettiğiniz herkesi siz de geri takip ediyorsunuz.",
+        "no_my_following": "📢 [TAKİP LİSTESİ BOŞ]: Takip ettiğiniz hiç kimse bulunamadı.",
         "no_ghosts": "🛡️ [TEMİZ PROFİL]: Profilinizde hayalet veya bot hesap algılanmadı.",
         "download_excel": "📥 Excel Analiz Raporunu İndir",
         "summary_title": "📊 PROFİL SAĞLIK ÖZETİ",
@@ -80,8 +82,7 @@ DIL_PAKETI = {
         "badge_standard": "👤 Standart Hesap (Kısıtlı Erişim)",
         "welcome_user": "Hoş geldiniz, {user}"
     },
-
-        "EN": {
+    "EN": {
         "main_title": "THREADS GLOBAL / MURAT ŞENER PRODUCER",
         "main_sub": "LOCAL AND SECURE BI-DIRECTIONAL PROFILE ANALYSIS SYSTEM // MOBILE ACT & WEB",
         "main_hashtag": "#notmebutwe",
@@ -89,12 +90,14 @@ DIL_PAKETI = {
         "btn_analyze": "START ANALYSIS",
         "tab_unfollowers": "Not Following Me Back",
         "tab_fans": "I Am Not Following Back",
+        "tab_my_following": "Whom I Follow",
         "tab_ghosts": "Ghost / Inactive Accounts",
         "input_error_msg": "Analysis requires both 'followers.json' and 'following.json' in the pool. Please upload correct files or .zip.",
         "parse_error_msg": "The uploaded JSON schema could not be resolved by the engine.",
         "success_msg": "Files scanned, Excel and TXT reports generated with clickable links!",
         "perfect_sync": "🎉 [PERFECT SYNC]: Everyone is following you back!",
         "no_fans": "🎯 [NO FANS]: You are following back everyone who follows you.",
+        "no_my_following": "📢 [FOLLOWING LIST EMPTY]: No accounts found in your following list.",
         "no_ghosts": "🛡️ [CLEAN PROFILE]: No ghost or bot accounts detected on your profile.",
         "download_excel": "📥 Download Excel Analysis Report",
         "summary_title": "📊 PROFILE HEALTH SUMMARY",
@@ -128,6 +131,11 @@ DIL_PAKETI = {
         "welcome_user": "Welcome, {user}"
     }
 }
+# --- YARDIMCI GEÇİCİ KOD ÜRETME FONKSİYONU ---
+def kod_uret():
+    db_str = str(st.session_state.get("user_db", {}))
+    prem_str = str(st.session_state.get("premium_users", set()))
+    return f"""# Güncel Veritabanı Durumu\nst.session_state.user_db = {db_str}\nst.session_state.premium_users = {prem_str}"""
 
 class AnalizMotoru:
     """Kullanıcı adlarını, zaman damgalarını, bot riskini ve Sağlık Skorunu hesaplayan ana motor."""
@@ -153,7 +161,6 @@ class AnalizMotoru:
             for item in data:
                 results.update(AnalizMotoru.akilli_süre_ayristir(item))
         return results
-
     @staticmethod
     def zaman_metnine_cevir(timestamp: int) -> str:
         if timestamp == 0: return "Bilinmiyor"
@@ -206,7 +213,6 @@ if st.session_state.logged_in:
             st.warning("⚠️ Güvenlik amacıyla 5 dakikalık işlem yapılmadığı için oturumunuz otomatik kapatılmıştır.")
             st.stop()
     st.session_state.last_activity_time = su_anki_zaman
-
 if not st.session_state.logged_in:
     st.markdown(f"### 🎯 Threads Profil Takip Sistemi")
     st.write("")
@@ -227,6 +233,7 @@ if not st.session_state.logged_in:
             else:
                 st.error("❌ Hatalı Kullanıcı Adı veya Şifre! Lütfen bilgilerinizi kontrol edin.")
     st.stop()
+
 # --- SESSİON_STATE TABANLI TEMA HAFIZASI ---
 if "sabit_tema" not in st.session_state:
     st.session_state.sabit_tema = "Karanlık Gece Modu"
@@ -241,7 +248,6 @@ if st.session_state.sabit_tema == "Premium Fildişi & Kemik Modu":
         .stMarkdown b { color: #000000 !important; }
         </style>
         """, unsafe_allow_html=True)
-
 # --- ANA ARAYÜZ BAŞLANGICI VE ETİKETLER ---
 st.title("🎯 Threads Profil Takip Sistemi")
 
@@ -271,8 +277,7 @@ st.markdown(f"### {DIL_PAKETI[aktif_dil]['main_title']}")
 st.caption(DIL_PAKETI[aktif_dil]['main_sub'])
 st.divider()
 
-# --- 🎵 ŞARKI BUTONU BAŞLIĞI TEMİZLENDİ VE SADECE BUTON BIRAKILDI ---
-st.link_button(label="▶️ YAPARKEN DİNLERSİNİZ BELKİ (Göndermeli Şarkı)", url="https://www.youtube.com/watch?v=nFhLKEqP__o", use_container_width=True)
+st.link_button(label="▶️ YAPARKEN DİNLERSİNİZ BELKİ (Göndermeli Şarkı)", url="https://youtube.com", use_container_width=True)
 
 with st.expander(DIL_PAKETI[aktif_dil]['guide_title'], expanded=False):
     st.info(DIL_PAKETI[aktif_dil]['pwa_guide_text'])
@@ -320,6 +325,7 @@ if btn_trigger or st.session_state.get('analyzed', False):
                 if 'current_unfollowers' in st.session_state:
                     st.session_state.prev_unfollowers = st.session_state.current_unfollowers
                     st.session_state.prev_fans = st.session_state.current_fans
+                    st.session_state.prev_my_following = st.session_state.current_my_following
                     st.session_state.has_history = True
                 else:
                     st.session_state.has_history = False
@@ -335,6 +341,7 @@ if btn_trigger or st.session_state.get('analyzed', False):
                 
                 st.session_state.current_unfollowers = st.session_state.following_set - st.session_state.followers_set
                 st.session_state.current_fans = st.session_state.followers_set - st.session_state.following_set
+                st.session_state.current_my_following = st.session_state.following_set
                 st.session_state.ghosts = {u for u, ts in st.session_state.global_followers_map.items() if AnalizMotoru.bot_ve_pasiflik_kontrolü(u, ts)}
                 st.session_state.analyzed = True
 
@@ -344,12 +351,11 @@ if btn_trigger or st.session_state.get('analyzed', False):
             followers_set = st.session_state.followers_set
             unfollowers = st.session_state.current_unfollowers
             fans = st.session_state.current_fans
+            my_following = st.session_state.current_my_following
             ghosts = st.session_state.ghosts
-
             if not following_set or not followers_set:
                 st.error(DIL_PAKETI[aktif_dil]['parse_error_msg'])
             else:
-                # --- AKILLI DOSYA GÜNCELLİK DENETLEYİCİSİ SÜZGECİ ---
                 if st.session_state.get("chk_outdated_alert", True):
                     en_son_sinyal_zamani = max(list(global_following_map.values()) + list(global_followers_map.values()), default=0)
                     if en_son_sinyal_zamani > 0:
@@ -376,7 +382,6 @@ if btn_trigger or st.session_state.get('analyzed', False):
                 m2.metric("Following", len(following_set))
                 m3.metric("Followers", len(followers_set))
 
-                # --- 🚨 ÖZELLİK 3: ALGORİTMA GÜVENLİK PUANI VE SHADOWBAN RİSKİ ---
                 total_f = len(followers_set) if len(followers_set) > 0 else 1
                 risk_orani = (len(ghosts) + len(unfollowers)) / total_f
                 if risk_orani > 0.45:
@@ -386,7 +391,6 @@ if btn_trigger or st.session_state.get('analyzed', False):
                 else:
                     s_status, s_color, s_desc = "🛡️ ALGORİTMA GÜVENLİ", "#388e3c", "Tebrikler! Profil süzgeciniz temiz. Threads arama ve keşfet algoritmaları kitle sağlığınızı olumlu puanlıyor."
 
-                # --- 📸 ÖZELLİK 4: THREADS ÖZET VİRAL PAYLAŞIM KARTI ---
                 card_bg = "#121212" if st.session_state.sabit_tema == "Karanlık Gece Modu" else "#f1ede4"
                 card_text = "#ffffff" if st.session_state.sabit_tema == "Karanlık Gece Modu" else "#1c1c1e"
                 
@@ -409,30 +413,31 @@ if btn_trigger or st.session_state.get('analyzed', False):
                 """, unsafe_allow_html=True)
                 st.write("")
 
-                # --- 👑 PREMIUM KORUMALI PANEL SÜRECİ ---
                 if st.session_state.current_active_user in st.session_state.premium_users:
                     if st.session_state.get('has_history', False):
                         st.write("")
                         st.markdown(f"##### {DIL_PAKETI[aktif_dil]['history_title']}")
                         yeni_takipten_cikanlar = unfollowers - st.session_state.prev_unfollowers
                         yeni_hayranlar = fans - st.session_state.prev_fans
+                        yeni_takip_ettiklerim = my_following - st.session_state.prev_my_following
                         
-                        c1, c2 = st.columns(2)
+                        c1, c2, c3 = st.columns(3)
                         c1.metric("🚨 Yeni Taktikten Çıkanlar", len(yeni_takipten_cikanlar), f"+{len(yeni_takipten_cikanlar)} Kişi" if yeni_takipten_cikanlar else "Değişim Yok", delta_color="inverse")
                         c2.metric("🛸 Yeni Kazanılan Hayranlar", len(yeni_hayranlar), f"+{len(yeni_hayranlar)} Kişi" if yeni_hayranlar else "Değişim Yok")
+                        c3.metric("📌 Takip Ettikleriniz", len(yeni_takip_ettiklerim), f"+{len(yeni_takip_ettiklerim)} Kişi" if yeni_takip_ettiklerim else "Değişim Yok")
 
                     st.write("")
                     st.markdown(f"##### {DIL_PAKETI[aktif_dil]['chart_title']}")
                     chart_data = {
-                        "Kategori": ["Takip Etmeyenler", "Karşılıklı", "Hayranlar", "Hayaletler"],
-                        "Sayı": [len(unfollowers), len(following_set & followers_set), len(fans), len(ghosts)]
+                        "Kategori": ["Takip Etmeyenler", "Karşılıklı", "Hayranlar", "Benim Takip Ettiklerim", "Hayaletler"],
+                        "Sayı": [len(unfollowers), len(following_set & followers_set), len(fans), len(my_following), len(ghosts)]
                     }
                     st.bar_chart(data=chart_data, x="Kategori", y="Sayı", use_container_width=True)
                     st.write("")
                 else:
                     st.write("")
-                    st.info(DIL_PAKETI[aktif_dil]['premium_notice'])
-                # --- BELLEKTE EXCEL OLUŞTURMA MOTORU ---
+                st.info(DIL_PAKETI[aktif_dil]['premium_notice'])
+                
                 output_excel = io.BytesIO()
                 workbook = xlsxwriter.Workbook(output_excel)
                 header_format = workbook.add_format({'bold': True, 'font_color': 'white', 'bg_color': '#1f4e78', 'border': 1, 'align': 'center'})
@@ -463,6 +468,18 @@ if btn_trigger or st.session_state.get('analyzed', False):
                     sheet_fans.write(idx, 3, süre, text_format)
                 sheet_fans.set_column('A:A', 5); sheet_fans.set_column('B:B', 20); sheet_fans.set_column('C:C', 45); sheet_fans.set_column('D:D', 20)
 
+                sheet_my_f = workbook.add_worksheet("Benim Takip Ettiklerim")
+                sheet_my_f.write_row('A1', ['No', 'Kullanıcı Adı', 'Profil Linki', 'Süre'], header_format)
+                sorted_my_f_excel = sorted(my_following, key=lambda x: global_following_map.get(x, 0))
+                for idx, user in enumerate(sorted_my_f_excel, 1):
+                    süre = AnalizMotoru.zaman_metnine_cevir(global_following_map.get(user, 0))
+                    p_url = f"https://threads.com/@{user}"
+                    sheet_my_f.write(idx, 0, idx)
+                    sheet_my_f.write(idx, 1, f"@{user}", text_format)
+                    sheet_my_f.write_url(idx, 2, p_url, link_format, string=p_url)
+                    sheet_my_f.write(idx, 3, süre, text_format)
+                sheet_my_f.set_column('A:A', 5); sheet_my_f.set_column('B:B', 20); sheet_my_f.set_column('C:C', 45); sheet_my_f.set_column('D:D', 20)
+
                 sheet_gh = workbook.add_worksheet("Hayalet Hesaplar")
                 sheet_gh.write_row('A1', ['No', 'Kullanıcı Adı', 'Profil Linki', 'Süre'], header_format)
                 sorted_gh_excel = sorted(ghosts, key=lambda x: global_followers_map.get(x, 0))
@@ -479,8 +496,6 @@ if btn_trigger or st.session_state.get('analyzed', False):
                 
                 if st.session_state.current_active_user in st.session_state.premium_users:
                     st.download_button(label=DIL_PAKETI[aktif_dil]['download_excel'], data=output_excel, file_name="Threads_Detayli_Analiz_Raporu.xlsx", mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", use_container_width=True)
-
-                # --- ⏳ KRONOLOJİK ZAMAN MOTORU (PREMIUM KORUMALI) ---
                 if st.session_state.current_active_user in st.session_state.premium_users:
                     st.markdown(f"###### {DIL_PAKETI[aktif_dil]['sort_label']}")
                     sort_choice = st.radio(label="", options=[DIL_PAKETI[aktif_dil]['sort_newest'], DIL_PAKETI[aktif_dil]['sort_oldest']], horizontal=True, label_visibility="collapsed")
@@ -488,15 +503,21 @@ if btn_trigger or st.session_state.get('analyzed', False):
                 else:
                     is_reverse = True
 
-                # --- CANLI ARAMA MOTORU ---
                 search_query = st.text_input("", placeholder=DIL_PAKETI[aktif_dil]['search_placeholder']).strip().lower()
                 clean_query = search_query.replace("@", "")
 
                 sorted_unf = sorted(unfollowers, key=lambda x: global_following_map.get(x, 0), reverse=is_reverse)
                 sorted_fans = sorted(fans, key=lambda x: global_followers_map.get(x, 0), reverse=is_reverse)
+                sorted_my_following = sorted(my_following, key=lambda x: global_following_map.get(x, 0), reverse=is_reverse)
                 sorted_gh = sorted(ghosts, key=lambda x: global_followers_map.get(x, 0), reverse=is_reverse)
 
-                t1, t2, t3 = st.tabs([DIL_PAKETI[aktif_dil]['tab_unfollowers'], DIL_PAKETI[aktif_dil]['tab_fans'], DIL_PAKETI[aktif_dil]['tab_ghosts']])
+                t1, t2, t3, t4 = st.tabs([
+                    DIL_PAKETI[aktif_dil]['tab_unfollowers'], 
+                    DIL_PAKETI[aktif_dil]['tab_fans'], 
+                    DIL_PAKETI[aktif_dil]['tab_my_following'],
+                    DIL_PAKETI[aktif_dil]['tab_ghosts']
+                ])
+                
                 with t1:
                     filtered_unf = [u for u in sorted_unf if clean_query in u.lower()] if clean_query else sorted_unf
                     if filtered_unf:
@@ -504,6 +525,7 @@ if btn_trigger or st.session_state.get('analyzed', False):
                             süre = AnalizMotoru.zaman_metnine_cevir(global_following_map.get(user, 0))
                             st.markdown(f"[{index:03d}] 🔗 [@{user}](https://threads.com/@{user}) &nbsp;&nbsp;&nbsp;&nbsp; <b>⌛ {süre}</b>", unsafe_allow_html=True)
                     else: st.info(DIL_PAKETI[aktif_dil]['perfect_sync'] if not clean_query else "Eşleşen kullanıcı bulunamadı.")
+                
                 with t2:
                     filtered_fans = [u for u in sorted_fans if clean_query in u.lower()] if clean_query else sorted_fans
                     if filtered_fans:
@@ -511,7 +533,16 @@ if btn_trigger or st.session_state.get('analyzed', False):
                             süre = AnalizMotoru.zaman_metnine_cevir(global_followers_map.get(user, 0))
                             st.markdown(f"[{index:03d}] 🔗 [@{user}](https://threads.com/@{user}) &nbsp;&nbsp;&nbsp;&nbsp; <b>⌛ {süre}</b>", unsafe_allow_html=True)
                     else: st.info(DIL_PAKETI[aktif_dil]['no_fans'] if not clean_query else "Eşleşen kullanıcı bulunamadı.")
+                
                 with t3:
+                    filtered_my_following = [u for u in sorted_my_following if clean_query in u.lower()] if clean_query else sorted_my_following
+                    if filtered_my_following:
+                        for index, user in enumerate(filtered_my_following, 1):
+                            süre = AnalizMotoru.zaman_metnine_cevir(global_following_map.get(user, 0))
+                            st.markdown(f"[{index:03d}] 🔗 [@{user}](https://threads.com/@{user}) &nbsp;&nbsp;&nbsp;&nbsp; <b>⌛ {süre}</b>", unsafe_allow_html=True)
+                    else: st.info(DIL_PAKETI[aktif_dil]['no_my_following'] if not clean_query else "Eşleşen kullanıcı bulunamadı.")
+
+                with t4:
                     filtered_gh = [u for u in sorted_gh if clean_query in u.lower()] if clean_query else sorted_gh
                     if filtered_gh:
                         for index, user in enumerate(filtered_gh, 1):
@@ -519,122 +550,63 @@ if btn_trigger or st.session_state.get('analyzed', False):
                             st.markdown(f"[{index:03d}] 🔗 [@{user}](https://threads.com/@{user}) &nbsp;&nbsp;&nbsp;&nbsp; <b>⌛ {süre}</b>", unsafe_allow_html=True)
                     else: st.info(DIL_PAKETI[aktif_dil]['no_ghosts'] if not clean_query else "Eşleşen kullanıcı bulunamadı.")
         except Exception as e: st.error(f"Sistem Hatası: {str(e)}")
-# --- LOG-OUT VE SİSTEM AYARLARI ALT ALANI ---
+
 st.write(""); st.divider()
 
-# --- DİNAMİK YEDEKLEME FONKSİYONU (YAKLAŞIM A) ---
-def kod_uret():
-    dict_str = "    st.session_state.user_db = {\n"
-    dict_str += ",\n".join([f'        "{uk}": "{up}"' for uk, up in st.session_state.user_db.items()])
-    dict_str += "\n    }"
-    set_str = "    st.session_state.premium_users = {"
-    set_str += ", ".join([f'"{pu}"' for pu in st.session_state.premium_users])
-    set_str += "}"
-    return f"""# --- BU BLOK PANEL TARAFINDAN OTOMATİK ÜRETİLMİŞTİR ---
-if "user_db" not in st.session_state:
-{dict_str}
-
-if "premium_users" not in st.session_state:
-{set_str}"""
-
-# --- 👑 SADECE MURAT'A ÖZEL GELİŞMİŞ SAAS CANLI ÜYE YÖNETİM MERKEZİ ---
-if st.session_state.current_active_user == "murat":
-    with st.expander("👑 Canlı Üye Yönetim Paneli", expanded=False):
-        st.markdown("##### 👤 Yeni Kullanıcı Tanımla / Şifre Oluştur")
-        c_user = st.text_input("Kullanıcı Adı Ekle", key="saas_new_user_input").strip().lower()
-        c_pass = st.text_input("Şifre Belirle", key="saas_new_pass_input").strip()
-        c_role = st.selectbox("Yetki Seviyesi", ["Standart (Kısıtlı)", "Premium (Limitsiz)"])
-        
-        save_member_btn = st.button("KULLANICIYI SİSTEME KAYDET", use_container_width=True)
-        if save_member_btn and c_user and c_pass:
-            st.session_state.user_db[c_user] = c_pass
-            if c_role == "Premium (Limitsiz)":
-                st.session_state.premium_users.add(c_user)
-            else:
-                st.session_state.premium_users.discard(c_user)
-            st.success(f"🎉 '@{c_user}' kullanıcısı {c_role} yetkisiyle veri tabanına eklendi!")
-            st.rerun()
-
-        st.divider()
-
-        st.markdown("##### ⚙️ Kayıtlı Üyeleri Yönet & Yetki Düzenle")
-        üyeler_tablosu = []
-        for u, p in st.session_state.user_db.items():
-            yetki_durumu = "👑 Premium" if u in st.session_state.premium_users else "👤 Standart"
-            üyeler_tablosu.append({"Kullanıcı Adı": f"@{u}", "Şifre": p, "Mevcut Yetki": yetki_durumu})
-        st.dataframe(üyeler_tablosu, use_container_width=True, hide_index=True)
-        
-        st.write("")
+if is_user_premium and aktif_u == "murat":
+    with st.expander("👑 SaaS Üye ve Yetki Kontrol Paneli (Admin Only)", expanded=False):
         secilen_üye = st.selectbox("Düzenlenecek Üyeyi Seçin", list(st.session_state.user_db.keys()))
-        
         if secilen_üye:
             g_pass = st.text_input(f"@{secilen_üye} İçin Yeni Şifre (Boş bırakılırsa değişmez)", type="password", key="saas_edit_pass")
             su_anki_rol_idx = 1 if secilen_üye in st.session_state.premium_users else 0
             g_role = st.radio(f"@{secilen_üye} Yetki Seviyesini Değiştir", ["Standart (Kısıtlı)", "Premium (Limitsiz)"], index=su_anki_rol_idx, horizontal=True)
-            
             update_member_btn = st.button("ÜYE BİLGİLERİNİ GÜNCELLE", use_container_width=True, type="primary")
             if update_member_btn:
-                if g_pass.strip():
-                    st.session_state.user_db[secilen_üye] = g_pass.strip()
-                if g_role == "Premium (Limitsiz)":
-                    st.session_state.premium_users.add(secilen_üye)
-                else:
-                    st.session_state.premium_users.discard(secilen_üye)
+                if g_pass.strip(): st.session_state.user_db[secilen_üye] = g_pass.strip()
+                if g_role == "Premium (Limitsiz)": st.session_state.premium_users.add(secilen_üye)
+                else: st.session_state.premium_users.discard(secilen_üye)
                 st.success(f"🎉 '@{secilen_üye}' üyelik ve şifre konfigürasyonları başarıyla güncellendi!")
                 st.rerun()
-
         st.divider()
         st.markdown("##### 💾 Kalıcı Kod Güncelleme Bloğu")
         st.code(kod_uret(), language="python")
 
-# --- Gelişmiş Hesap Ayarları Kutusu ---
 with st.expander("⚙️ Gelişmiş Hesap Ayarları (Profil ve Tercihler)", expanded=False):
     st.markdown("##### 📊 Profil Bilgileri Kartı")
     st.write(f"• **Kullanıcı Adınız:** `@{st.session_state.current_active_user}`")
     st.write(f"• **Erişim Seviyeniz:** {'👑 Premium (Limitsiz)' if is_user_premium else '👤 Standart (Kısıtlı)'}")
     st.write(f"• **Güvenlik Durumu:** `SSL Active / RSA Encrypted`")
-    
     st.divider()
-    
     st.markdown("##### 🌓 Otomatik Tema Sabitleyici")
     secilen_sabit = st.radio("Sistem temasını sabitleyin:", ["Karanlık Gece Modu", "Premium Fildişi & Kemik Modu"], index=0 if st.session_state.sabit_tema == "Karanlık Gece Modu" else 1)
     if secilen_sabit != st.session_state.sabit_tema:
         st.session_state.sabit_tema = secilen_sabit
         st.success("🎉 Tema tercihiniz oturum boyunca sabitlendi!")
         st.rerun()
-        
     st.divider()
-    
     st.markdown("##### 🔔 Bildirim ve Tercih Yönetimi")
     st.session_state.chk_outdated_alert = st.checkbox("Yüklenen Threads verilerim 30 günden eskiyse beni uyar", value=st.session_state.get("chk_outdated_alert", True))
     st.checkbox("Yeni analiz motoru güncellemelerini ana ekranda göster", value=True)
-    
     st.divider()
-    
     st.markdown("##### 🔑 Giriş Şifresini Değiştir")
     yeni_sifre_input = st.text_input("Yeni Şifrenizi Girin", type="password", key="change_password_box").strip()
     sifre_onay_btn = st.button("ŞİFREYİ GÜNCELLE (İstediğiniz Şifreyi @muratsener Profili Üzerinden Bildiriniz)", use_container_width=True)
-    
     if (sifre_onay_btn and yeni_sifre_input) or st.session_state.get("sifre_degisti_mi", False):
         if sifre_onay_btn and yeni_sifre_input:
             st.session_state.user_db[st.session_state.current_active_user] = yeni_sifre_input
             st.session_state.sifre_degisti_mi = True
             st.success("🎉 Şifreniz başarıyla güncellendi!")
-        
         st.write("")
         st.warning("💾 **ŞİFRENİZİ KALICI YAPIN:** Sayfa yenilendiğinde şifrenizin sıfırlanmaması için aşağıdaki kodu kopyalayıp admin panelinize iletin veya `app.py` dosyanızdaki **Parça 5**'e yapıştırın.")
         st.code(kod_uret(), language="python")
 
-# --- 🗑️ GÜVENLİ OTURUMU KAPAT VE TÜM VERİLERİ TEMİZLE ---
 st.write("")
 logout_click = st.button("🗑️ OTURUMU KAPAT VE TÜM VERİLERİ TEMİZLE (DEEP CLEAN)", use_container_width=True, type="secondary")
 if logout_click:
-    for key in list(st.session_state.keys()):
-        del st.session_state[key]
+    for key in list(st.session_state.keys()): del st.session_state[key]
     st.session_state.logged_in = False
     st.session_state.analyzed = False
     st.rerun()
 
-# --- 💬 YAPIMCI SİBER İLETİŞİM BUTONU ---
 st.write("")
 st.link_button(label=DIL_PAKETI[aktif_dil]['contact_btn'], url="https://threads.com/@muratsenr", use_container_width=True)
