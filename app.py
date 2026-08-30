@@ -108,7 +108,7 @@ DIL_PAKETI = {
         "health_score": "Health Score",
         "guide_title": "📖 How to Download Threads Data and Install as App?",
         "pwa_guide_text": "📱 **INSTALL THIS SITE AS AN APP:**\n\n• **For iOS (Safari):** Tap the **'Share'** button (box with an upward arrow) at the bottom. Select **'Add to Home Screen'** from the menu.\n\n• **For Android (Chrome):** Tap the **'Three Dots'** icon at the top right. Select **'Install App'** or **'Add to Home Screen'** from the menu.",
-        "guide_step1": "📱 **%100 SECURE HARDWARE ENGINE:** Drag raw .zip or multiple select .json files as you wish.",
+        "guide_step1": "📱 **%100 SECURE HYBRID ENGINE:** Drag raw .zip or multiple select .json files as you wish.",
         "guide_step2": "1️⃣ Open **Threads**, go to **Settings -> Accounts Center**.",
         "guide_step3": "2️⃣ Follow **Your Information and Permissions -> Download Your Information**.",
         "guide_step4": "3️⃣ Click **Request a Download** and select only **Threads**.",
@@ -200,7 +200,8 @@ class AnalizMotoru:
             if isinstance(d, dict):
                 user_val, ts_val = None, 0
                 if "title" in d and isinstance(d["title"], str): user_val = d["title"].strip()
-                elif "string_list_data" in d security = isinstance(d["string_list_data"], list):
+                # --- ⚙️ SYNTAX ERROR HATASI BURADA TAMAMEN DÜZELTİLDİ ---
+                elif "string_list_data" in d and isinstance(d["string_list_data"], list):
                     for s in d["string_list_data"]:
                         if isinstance(s, dict) and "value" in s:
                             user_val = s["value"].strip()
@@ -302,7 +303,7 @@ if st.button(DIL_PAKETI[aktif_dil]['btn_analyze'], use_container_width=True, typ
 
                 st.session_state.global_following_map = AnalizMotoru.akilli_süre_ayristir(siber_json_coz(following_bytes))
                 st.session_state.global_followers_map = AnalizMotoru.akilli_süre_ayristir(siber_json_coz(followers_bytes))
-                st.session_state.following_set, st.session_state.followers_set = set(st.session_state.global_following_map.keys()), set(st.session_state.global_followers_map.keys())
+                st.session_state.following_set, st.session_state.followers_set = set(st.session_state.global_following_map.keys()), set(st.session_state.followers_set.keys())
                 
                 st.session_state.current_unfollowers = st.session_state.following_set - st.session_state.followers_set
                 st.session_state.current_fans = st.session_state.followers_set - st.session_state.following_set
@@ -452,7 +453,6 @@ with st.expander("⚙️ Gelişmiş Hesap Ayarları", expanded=False):
     if st.button("ŞİFREYİ GÜNCELLE", use_container_width=True) and yeni_sifre:
         st.session_state.user_db[aktif_u] = yeni_sifre; st.success("Şifre güncellendi!"); st.code(kod_uret(), language="python")
 
-# --- 🚨 Gelişmiş Hesap Ayarlarından Çıkarılan, Bağımsız Yeni Expander Kataloğu ---
 with st.expander(f"📋 İşlem Yapılanların Listesi ({len(st.session_state.islem_yapilanlar)})", expanded=False):
     if len(st.session_state.islem_yapilanlar) > 0:
         st.markdown("<p style='color:#3a7ebf; font-weight:bold;'>✔️ İŞLEM YAPILAN HESAPLAR</p>", unsafe_allow_html=True)
