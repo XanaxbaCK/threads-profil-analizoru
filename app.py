@@ -141,10 +141,10 @@ def kod_uret():
     prem_str = str(st.session_state.get("premium_users", set()))
     return f"""# Güncel Veritabanı Durumu\nst.session_state.user_db = {db_str}\nst.session_state.premium_users = {prem_str}"""
 
-# --- SİBER JET HIZLANDIRICI ÖNBELLEK MOTORU ---
+# --- 🚨 SİBER JET HIZLANDIRICI ÖNBELLEK MOTORU (STR ÇIKTI DÜZELTİLDİ) ---
 @st.cache_data(show_spinner=False)
-def siber_json_coz(raw_bytes: bytes) -> Any:
-    return json.loads(raw_bytes.decode("utf-8"))
+def siber_json_coz(raw_bytes: bytes) -> str:
+    return raw_bytes.decode("utf-8")
 
 class AnalizMotoru:
     """Kullanıcı adlarını, zaman damgalarını, bot riskini bir kerede işleyen siber motor."""
@@ -192,15 +192,13 @@ class AnalizMotoru:
         return False
 
     @staticmethod
-    @st.cache_data(show_spinner=False)
     def etkileşim_verenleri_ayıkla(data: Any, sınır_timestamp: int) -> set:
-        """Önbellek korumalı etkileşim süzgeci. RAM yükünü tamamen sıfırlar."""
+        """Etkileşim süzgeci."""
         aktif_kullanıcılar = set()
         def tara(d):
             if isinstance(d, dict):
                 user_val, ts_val = None, 0
                 if "title" in d and isinstance(d["title"], str): user_val = d["title"].strip()
-                # --- ⚙️ SYNTAX ERROR HATASI BURADA TAMAMEN DÜZELTİLDİ ---
                 elif "string_list_data" in d and isinstance(d["string_list_data"], list):
                     for s in d["string_list_data"]:
                         if isinstance(s, dict) and "value" in s:
@@ -301,9 +299,10 @@ if st.button(DIL_PAKETI[aktif_dil]['btn_analyze'], use_container_width=True, typ
                     st.session_state.has_history = True
                 else: st.session_state.has_history = False
 
-                st.session_state.global_following_map = AnalizMotoru.akilli_süre_ayristir(siber_json_coz(following_bytes))
-                st.session_state.global_followers_map = AnalizMotoru.akilli_süre_ayristir(siber_json_coz(followers_bytes))
-                st.session_state.following_set, st.session_state.followers_set = set(st.session_state.global_following_map.keys()), set(st.session_state.followers_set.keys())
+                # --- 🚨 DICT OBJESİ 'SET' HATASI BURADA ÖNBELLEK ÇIKIŞIYLA DÜZELTİLDİ ---
+                st.session_state.global_following_map = AnalizMotoru.akilli_süre_ayristir(json.loads(siber_json_coz(following_bytes)))
+                st.session_state.global_followers_map = AnalizMotoru.akilli_süre_ayristir(json.loads(siber_json_coz(followers_bytes)))
+                st.session_state.following_set, st.session_state.followers_set = set(st.session_state.global_following_map.keys()), set(st.session_state.global_followers_map.keys())
                 
                 st.session_state.current_unfollowers = st.session_state.following_set - st.session_state.followers_set
                 st.session_state.current_fans = st.session_state.followers_set - st.session_state.following_set
@@ -311,8 +310,8 @@ if st.button(DIL_PAKETI[aktif_dil]['btn_analyze'], use_container_width=True, typ
                 
                 sınır_ts = int((datetime.now() - timedelta(days=7)).timestamp())
                 etkileşim_verenler = set()
-                if likes_bytes: etkileşim_verenler.update(AnalizMotoru.etkileşim_verenleri_ayıkla(siber_json_coz(likes_bytes), sınır_ts))
-                if comments_bytes: etkileşim_verenler.update(AnalizMotoru.etkileşim_verenleri_ayıkla(siber_json_coz(comments_bytes), sınır_ts))
+                if likes_bytes: etkileşim_verenler.update(AnalizMotoru.etkileşim_verenleri_ayıkla(json.loads(siber_json_coz(likes_bytes)), sınır_ts))
+                if comments_bytes: etkileşim_verenler.update(AnalizMotoru.etkileşim_verenleri_ayıkla(json.loads(siber_json_coz(comments_bytes)), sınır_ts))
                 
                 st.session_state.current_no_interaction = st.session_state.followers_set - etkileşim_verenler
                 st.session_state.ghosts = {u for u, ts in st.session_state.global_followers_map.items() if AnalizMotoru.bot_ve_pasiflik_kontrolü(u, ts)}
@@ -413,7 +412,7 @@ if st.button(DIL_PAKETI[aktif_dil]['btn_analyze'], use_container_width=True, typ
                     fil = [u for u in target_list if clean_query in u.lower()] if clean_query else target_list
                     if fil:
                         for index, user in enumerate(fil, 1):
-                            c_item, c_btn = st.columns()
+                            c_item, c_btn = st.columns([4, 1])
                             with c_item:
                                 ts_v = global_following_map.get(user, 0) if is_following_map else global_followers_map.get(user, 0)
                                 st.markdown(f"[{index:03d}] 🔗 [@{user}](https://threads.com@{user}) &nbsp;&nbsp;&nbsp;&nbsp; <b>⌛ {AnalizMotoru.zaman_metnine_cevir(ts_v)}</b>", unsafe_allow_html=True)
@@ -453,11 +452,12 @@ with st.expander("⚙️ Gelişmiş Hesap Ayarları", expanded=False):
     if st.button("ŞİFREYİ GÜNCELLE", use_container_width=True) and yeni_sifre:
         st.session_state.user_db[aktif_u] = yeni_sifre; st.success("Şifre güncellendi!"); st.code(kod_uret(), language="python")
 
+# --- ⚙️ KATALOG İÇİNDEKİ ST.COLUMNS PARAMETRESİ DE TAMAMEN DÜZELTİLDİ ---
 with st.expander(f"📋 İşlem Yapılanların Listesi ({len(st.session_state.islem_yapilanlar)})", expanded=False):
     if len(st.session_state.islem_yapilanlar) > 0:
         st.markdown("<p style='color:#3a7ebf; font-weight:bold;'>✔️ İŞLEM YAPILAN HESAPLAR</p>", unsafe_allow_html=True)
         for i_idx, i_user in enumerate(sorted(list(st.session_state.islem_yapilanlar)), 1):
-            col_u_name, col_undo = st.columns()
+            col_u_name, col_undo = st.columns([4, 1])
             with col_u_name: st.markdown(f"[{i_idx:03d}] 🔗 [@{i_user}](https://threads.com@{i_user})", unsafe_allow_html=True)
             with col_undo:
                 if st.button("↩️ Geri Al", key=f"undo_{i_user}_{i_idx}"):
