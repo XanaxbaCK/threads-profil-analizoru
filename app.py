@@ -78,7 +78,7 @@ DIL_PAKETI = {
         "login_success": "🔓 Erişim Yetkisi Onaylandı! Sistem yükleniyor...",
         "login_error": "❌ Hatalı Kullanıcı Adı veya Şifre! Lütfen tekrar deneyin.",
         "outdated_warning": "⏳ **DİKKAT: ESKİ VERİ SETİ ALGILANDI**\n\nYüklediğiniz veri paketleri en son {days} gün önce güncellenmiş görünüyor. En doğru sonuçlar için lütfen Threads verilerinizi yeniden indirin.",
-        "logout_btn": "🔒 OTURUMU GÜVEN Lİ KAPAT (ÇIKIŞ YAP)",
+        "logout_btn": "🔒 OTURUMU GÜVENLİ KAPAT (ÇIKIŞ YAP)",
         "premium_notice": "👑 **PREMIUM ÖZELLİK KİLİTLİ:** Advanced grafik analizler, Excel indirme motoru ve kronolojik zaman sıralaması sadece Premium üyelere özeldir. Yetki yükseltmek için lütfen yöneticiyle iletişime geçin.",
         "badge_premium": "👑 Premium Hesap (Sınırsız Erişim)",
         "badge_standard": "👤 Standart Hesap (Kısıtlı Erişim)",
@@ -216,6 +216,9 @@ if "user_db" not in st.session_state:
 if "premium_users" not in st.session_state:
     st.session_state.premium_users = {"murat", "alkan", "büşra", "azat"}
 
+if "islem_yapilanlar" not in st.session_state:
+    st.session_state.islem_yapilanlar = set()
+
 if "logged_in" not in st.session_state:
     st.session_state.logged_in = False
 
@@ -334,7 +337,7 @@ if st.button(DIL_PAKETI[aktif_dil]['btn_analyze'], use_container_width=True, typ
 
                 total_f = len(followers_set) if len(followers_set) > 0 else 1
                 risk_orani = (len(ghosts) + len(unfollowers)) / total_f
-                if risk_orani > 0.45: s_status, s_color, s_desc = "⚠️ KRİTİK SHWBAN RISK", "#d32f2f", "Profilinizdeki hayalet hesap ve vefasız takipçi oranı kritik seviyede!"
+                if risk_orani > 0.45: s_status, s_color, s_desc = "⚠️ CRITICAL SHWBAN RISK", "#d32f2f", "Profilinizdeki hayalet hesap ve vefasız takipçi oranı kritik seviyede!"
                 elif risk_orani > 0.20: s_status, s_color, s_desc = "⚡ ALGORİTMA SINIRDA", "#f57c00", "Hesabınız sınırda duruyor. Pasif hesapları temizlemeniz önerilir."
                 else: s_status, s_color, s_desc = "🛡️ ALGORİTMA GÜVENLİ", "#388e3c", "Tebrikler! Profil süzgeciniz temiz."
 
@@ -361,34 +364,34 @@ if st.button(DIL_PAKETI[aktif_dil]['btn_analyze'], use_container_width=True, typ
                 sheet_unf = workbook.add_worksheet("Beni Takip Etmeyenler")
                 sheet_unf.write_row('A1', ['No', 'Kullanıcı Adı', 'Profil Linki', 'Süre'], header_format)
                 for idx, user in enumerate(sorted(unfollowers, key=lambda x: global_following_map.get(x, 0)), 1):
-                    p_url = f"https://threads.com/@{user}"
+                    p_url = f"https://threads.com@{user}"
                     sheet_unf.write_row(idx, 0, [idx, f"@{user}", p_url, AnalizMotoru.zaman_metnine_cevir(global_following_map.get(user, 0))])
                 sheet_unf.set_column('B:C', 25); sheet_unf.set_column('C:C', 45)
 
                 sheet_fans = workbook.add_worksheet("Geri Takip Etmediklerim")
                 sheet_fans.write_row('A1', ['No', 'Kullanıcı Adı', 'Profil Linki', 'Süre'], header_format)
                 for idx, user in enumerate(sorted(fans, key=lambda x: global_followers_map.get(x, 0)), 1):
-                    p_url = f"https://threads.com/@{user}"
+                    p_url = f"https://threads.com@{user}"
                     sheet_fans.write_row(idx, 0, [idx, f"@{user}", p_url, AnalizMotoru.zaman_metnine_cevir(global_followers_map.get(user, 0))])
                 sheet_fans.set_column('B:C', 25); sheet_fans.set_column('C:C', 45)
 
                 sheet_my_f = workbook.add_worksheet("Benim Takip Ettiklerim")
                 sheet_my_f.write_row('A1', ['No', 'Kullanıcı Adı', 'Profil Linki', 'Süre'], header_format)
                 for idx, user in enumerate(sorted(my_following, key=lambda x: global_following_map.get(x, 0)), 1):
-                    p_url = f"https://threads.com/@{user}"
+                    p_url = f"https://threads.com@{user}"
                     sheet_my_f.write_row(idx, 0, [idx, f"@{user}", p_url, AnalizMotoru.zaman_metnine_cevir(global_following_map.get(user, 0))])
                 sheet_my_f.set_column('B:C', 25); sheet_my_f.set_column('C:C', 45)
 
                 sheet_inter = workbook.add_worksheet("Etkileşim Vermeyenler")
                 sheet_inter.write_row('A1', ['No', 'Kullanıcı Adı', 'Profil Linki', 'Durum'], header_format)
                 for idx, user in enumerate(sorted(no_interaction, key=lambda x: global_followers_map.get(x, 0)), 1):
-                    sheet_inter.write_row(idx, 0, [idx, f"@{user}", f"https://threads.com/@{user}", "Son 7 Gün Etkileşimsiz"])
+                    sheet_inter.write_row(idx, 0, [idx, f"@{user}", f"https://threads.com@{user}", "Son 7 Gün Etkileşimsiz"])
                 sheet_inter.set_column('B:C', 25); sheet_inter.set_column('C:C', 45)
 
                 sheet_gh = workbook.add_worksheet("Hayalet Hesaplar")
                 sheet_gh.write_row('A1', ['No', 'Kullanıcı Adı', 'Profil Linki', 'Süre'], header_format)
                 for idx, user in enumerate(sorted(ghosts, key=lambda x: global_followers_map.get(x, 0)), 1):
-                    p_url = f"https://threads.com/@{user}"
+                    p_url = f"https://threads.com@{user}"
                     sheet_gh.write_row(idx, 0, [idx, f"@{user}", p_url, AnalizMotoru.zaman_metnine_cevir(global_followers_map.get(user, 0))])
                 sheet_gh.set_column('B:C', 25); sheet_gh.set_column('C:C', 45); workbook.close(); output_excel.seek(0)
                 
@@ -397,39 +400,33 @@ if st.button(DIL_PAKETI[aktif_dil]['btn_analyze'], use_container_width=True, typ
                 is_reverse = (st.radio(label="", options=[DIL_PAKETI[aktif_dil]['sort_newest'], DIL_PAKETI[aktif_dil]['sort_oldest']], horizontal=True, label_visibility="collapsed") == DIL_PAKETI[aktif_dil]['sort_newest']) if st.session_state.current_active_user in st.session_state.premium_users else True
                 clean_query = st.text_input("", placeholder=DIL_PAKETI[aktif_dil]['search_placeholder']).strip().lower().replace("@", "")
 
-                sorted_unf = sorted(unfollowers, key=lambda x: global_following_map.get(x, 0), reverse=is_reverse)
-                sorted_fans = sorted(fans, key=lambda x: global_followers_map.get(x, 0), reverse=is_reverse)
-                sorted_my_following = sorted(my_following, key=lambda x: global_following_map.get(x, 0), reverse=is_reverse)
-                sorted_no_inter = sorted(no_interaction, key=lambda x: global_followers_map.get(x, 0), reverse=is_reverse)
-                sorted_gh = sorted(ghosts, key=lambda x: global_followers_map.get(x, 0), reverse=is_reverse)
+                sorted_unf = [u for u in sorted(unfollowers, key=lambda x: global_following_map.get(x, 0), reverse=is_reverse) if u not in st.session_state.islem_yapilanlar]
+                sorted_fans = [u for u in sorted(fans, key=lambda x: global_followers_map.get(x, 0), reverse=is_reverse) if u not in st.session_state.islem_yapilanlar]
+                sorted_my_following = [u for u in sorted(my_following, key=lambda x: global_following_map.get(x, 0), reverse=is_reverse) if u not in st.session_state.islem_yapilanlar]
+                sorted_no_inter = [u for u in sorted(no_interaction, key=lambda x: global_followers_map.get(x, 0), reverse=is_reverse) if u not in st.session_state.islem_yapilanlar]
+                sorted_gh = [u for u in sorted(ghosts, key=lambda x: global_followers_map.get(x, 0), reverse=is_reverse) if u not in st.session_state.islem_yapilanlar]
 
                 t1, t2, t3, t4, t5 = st.tabs([DIL_PAKETI[aktif_dil]['tab_unfollowers'], DIL_PAKETI[aktif_dil]['tab_fans'], DIL_PAKETI[aktif_dil]['tab_my_following'], DIL_PAKETI[aktif_dil]['tab_no_interaction'], DIL_PAKETI[aktif_dil]['tab_ghosts']])
                 
-                with t1:
-                    fil = [u for u in sorted_unf if clean_query in u.lower()] if clean_query else sorted_unf
+                def render_list(target_list, is_following_map=True):
+                    fil = [u for u in target_list if clean_query in u.lower()] if clean_query else target_list
                     if fil:
-                        for index, user in enumerate(fil, 1): st.markdown(f"[{index:03d}] 🔗 [@{user}](https://threads.com/@{user}) &nbsp;&nbsp;&nbsp;&nbsp; <b>⌛ {AnalizMotoru.zaman_metnine_cevir(global_following_map.get(user, 0))}</b>", unsafe_allow_html=True)
-                    else: st.info(DIL_PAKETI[aktif_dil]['perfect_sync'])
-                with t2:
-                    fil = [u for u in sorted_fans if clean_query in u.lower()] if clean_query else sorted_fans
-                    if fil:
-                        for index, user in enumerate(fil, 1): st.markdown(f"[{index:03d}] 🔗 [@{user}](https://threads.com/@{user}) &nbsp;&nbsp;&nbsp;&nbsp; <b>⌛ {AnalizMotoru.zaman_metnine_cevir(global_followers_map.get(user, 0))}</b>", unsafe_allow_html=True)
-                    else: st.info(DIL_PAKETI[aktif_dil]['no_fans'])
-                with t3:
-                    fil = [u for u in sorted_my_following if clean_query in u.lower()] if clean_query else sorted_my_following
-                    if fil:
-                        for index, user in enumerate(fil, 1): st.markdown(f"[{index:03d}] 🔗 [@{user}](https://threads.com/@{user}) &nbsp;&nbsp;&nbsp;&nbsp; <b>⌛ {AnalizMotoru.zaman_metnine_cevir(global_following_map.get(user, 0))}</b>", unsafe_allow_html=True)
-                    else: st.info(DIL_PAKETI[aktif_dil]['no_my_following'])
-                with t4:
-                    fil = [u for u in sorted_no_inter if clean_query in u.lower()] if clean_query else sorted_no_inter
-                    if fil:
-                        for index, user in enumerate(fil, 1): st.markdown(f"[{index:03d}] 🔗 [@{user}](https://threads.com/@{user}) &nbsp;&nbsp;&nbsp;&nbsp; <b>⌛ {AnalizMotoru.zaman_metnine_cevir(global_followers_map.get(user, 0))}</b>", unsafe_allow_html=True)
-                    else: st.info(DIL_PAKETI[aktif_dil]['no_interaction_msg'])
-                with t5:
-                    fil = [u for u in sorted_gh if clean_query in u.lower()] if clean_query else sorted_gh
-                    if fil:
-                        for index, user in enumerate(fil, 1): st.markdown(f"[{index:03d}] 🔗 [@{user}](https://threads.com/@{user}) &nbsp;&nbsp;&nbsp;&nbsp; <b>⌛ {AnalizMotoru.zaman_metnine_cevir(global_followers_map.get(user, 0))}</b>", unsafe_allow_html=True)
-                    else: st.info(DIL_PAKETI[aktif_dil]['no_ghosts'])
+                        for index, user in enumerate(fil, 1):
+                            c_item, c_btn = st.columns([0, 1])
+                            with c_item:
+                                ts_v = global_following_map.get(user, 0) if is_following_map else global_followers_map.get(user, 0)
+                                st.markdown(f"[{index:03d}] 🔗 [@{user}](https://threads.com@{user}) &nbsp;&nbsp;&nbsp;&nbsp; <b>⌛ {AnalizMotoru.zaman_metnine_cevir(ts_v)}</b>", unsafe_allow_html=True)
+                            with c_btn:
+                                if st.button("✔️ İşlem Yapıldı", key=f"btn_done_{user}_{index}"):
+                                    st.session_state.islem_yapilanlar.add(user)
+                                    st.rerun()
+                    else: st.info("Gösterilecek hesap kalmadı.")
+
+                with t1: render_list(sorted_unf, is_following_map=True)
+                with t2: render_list(sorted_fans, is_following_map=False)
+                with t3: render_list(sorted_my_following, is_following_map=True)
+                with t4: render_list(sorted_no_inter, is_following_map=False)
+                with t5: render_list(sorted_gh, is_following_map=False)
         except Exception as e: st.error(f"Sistem Hatası: {str(e)}")
 
 st.write(""); st.divider()
@@ -447,6 +444,9 @@ if is_user_premium and aktif_u == "murat":
 
 with st.expander("⚙️ Gelişmiş Hesap Ayarları", expanded=False):
     st.write(f"• **User:** `@{aktif_u}` | **Role:** `{'👑 Premium' if is_user_premium else '👤 Standart'}`")
+    st.write(f"• **İşlem Yapılan Toplam Hesap:** `{len(st.session_state.islem_yapilanlar)}` adet")
+    if st.button("🔄 İşlem Yapılan Listesini Sıfırla"):
+        st.session_state.islem_yapilanlar.clear(); st.success("Tüm hesaplar listelere geri yüklendi!"); st.rerun()
     st.divider()
     if st.radio("Sistem Teması", ["Karanlık Gece Modu", "Premium Fildişi & Kemik Modu"], index=0 if st.session_state.sabit_tema == "Karanlık Gece Modu" else 1) != st.session_state.sabit_tema:
         st.session_state.sabit_tema = "Karanlık Gece Modu" if st.session_state.sabit_tema != "Karanlık Gece Modu" else "Premium Fildişi & Kemik Modu"
@@ -460,4 +460,4 @@ st.write("")
 if st.button("🗑️ OTURUMU KAPAT VE TÜM VERİLERİ TEMİZLE (DEEP CLEAN)", use_container_width=True, type="secondary"):
     for k in list(st.session_state.keys()): del st.session_state[k]
     st.session_state.logged_in, st.session_state.analyzed = False, False; st.rerun()
-st.write(""); st.link_button(label=DIL_PAKETI[aktif_dil]['contact_btn'], url="https://threads.com/@muratsenr", use_container_width=True)
+st.write(""); st.link_button(label=DIL_PAKETI[aktif_dil]['contact_btn'], url="https://threads.com@muratsenr", use_container_width=True)
