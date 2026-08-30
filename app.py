@@ -418,7 +418,7 @@ if st.button(DIL_PAKETI[aktif_dil]['btn_analyze'], use_container_width=True, typ
                                 ts_v = global_following_map.get(user, 0) if is_following_map else global_followers_map.get(user, 0)
                                 st.markdown(f"[{index:03d}] 🔗 [@{user}](https://threads.com@{user}) &nbsp;&nbsp;&nbsp;&nbsp; <b>⌛ {AnalizMotoru.zaman_metnine_cevir(ts_v)}</b>", unsafe_allow_html=True)
                             with c_btn:
-                                if st.button("✔️ İşlem Yapıldı", key=f"btn_done_{prefix}_{user}_{index}"):
+                                if st.button("Listeden Kaldır", key=f"btn_done_{prefix}_{user}_{index}"):
                                     st.session_state.islem_yapilanlar.add(user)
                                     st.rerun()
                     else: st.info("Gösterilecek hesap kalmadı.")
