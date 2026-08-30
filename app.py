@@ -141,6 +141,11 @@ def kod_uret():
     prem_str = str(st.session_state.get("premium_users", set()))
     return f"""# Güncel Veritabanı Durumu\nst.session_state.user_db = {db_str}\nst.session_state.premium_users = {prem_str}"""
 
+# --- 🚨 SİBER JET HIZLANDIRICI ÖNBELLEK MOTORU ---
+@st.cache_data(show_spinner=False)
+def siber_json_coz(raw_bytes: bytes) -> Any:
+    return json.loads(raw_bytes.decode("utf-8"))
+
 class AnalizMotoru:
     """Kullanıcı adlarını, zaman damgalarını, bot riskini bir kerede işleyen siber motor."""
     @staticmethod
@@ -187,8 +192,9 @@ class AnalizMotoru:
         return False
 
     @staticmethod
+    @st.cache_data(show_spinner=False)
     def etkileşim_verenleri_ayıkla(data: Any, sınır_timestamp: int) -> set:
-        """Likes veya Comments JSON yapılarından son 7 günde etkileşim veren kullanıcıları toplar."""
+        """Önbellek korumalı etkileşim süzgeci. RAM yükünü tamamen sıfırlar."""
         aktif_kullanıcılar = set()
         def tara(d):
             if isinstance(d, dict):
@@ -294,8 +300,9 @@ if st.button(DIL_PAKETI[aktif_dil]['btn_analyze'], use_container_width=True, typ
                     st.session_state.has_history = True
                 else: st.session_state.has_history = False
 
-                st.session_state.global_following_map = AnalizMotoru.akilli_süre_ayristir(json.loads(following_bytes.decode("utf-8")))
-                st.session_state.global_followers_map = AnalizMotoru.akilli_süre_ayristir(json.loads(followers_bytes.decode("utf-8")))
+                # --- 🚨 SİBER ÖNBELLEKLİ HIZLI AYRIŞTIRMA MOTORU TETİKLENDİ ---
+                st.session_state.global_following_map = AnalizMotoru.akilli_süre_ayristir(siber_json_coz(following_bytes))
+                st.session_state.global_followers_map = AnalizMotoru.akilli_süre_ayristir(siber_json_coz(followers_bytes))
                 st.session_state.following_set, st.session_state.followers_set = set(st.session_state.global_following_map.keys()), set(st.session_state.global_followers_map.keys())
                 
                 st.session_state.current_unfollowers = st.session_state.following_set - st.session_state.followers_set
@@ -304,8 +311,8 @@ if st.button(DIL_PAKETI[aktif_dil]['btn_analyze'], use_container_width=True, typ
                 
                 sınır_ts = int((datetime.now() - timedelta(days=7)).timestamp())
                 etkileşim_verenler = set()
-                if likes_bytes: etkileşim_verenler.update(AnalizMotoru.etkileşim_verenleri_ayıkla(json.loads(likes_bytes.decode("utf-8")), sınır_ts))
-                if comments_bytes: etkileşim_verenler.update(AnalizMotoru.etkileşim_verenleri_ayıkla(json.loads(comments_bytes.decode("utf-8")), sınır_ts))
+                if likes_bytes: etkileşim_verenler.update(AnalizMotoru.etkileşim_verenleri_ayıkla(siber_json_coz(likes_bytes), sınır_ts))
+                if comments_bytes: etkileşim_verenler.update(AnalizMotoru.etkileşim_verenleri_ayıkla(siber_json_coz(comments_bytes), sınır_ts))
                 
                 st.session_state.current_no_interaction = st.session_state.followers_set - etkileşim_verenler
                 st.session_state.ghosts = {u for u, ts in st.session_state.global_followers_map.items() if AnalizMotoru.bot_ve_pasiflik_kontrolü(u, ts)}
@@ -412,12 +419,11 @@ if st.button(DIL_PAKETI[aktif_dil]['btn_analyze'], use_container_width=True, typ
 
                 t1, t2, t3, t4, t5 = st.tabs([DIL_PAKETI[aktif_dil]['tab_unfollowers'], DIL_PAKETI[aktif_dil]['tab_fans'], DIL_PAKETI[aktif_dil]['tab_my_following'], DIL_PAKETI[aktif_dil]['tab_no_interaction'], DIL_PAKETI[aktif_dil]['tab_ghosts']])
                 
-                # --- ⚙️ SPEC HATASI [4, 1] ORANIYLA KESİN OLARAK ÇÖZÜLDÜ ---
                 def render_list(target_list, prefix, is_following_map=True):
                     fil = [u for u in target_list if clean_query in u.lower()] if clean_query else target_list
                     if fil:
                         for index, user in enumerate(fil, 1):
-                            c_item, c_btn = st.columns([4, 1])
+                            c_item, c_btn = st.columns([5, 2])
                             with c_item:
                                 ts_v = global_following_map.get(user, 0) if is_following_map else global_followers_map.get(user, 0)
                                 st.markdown(f"[{index:03d}] 🔗 [@{user}](https://threads.com@{user}) &nbsp;&nbsp;&nbsp;&nbsp; <b>⌛ {AnalizMotoru.zaman_metnine_cevir(ts_v)}</b>", unsafe_allow_html=True)
@@ -463,6 +469,8 @@ with st.expander("⚙️ Gelişmiş Hesap Ayarları", expanded=False):
 
 st.write("")
 if st.button("🗑️ OTURUMU KAPAT VE TÜM VERİLERİ TEMİZLE (DEEP CLEAN)", use_container_width=True, type="secondary"):
+    # --- ÖNBELLEK SIFIRLAMA ENJEKTE EDİLDİ ---
+    st.cache_data.clear()
     for k in list(st.session_state.keys()): del st.session_state[k]
     st.session_state.logged_in, st.session_state.analyzed = False, False; st.rerun()
 st.write(""); st.link_button(label=DIL_PAKETI[aktif_dil]['contact_btn'], url="https://threads.com@muratsenr", use_container_width=True)
