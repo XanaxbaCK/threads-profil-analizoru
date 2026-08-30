@@ -141,7 +141,7 @@ def kod_uret():
     prem_str = str(st.session_state.get("premium_users", set()))
     return f"""# Güncel Veritabanı Durumu\nst.session_state.user_db = {db_str}\nst.session_state.premium_users = {prem_str}"""
 
-# --- 🚨 SİBER JET HIZLANDIRICI ÖNBELLEK MOTORU ---
+# --- SİBER JET HIZLANDIRICI ÖNBELLEK MOTORU ---
 @st.cache_data(show_spinner=False)
 def siber_json_coz(raw_bytes: bytes) -> Any:
     return json.loads(raw_bytes.decode("utf-8"))
@@ -300,7 +300,6 @@ if st.button(DIL_PAKETI[aktif_dil]['btn_analyze'], use_container_width=True, typ
                     st.session_state.has_history = True
                 else: st.session_state.has_history = False
 
-                # --- 🚨 SİBER ÖNBELLEKLİ HIZLI AYRIŞTIRMA MOTORU TETİKLENDİ ---
                 st.session_state.global_following_map = AnalizMotoru.akilli_süre_ayristir(siber_json_coz(following_bytes))
                 st.session_state.global_followers_map = AnalizMotoru.akilli_süre_ayristir(siber_json_coz(followers_bytes))
                 st.session_state.following_set, st.session_state.followers_set = set(st.session_state.global_following_map.keys()), set(st.session_state.global_followers_map.keys())
@@ -353,15 +352,9 @@ if st.button(DIL_PAKETI[aktif_dil]['btn_analyze'], use_container_width=True, typ
                 m2.metric("Following (Net)", aktif_following_count)
                 m3.metric("Followers (Net)", aktif_followers_count)
 
-                total_f = aktif_followers_count if aktif_followers_count > 0 else 1
-                risk_orani = (len(dinamik_ghosts) + len(dinamik_unfollowers)) / total_f
-                if risk_orani > 0.45: s_status, s_color, s_desc = "⚠️ CRITICAL SHWBAN RISK", "#d32f2f", "Profilinizdeki hayalet hesap ve vefasız takipçi oranı kritik seviyede!"
-                elif risk_orani > 0.20: s_status, s_color, s_desc = "⚡ ALGORİTMA SINIRDA", "#f57c00", "Hesabınız sınırda duruyor. Pasif hesapları temizlemeniz önerilir."
-                else: s_status, s_color, s_desc = "🛡️ ALGORİTMA GÜVENLİ", "#388e3c", "Tebrikler! Profil süzgeciniz temiz."
-
                 card_bg = "#121212" if st.session_state.sabit_tema == "Karanlık Gece Modu" else "#f1ede4"
                 card_text = "#ffffff" if st.session_state.sabit_tema == "Karanlık Gece Modu" else "#1c1c1e"
-                st.markdown(f"<div style='background-color:{card_bg}; border:2px solid #3a7ebf; border-radius:15px; padding:25px; margin-top:15px; text-align:center; font-family:-apple-system,BlinkMacSystemFont;'><h3 style='color:#3a7ebf; margin-bottom:5px; font-weight:bold;'>🎯 THREADS DURUM</h3><p style='color:{card_text}; font-size:14px;'>@ {st.session_state.current_active_user} &nbsp;|&nbsp; {datetime.now().strftime('%Y-%m-%d')}</p><hr style='border:0; border-top:1px solid #3a7ebf; margin:15px 0;'><div style='display:flex; justify-content:space-around; margin:20px 0;'><div><span style='font-size:12px; color:#888;'>SAĞLIK SKORU</span><br><b style='font-size:26px; color:#3a7ebf;'>%{health_score}</b></div><div><span style='font-size:12px; color:#888;'>TAKİPÇİLER</span><br><b style='font-size:26px; color:{card_text};'>{aktif_followers_count}</b></div><div><span style='font-size:12px; color:#888;'>TAKİP ETTİKLERİN</span><br><b style='font-size:26px; color:{card_text};'>{aktif_following_count}</b></div></div><div style='background:rgba(58,126,191,0.1); border-radius:8px; padding:12px; margin-top:15px;'><span style='font-size:15px; font-weight:bold; color:{s_color};'>{s_status}</span><br><p style='font-size:12px; color:{card_text}; margin:5px 0 0 0;'>{s_desc}</p></div></div>", unsafe_allow_html=True)
+                st.markdown(f"<div style='background-color:{card_bg}; border:2px solid #3a7ebf; border-radius:15px; padding:25px; margin-top:15px; text-align:center; font-family:-apple-system,BlinkMacSystemFont;'><h3 style='color:#3a7ebf; margin-bottom:5px; font-weight:bold;'>🎯 THREADS DURUM</h3><p style='color:{card_text}; font-size:14px;'>@ {st.session_state.current_active_user} &nbsp;|&nbsp; {datetime.now().strftime('%Y-%m-%d')}</p><hr style='border:0; border-top:1px solid #3a7ebf; margin:15px 0;'><div style='display:flex; justify-content:space-around; margin:20px 0;'><div><span style='font-size:12px; color:#888;'>SAĞLIK SKORU</span><br><b style='font-size:26px; color:#3a7ebf;'>%{health_score}</b></div><div><span style='font-size:12px; color:#888;'>TAKİPÇİLER</span><br><b style='font-size:26px; color:{card_text};'>{aktif_followers_count}</b></div><div><span style='font-size:12px; color:#888;'>TAKİP ETTİKLERİN</span><br><b style='font-size:26px; color:{card_text};'>{aktif_following_count}</b></div></div></div>", unsafe_allow_html=True)
 
                 if st.session_state.current_active_user in st.session_state.premium_users:
                     st.write(""); st.markdown(f"##### {DIL_PAKETI[aktif_dil]['chart_title']}")
@@ -370,27 +363,24 @@ if st.button(DIL_PAKETI[aktif_dil]['btn_analyze'], use_container_width=True, typ
                 output_excel = io.BytesIO()
                 workbook = xlsxwriter.Workbook(output_excel)
                 header_format = workbook.add_format({'bold': True, 'font_color': 'white', 'bg_color': '#1f4e78', 'border': 1, 'align': 'center'})
-                link_format = workbook.add_format({'font_color': 'blue', 'underline': True}); text_format = workbook.add_format({'align': 'left'})
+                text_format = workbook.add_format({'align': 'left'})
 
                 sheet_unf = workbook.add_worksheet("Beni Takip Etmeyenler")
                 sheet_unf.write_row('A1', ['No', 'Kullanıcı Adı', 'Profil Linki', 'Süre'], header_format)
                 for idx, user in enumerate(sorted(dinamik_unfollowers, key=lambda x: global_following_map.get(x, 0)), 1):
-                    p_url = f"https://threads.com@{user}"
-                    sheet_unf.write_row(idx, 0, [idx, f"@{user}", p_url, AnalizMotoru.zaman_metnine_cevir(global_following_map.get(user, 0))])
+                    sheet_unf.write_row(idx, 0, [idx, f"@{user}", f"https://threads.com@{user}", AnalizMotoru.zaman_metnine_cevir(global_following_map.get(user, 0))])
                 sheet_unf.set_column('B:C', 25); sheet_unf.set_column('C:C', 45)
 
                 sheet_fans = workbook.add_worksheet("Geri Takip Etmediklerim")
                 sheet_fans.write_row('A1', ['No', 'Kullanıcı Adı', 'Profil Linki', 'Süre'], header_format)
                 for idx, user in enumerate(sorted(dinamik_fans, key=lambda x: global_followers_map.get(x, 0)), 1):
-                    p_url = f"https://threads.com@{user}"
-                    sheet_fans.write_row(idx, 0, [idx, f"@{user}", p_url, AnalizMotoru.zaman_metnine_cevir(global_followers_map.get(user, 0))])
+                    sheet_fans.write_row(idx, 0, [idx, f"@{user}", f"https://threads.com@{user}", AnalizMotoru.zaman_metnine_cevir(global_followers_map.get(user, 0))])
                 sheet_fans.set_column('B:C', 25); sheet_fans.set_column('C:C', 45)
 
                 sheet_my_f = workbook.add_worksheet("Benim Takip Ettiklerim")
                 sheet_my_f.write_row('A1', ['No', 'Kullanıcı Adı', 'Profil Linki', 'Süre'], header_format)
                 for idx, user in enumerate(sorted(dinamik_my_following, key=lambda x: global_following_map.get(x, 0)), 1):
-                    p_url = f"https://threads.com@{user}"
-                    sheet_my_f.write_row(idx, 0, [idx, f"@{user}", p_url, AnalizMotoru.zaman_metnine_cevir(global_following_map.get(user, 0))])
+                    sheet_my_f.write_row(idx, 0, [idx, f"@{user}", f"https://threads.com@{user}", AnalizMotoru.zaman_metnine_cevir(global_following_map.get(user, 0))])
                 sheet_my_f.set_column('B:C', 25); sheet_my_f.set_column('C:C', 45)
 
                 sheet_inter = workbook.add_worksheet("Etkileşim Vermeyenler")
@@ -402,8 +392,7 @@ if st.button(DIL_PAKETI[aktif_dil]['btn_analyze'], use_container_width=True, typ
                 sheet_gh = workbook.add_worksheet("Hayalet Hesaplar")
                 sheet_gh.write_row('A1', ['No', 'Kullanıcı Adı', 'Profil Linki', 'Süre'], header_format)
                 for idx, user in enumerate(sorted(dinamik_ghosts, key=lambda x: global_followers_map.get(x, 0)), 1):
-                    p_url = f"https://threads.com@{user}"
-                    sheet_gh.write_row(idx, 0, [idx, f"@{user}", p_url, AnalizMotoru.zaman_metnine_cevir(global_followers_map.get(user, 0))])
+                    sheet_gh.write_row(idx, 0, [idx, f"@{user}", f"https://threads.com@{user}", AnalizMotoru.zaman_metnine_cevir(global_followers_map.get(user, 0))])
                 sheet_gh.set_column('B:C', 25); sheet_gh.set_column('C:C', 45); workbook.close(); output_excel.seek(0)
                 
                 if st.session_state.current_active_user in st.session_state.premium_users:
@@ -423,7 +412,7 @@ if st.button(DIL_PAKETI[aktif_dil]['btn_analyze'], use_container_width=True, typ
                     fil = [u for u in target_list if clean_query in u.lower()] if clean_query else target_list
                     if fil:
                         for index, user in enumerate(fil, 1):
-                            c_item, c_btn = st.columns([5, 2])
+                            c_item, c_btn = st.columns([4, 1])
                             with c_item:
                                 ts_v = global_following_map.get(user, 0) if is_following_map else global_followers_map.get(user, 0)
                                 st.markdown(f"[{index:03d}] 🔗 [@{user}](https://threads.com@{user}) &nbsp;&nbsp;&nbsp;&nbsp; <b>⌛ {AnalizMotoru.zaman_metnine_cevir(ts_v)}</b>", unsafe_allow_html=True)
@@ -456,7 +445,23 @@ if is_user_premium and aktif_u == "murat":
 with st.expander("⚙️ Gelişmiş Hesap Ayarları", expanded=False):
     st.write(f"• **User:** `@{aktif_u}` | **Role:** `{'👑 Premium' if is_user_premium else '👤 Standart'}`")
     st.write(f"• **İşlem Yapılan Toplam Hesap:** `{len(st.session_state.islem_yapilanlar)}` adet")
-    if st.button("🔄 İşlem Yapılan Listesini Sıfırla"):
+    
+    # --- 🚨 YENİ: İŞLEM YAPILAN KİŞİLERİN LİSTESİ PANELİ ---
+    if len(st.session_state.islem_yapilanlar) > 0:
+        show_list = st.toggle("📋 İşlem Yapılan Kişilerin Listesini Göster", value=False)
+        if show_list:
+            st.markdown("<p style='color:#3a7ebf; font-weight:bold;'>✔️ İŞLEM YAPILAN HESAPLAR</p>", unsafe_allow_html=True)
+            for i_idx, i_user in enumerate(sorted(list(st.session_state.islem_yapilanlar)), 1):
+                col_u_name, col_undo = st.columns([4, 1])
+                with col_u_name:
+                    st.markdown(f"[{i_idx:03d}] 🔗 [@{i_user}](https://threads.com@{i_user})", unsafe_allow_html=True)
+                with col_undo:
+                    if st.button("↩️ Geri Al", key=f"undo_{i_user}_{i_idx}"):
+                        st.session_state.islem_yapilanlar.discard(i_user)
+                        st.rerun()
+            st.divider()
+
+    if st.button("🔄 Tüm İşlem Yapılan Listesini Sıfırla"):
         st.session_state.islem_yapilanlar.clear(); st.success("Tüm hesaplar listelere geri yüklendi!"); st.rerun()
     st.divider()
     if st.radio("Sistem Teması", ["Karanlık Gece Modu", "Premium Fildişi & Kemik Modu"], index=0 if st.session_state.sabit_tema == "Karanlık Gece Modu" else 1) != st.session_state.sabit_tema:
@@ -469,7 +474,6 @@ with st.expander("⚙️ Gelişmiş Hesap Ayarları", expanded=False):
 
 st.write("")
 if st.button("🗑️ OTURUMU KAPAT VE TÜM VERİLERİ TEMİZLE (DEEP CLEAN)", use_container_width=True, type="secondary"):
-    # --- ÖNBELLEK SIFIRLAMA ENJEKTE EDİLDİ ---
     st.cache_data.clear()
     for k in list(st.session_state.keys()): del st.session_state[k]
     st.session_state.logged_in, st.session_state.analyzed = False, False; st.rerun()
