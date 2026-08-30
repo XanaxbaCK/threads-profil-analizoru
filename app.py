@@ -43,7 +43,7 @@ DIL_PAKETI = {
         "tab_unfollowers": "Beni Takip Etmeyenler",
         "tab_fans": "Geri Takip Etmediklerim",
         "tab_my_following": "Benim Takip Ettiklerim",
-        "tab_no_interaction": "Beğeni ve Yorum Atmayanlar (1 Haftalık)",
+        "tab_no_interaction": "Beğeni ve Yorum Atmayanlar (15 Haftalık)",
         "tab_ghosts": "Hayalet (Ghost) Hesaplar",
         "input_error_msg": "Analiz için veri havuzunda en az 'followers.json' ve 'following.json' bulunmalıdır. Etkileşim için 'likes.json' ve 'comments.json' ekleyebilirsiniz.",
         "parse_error_msg": "Yüklenen JSON şeması siber motor tarafından çözümlenemedi.",
@@ -51,13 +51,13 @@ DIL_PAKETI = {
         "perfect_sync": "🎉 [KUSURSUZ SENKRONİZASYON]: Herkes sizi geri takip ediyor!",
         "no_fans": "🎯 [HAYRAN YOK]: Takip ettiğiniz herkesi siz de geri takip ediyorsunuz.",
         "no_my_following": "📢 [TAKİP LİSTESİ BOŞ]: Takip ettiğiniz hiç kimse bulunamadı.",
-        "no_interaction_msg": "🔥 [SÜPER ETKİLEŞİM]: Son 1 haftada tüm takipçileriniz beğeni veya yorum attı!",
+        "no_interaction_msg": "🔥 [SÜPER ETKİLEŞİM]: Son 15 günde tüm takipçileriniz beğeni veya yorum attı!",
         "no_ghosts": "🛡️ [TEMİZ PROFİL]: Profilinizde hayalet veya bot hesap algılanmadı.",
         "download_excel": "📥 Excel Analiz Raporunu İndir",
         "summary_title": "📊 PROFİL SAĞLIK ÖZETİ",
         "health_score": "Sağlık Skoru",
         "guide_title": "📖 Threads Verileri Nasıl İndirilir? (Kullanım Kılavuzu) LÜTFEN OKUYUNUZ!",
-        "pwa_guide_text": "📱 **BU SİTEYİ TELEFONA MOBİL UYGULAMA OLARAK KURABİLMEK İÇİN:**\n\n• **iOS (Safari) için:** Sayfanın altındaki **'Paylaş'** (Yukarı ok olan kutu) butonuna dokunun. Açılan menüden **'Ana Ekrana Ekle' (Add to Home Screen)** seçeneğini işaretleyin.\n\n• **Android (Chrome) için:** Sağ üstteki **'Üç Nokta'** simgesine dokunun. Açılan menüden **'Uygulamayı Yükle'** veya **'Ana Ekrana Ekle'** seçeneceğine basın.",
+        "pwa_guide_text": "📱 **BU SİTEYİ TELEFONA MOBİL UYGULAMA OLARAK KURABİLMEK İÇİN:**\n\n• **iOS (Safari) için:** Sayfanın altındaki **'Paylaş'** (Yukarı ok olan kutu) butonuna dokunun. Açılan menüden **'Ana Ekrana Ekle' (Add to Home Screen)** seçeneğini işaretleyin.\n\n• **Android (Chrome) için:** Sağ üstteki **'Üç Nokta'** simgesine dokunun. Açılan menüden **'Uygulamayı Yükle'** veya **'Ana Ekrana Ekle'** seçeneğine basın.",
         "guide_step1": "📱 **%100 GÜVENLİ YÜKLEME:** İster ham .zip atın, ister içindeki .json dosyalarını çoklu seçip yükleyin.",
         "guide_step2": "1️⃣ **Threads** uygulamasını açın ve **Ayarlar -> Hesaplar Merkezi** bölümüne girin.",
         "guide_step3": "2️⃣ **Bilgilerin ve İzinlerin -> Bilgilerini İndir** adımlarını takip edin.",
@@ -93,7 +93,7 @@ DIL_PAKETI = {
         "tab_unfollowers": "Not Following Me Back",
         "tab_fans": "I Am Not Following Back",
         "tab_my_following": "Whom I Follow",
-        "tab_no_interaction": "No Likes & Comments (1 Week)",
+        "tab_no_interaction": "No Likes & Comments (15 Days)",
         "tab_ghosts": "Ghost / Inactive Accounts",
         "input_error_msg": "Analysis requires at least 'followers.json' and 'following.json' in the pool. You can add 'likes.json' and 'comments.json' for interaction data.",
         "parse_error_msg": "The uploaded JSON schema could not be resolved by the engine.",
@@ -101,7 +101,7 @@ DIL_PAKETI = {
         "perfect_sync": "🎉 [PERFECT SYNC]: Everyone is following you back!",
         "no_fans": "🎯 [NO FANS]: You are following back everyone who follows you.",
         "no_my_following": "📢 [FOLLOWING LIST EMPTY]: No accounts found in your following list.",
-        "no_interaction_msg": "🔥 [SUPER ENGAGEMENT]: All your followers liked or commented in the last 7 days!",
+        "no_interaction_msg": "🔥 [SUPER ENGAGEMENT]: All your followers liked or commented in the last 15 days!",
         "no_ghosts": "🛡️ [CLEAN PROFILE]: No ghost or bot accounts detected on your profile.",
         "download_excel": "📥 Download Excel Analysis Report",
         "summary_title": "📊 PROFILE HEALTH SUMMARY",
@@ -127,6 +127,7 @@ DIL_PAKETI = {
         "login_btn": "LOGIN",
         "login_success": "🔓 Access Granted! Loading system...",
         "login_error": "❌ Invalid Username or Password! Please try again.",
+        "outdated_warning": "⚠️ **WARNING: OUTDATED DATA DETECTED**\n\nYour uploaded data files were last updated {days} days ago. For the most accurate results, please re-download from Threads.",
         "logout_btn": "🔒 SECURE LOG-OUT",
         "premium_notice": "👑 **PREMIUM FEATURE LOCKED:** Advanced charts, Excel exports, and chronological sorting are restricted to Premium members.",
         "badge_premium": "👑 Premium Account (Unrestricted)",
@@ -306,7 +307,8 @@ if st.button(DIL_PAKETI[aktif_dil]['btn_analyze'], use_container_width=True, typ
                 st.session_state.current_fans = st.session_state.followers_set - st.session_state.following_set
                 st.session_state.current_my_following = st.session_state.following_set
                 
-                sınır_ts = int((datetime.now() - timedelta(days=7)).timestamp())
+                # --- 🚨 GÜNCELLEME: ETKİLEŞİM HAVUZU TAM OLARAK 15 GÜNE (360 SAAT) SABİTLENDİ ---
+                sınır_ts = int((datetime.now() - timedelta(days=15)).timestamp())
                 etkileşim_verenler = set()
                 if likes_bytes: etkileşim_verenler.update(AnalizMotoru.etkileşim_verenleri_ayıkla(json.loads(siber_json_coz(likes_bytes)), sınır_ts))
                 if comments_bytes: etkileşim_verenler.update(AnalizMotoru.etkileşim_verenleri_ayıkla(json.loads(siber_json_coz(comments_bytes)), sınır_ts))
@@ -384,7 +386,7 @@ if st.button(DIL_PAKETI[aktif_dil]['btn_analyze'], use_container_width=True, typ
                 sheet_inter = workbook.add_worksheet("Etkileşim Vermeyenler")
                 sheet_inter.write_row('A1', ['No', 'Kullanıcı Adı', 'Profil Linki', 'Durum'], header_format)
                 for idx, user in enumerate(sorted(dinamik_no_interaction, key=lambda x: global_followers_map.get(x, 0)), 1):
-                    sheet_inter.write_row(idx, 0, [idx, f"@{user}", f"https://threads.com@{user}", "Son 7 Gün Etkileşimsiz"])
+                    sheet_inter.write_row(idx, 0, [idx, f"@{user}", f"https://threads.com@{user}", "Son 15 Gün Etkileşimsiz"])
                 sheet_inter.set_column('B:C', 25); sheet_inter.set_column('C:C', 45)
 
                 sheet_gh = workbook.add_worksheet("Hayalet Hesaplar")
@@ -406,12 +408,11 @@ if st.button(DIL_PAKETI[aktif_dil]['btn_analyze'], use_container_width=True, typ
 
                 t1, t2, t3, t4, t5 = st.tabs([DIL_PAKETI[aktif_dil]['tab_unfollowers'], DIL_PAKETI[aktif_dil]['tab_fans'], DIL_PAKETI[aktif_dil]['tab_my_following'], DIL_PAKETI[aktif_dil]['tab_no_interaction'], DIL_PAKETI[aktif_dil]['tab_ghosts']])
                 
-                # --- ⚙️ NİZAMİ VE HATASIZ [4, 1] SÜTUN PARAMETRESİ ENJEKTE EDİLDİ ---
                 def render_list(target_list, prefix, is_following_map=True):
                     fil = [u for u in target_list if clean_query in u.lower()] if clean_query else target_list
                     if fil:
                         for index, user in enumerate(fil, 1):
-                            c_item, c_btn = st.columns([4, 1])
+                            c_item, c_btn = st.columns([0.75, 0.25])
                             with c_item:
                                 ts_v = global_following_map.get(user, 0) if is_following_map else global_followers_map.get(user, 0)
                                 st.markdown(f"[{index:03d}] 🔗 [@{user}](https://threads.com@{user}) &nbsp;&nbsp;&nbsp;&nbsp; <b>⌛ {AnalizMotoru.zaman_metnine_cevir(ts_v)}</b>", unsafe_allow_html=True)
@@ -430,12 +431,11 @@ if st.button(DIL_PAKETI[aktif_dil]['btn_analyze'], use_container_width=True, typ
 
 st.write(""); st.divider()
 
-# --- 🚨 1. SIRADAKİ KATALOGDA DA PARAMETRE NİZAMİ HALE GETİRİLDİ [4, 1] ---
 with st.expander(f"📋 İşlem Yapılanların Listesi ({len(st.session_state.islem_yapilanlar)})", expanded=False):
     if len(st.session_state.islem_yapilanlar) > 0:
         st.markdown("<p style='color:#3a7ebf; font-weight:bold;'>✔️ İŞLEM YAPILAN HESAPLAR</p>", unsafe_allow_html=True)
         for i_idx, i_user in enumerate(sorted(list(st.session_state.islem_yapilanlar)), 1):
-            col_u_name, col_undo = st.columns([4, 1])
+            col_u_name, col_undo = st.columns([0.75, 0.25])
             with col_u_name: st.markdown(f"[{i_idx:03d}] 🔗 [@{i_user}](https://threads.com@{i_user})", unsafe_allow_html=True)
             with col_undo:
                 if st.button("↩️ Geri Al", key=f"undo_{i_user}_{i_idx}"):
