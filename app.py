@@ -57,7 +57,7 @@ DIL_PAKETI = {
         "summary_title": "📊 PROFİL SAĞLIK ÖZETİ",
         "health_score": "Sağlık Skoru",
         "guide_title": "📖 Threads Verileri Nasıl İndirilir? (Kullanım Kılavuzu) LÜTFEN OKUYUNUZ!",
-        "pwa_guide_text": "📱 **BU SİTEYİ TELEFONA MOBİL UYGULAMA OLARAK KURABİLMEK İÇİN:**\n\n• **iOS (Safari) için:** Sayfanın altındaki **'Paylaş'** (Yukarı ok olan kutu) butonuna dokunun. Açılan menüden **'Ana Ekrana Ekle' (Add to Home Screen)** seçeneğini işaretleyin.\n\n• **Android (Chrome) için:** Sağ üstteki **'Üç Nokta'** simgesine dokunun. Açılan menüden **'Uygulamayı Yükle'** veya **'Ana Ekrana Ekle'** seçeneğine basın.",
+        "pwa_guide_text": "📱 **BU SİTEYİ TELEFONA MOBİL UYGULAMA OLARAK KURABİLMEK İÇİN:**\n\n• **iOS (Safari) için:** Sayfanın altındaki **'Paylaş'** (Yukarı ok olan kutu) butonuna dokunun. Açılan menüden **'Ana Ekrana Ekle' (Add to Home Screen)** seçeneğini işaretleyin.\n\n• **Android (Chrome) için:** Sağ üstteki **'Üç Nokta'** simgesine dokunun. Açılan menüden **'Uygulamayı Yükle'** veya **'Ana Ekrana Ekle'** seçeneceğine basın.",
         "guide_step1": "📱 **%100 GÜVENLİ YÜKLEME:** İster ham .zip atın, ister içindeki .json dosyalarını çoklu seçip yükleyin.",
         "guide_step2": "1️⃣ **Threads** uygulamasını açın ve **Ayarlar -> Hesaplar Merkezi** bölümüne girin.",
         "guide_step3": "2️⃣ **Bilgilerin ve İzinlerin -> Bilgilerini İndir** adımlarını takip edin.",
@@ -127,7 +127,6 @@ DIL_PAKETI = {
         "login_btn": "LOGIN",
         "login_success": "🔓 Access Granted! Loading system...",
         "login_error": "❌ Invalid Username or Password! Please try again.",
-        "outdated_warning": "⚠️ **WARNING: OUTDATED DATA DETECTED**\n\nYour uploaded data files were last updated {days} days ago. For the most accurate results, please re-download from Threads.",
         "logout_btn": "🔒 SECURE LOG-OUT",
         "premium_notice": "👑 **PREMIUM FEATURE LOCKED:** Advanced charts, Excel exports, and chronological sorting are restricted to Premium members.",
         "badge_premium": "👑 Premium Account (Unrestricted)",
@@ -234,7 +233,8 @@ if not st.session_state.logged_in:
         input_user = st.text_input("👤 Kullanıcı Adı", key="login_username_field").strip().lower()
         input_pass = st.text_input("🔑 Şifre", type="password", key="login_password_field").strip()
         if st.button("SİSTEME GİRİŞ YAP", use_container_width=True, type="primary"):
-            if input_user in st.session_state.user_db && st.session_state.user_db[input_user] == input_pass:
+            # --- 🚨 SYNTAX ERROR OPERATÖRÜ "and" OLARAK DÜZELTİLDİ ---
+            if input_user in st.session_state.user_db and st.session_state.user_db[input_user] == input_pass:
                 st.session_state.logged_in = True
                 st.session_state.current_active_user = input_user
                 st.success("🔓 Erişim Onaylandı! Sistem yükleniyor...")
@@ -411,7 +411,7 @@ if st.button(DIL_PAKETI[aktif_dil]['btn_analyze'], use_container_width=True, typ
                     fil = [u for u in target_list if clean_query in u.lower()] if clean_query else target_list
                     if fil:
                         for index, user in enumerate(fil, 1):
-                            c_item, c_btn = st.columns([4, 1])
+                            c_item, c_btn = st.columns()
                             with c_item:
                                 ts_v = global_following_map.get(user, 0) if is_following_map else global_followers_map.get(user, 0)
                                 st.markdown(f"[{index:03d}] 🔗 [@{user}](https://threads.com@{user}) &nbsp;&nbsp;&nbsp;&nbsp; <b>⌛ {AnalizMotoru.zaman_metnine_cevir(ts_v)}</b>", unsafe_allow_html=True)
@@ -430,12 +430,12 @@ if st.button(DIL_PAKETI[aktif_dil]['btn_analyze'], use_container_width=True, typ
 
 st.write(""); st.divider()
 
-# --- 🚨 YENİ SIRALAMA: 1. SIRAYA ALINAN BAĞIMSIZ LİSTE KATALOĞU ---
+# --- 🚨 1. SIRAYA ALINAN BAĞIMSIZ LİSTE KATALOĞU ---
 with st.expander(f"📋 İşlem Yapılanların Listesi ({len(st.session_state.islem_yapilanlar)})", expanded=False):
     if len(st.session_state.islem_yapilanlar) > 0:
         st.markdown("<p style='color:#3a7ebf; font-weight:bold;'>✔️ İŞLEM YAPILAN HESAPLAR</p>", unsafe_allow_html=True)
         for i_idx, i_user in enumerate(sorted(list(st.session_state.islem_yapilanlar)), 1):
-            col_u_name, col_undo = st.columns([4, 1])
+            col_u_name, col_undo = st.columns()
             with col_u_name: st.markdown(f"[{i_idx:03d}] 🔗 [@{i_user}](https://threads.com@{i_user})", unsafe_allow_html=True)
             with col_undo:
                 if st.button("↩️ Geri Al", key=f"undo_{i_user}_{i_idx}"):
