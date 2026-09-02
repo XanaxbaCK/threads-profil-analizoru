@@ -452,7 +452,7 @@ with st.expander("⚙️ Gelişmiş Hesap Ayarları", expanded=False):
         st.success("Tema Değişti!"); st.rerun()
     st.divider(); st.session_state.chk_outdated_alert = st.checkbox("Eski Veri Uyarısı", value=st.session_state.get("chk_outdated_alert", True))
     st.divider(); yeni_sifre = st.text_input("Yeni Şifre Girişi", type="password", key="change_password_box").strip()
-    if st.button("ŞİFREYİ GÜNCELLE", use_container_width=True) and yeni_sifre:
+    if st.button("ŞİFREYİ GÜNCELLE (muratsenr ile iletişime geçiniz)", use_container_width=True) and yeni_sifre:
         st.session_state.user_db[aktif_u] = yeni_sifre; st.success("Şifre güncellendi!"); st.code(kod_uret(), language="python")
 
 st.write("")
