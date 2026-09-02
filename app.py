@@ -37,7 +37,7 @@ DIL_PAKETI = {
     "TR": {
         "main_title": "THREADS TÜRKİYE / MURAT ŞENER ",
         "main_sub": "YEREL VE GÜVENLİ ÇİFT YÖNLÜ PROFİL TAKİPÇİ SİSTEMİ // MOBİL & WEB SÜRÜM",
-        "main_hashtag": "#bendeğilbizyaptık",
+        "main_hashtag": "#ContentCreators",
         "load_batch": "📁 Ham .zip / .json (followers, following) Dosyalarını Yükleyin",
         "btn_analyze": "ANALİZİ BAŞLAT",
         "tab_unfollowers": "Beni Takip Etmeyenler",
