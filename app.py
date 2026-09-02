@@ -201,7 +201,7 @@ if "user_db" not in st.session_state:
     st.session_state.user_db = {"murat": "snr", "demo": "demo", "alkan": "alkan", "büşra": "büşra", "azat": "azat","ali": "aksoy",}
 
 if "premium_users" not in st.session_state:
-    st.session_state.premium_users = {"murat", "alkan", "büşra", "azat", "ali"}
+    st.session_state.premium_users = {"murat", "alkan", "büşra", "azat", "ali",}
 
 if "islem_yapilanlar" not in st.session_state:
     st.session_state.islem_yapilanlar = set()
