@@ -198,7 +198,7 @@ class AnalizMotoru:
         st.components.v1.html(f"<script>{js_kodları}</script>", height=0, width=0)
 # --- 🔑 GÜVENLİ VE KALICI DEĞİŞTİRİLEBİLİR KOD TABANLI VERİ TABANI ---
 if "user_db" not in st.session_state:
-    st.session_state.user_db = {"murat": "snr", "demo": "demo", "alkan": "alkan", "büşra": "büşra", "azat": "azat"}
+    st.session_state.user_db = {"murat": "snr", "demo": "demo", "alkan": "alkan", "büşra": "büşra", "azat": "azat","ali": "aksoy"}
 
 if "premium_users" not in st.session_state:
     st.session_state.premium_users = {"murat", "alkan", "büşra", "azat"}
